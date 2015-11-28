@@ -36,6 +36,39 @@
 	    <servlet-name>dispatcher</servlet-name>
 	    <url-pattern>/</url-pattern>
 	 </servlet-mapping>
+	 
+	 
+	 
+	 <!-- [Spring Security] -->
+	 <context-param>
+	     <param-name>contextClass</param-name>
+	     <param-value>
+	         org.springframework.web.context.support.AnnotationConfigWebApplicationContext
+	     </param-value>
+	 </context-param>
+	 
+	 <context-param>
+	     <param-name>contextConfigLocation</param-name>
+	     <param-value>
+	         com.websystique.springmvc.security.StatelessAuthenticationSecurityConfig
+	     </param-value>
+	 </context-param>
+	 
+	 <filter>
+	     <filter-name>springSecurityFilterChain</filter-name>
+	     <filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
+	 </filter>
+	 
+	 <filter-mapping>
+	     <filter-name>springSecurityFilterChain</filter-name>
+	     <url-pattern>/*</url-pattern>
+	     <dispatcher>REQUEST</dispatcher>
+	 </filter-mapping>
+	 
+	 <listener>
+	     <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+	 </listener>
+	 
 <!-- [END Spring] -->
 
 	<filter>
