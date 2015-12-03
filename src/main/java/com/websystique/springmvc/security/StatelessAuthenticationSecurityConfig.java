@@ -87,7 +87,7 @@ public class StatelessAuthenticationSecurityConfig extends WebSecurityConfigurer
 
 		http.headers().cacheControl();
 
-		http.formLogin().loginPage("/login").permitAll().and().logout().permitAll();
+		http.formLogin().loginPage("/login").permitAll();
 	}
 
 	@Bean

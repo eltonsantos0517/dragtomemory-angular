@@ -273,7 +273,6 @@ materialAdmin
     //=================================================
     // LOGIN
     //=================================================
-
     .controller('loginCtrl', function( $scope, $http, store, $state, $location,$window){
         
         //Status
@@ -296,6 +295,11 @@ materialAdmin
     		});  
     	};
     	
+    	$scope.logout = function () {
+    		store.remove('jwt');
+			$window.location.href = '/login';
+    	};
+    	
     	$scope.$on('$routeChangeSuccess', function(e, nextRoute) {
     		if (nextRoute.$$route && angular.isDefined(nextRoute.$$route.pageTitle)) {
     			$scope.pageTitle = nextRoute.$$route.pageTitle + ' | ngEurope Sample';
@@ -303,7 +307,7 @@ materialAdmin
     	});
         
     })
-
+    
 
     //=================================================
     // CALENDAR

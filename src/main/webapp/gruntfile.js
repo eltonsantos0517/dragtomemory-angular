@@ -6,18 +6,18 @@ module.exports = function(grunt) {
         less: {
             development: {
                 options: {
-                    paths: ["css"]
+                    paths: ["resources/css"]
                 },
                 files: {
-                    "css/app.css": "less/app.less",
+                    "resources/css/app.css": "less/app.less",
                 },
                 cleancss: true
             }
         },
         csssplit: {
             your_target: {
-                src: ['css/app.css'],
-                dest: 'css/app.min.css',
+                src: ['resources/css/app.css'],
+                dest: 'resources/css/app.min.css',
                 options: {
                     maxSelectors: 4095,
                     suffix: '.'
@@ -27,7 +27,7 @@ module.exports = function(grunt) {
         ngtemplates: {
           materialAdmin: {
             src: ['template/**.html', 'template/**/**.html'],
-            dest: 'js/templates.js',
+            dest: 'resources/js/templates.js',
             options: {
               htmlmin: {
                     collapseWhitespace: true,

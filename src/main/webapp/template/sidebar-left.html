@@ -12,7 +12,7 @@
             </div>
         </a>
 
-        <ul class="main-menu">
+        <ul class="main-menu" data-ng-controller="loginCtrl as lctrl">
             <li>
                 <a data-ui-sref="pages.profile.profile-about" data-ng-click="mactrl.sidebarStat($event)"><i class="zmdi zmdi-account"></i> View Profile</a>
             </li>
@@ -23,7 +23,7 @@
                 <a href=""><i class="zmdi zmdi-settings"></i> Settings</a>
             </li>
             <li>
-                <a href=""><i class="zmdi zmdi-time-restore"></i> Logout</a>
+                <a href="" data-ng-click="lctrl.logout()"><i class="zmdi zmdi-time-restore"></i> Logout - a</a>
             </li>
         </ul>
     </div>

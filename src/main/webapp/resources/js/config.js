@@ -13,18 +13,17 @@ materialAdmin
 
 							.state('404', {
 								url : '/404',
-								templateUrl : '404.html'
-							})
-
-							.state('/', {
-								url : '^/',
+								templateUrl : '404.html',
 								data : {
-									requiresLogin : true
+									requiresLogin : false
 								}
 							})
 
 							.state('login', {
 								url : '^/login',
+								data : {
+									requiresLogin : false
+								}
 							})
 
 							// ------------------------------
@@ -63,7 +62,10 @@ materialAdmin
 
 							.state('typography', {
 								url : '/typography',
-								templateUrl : 'views/typography.html'
+								templateUrl : 'views/typography.html',
+								data : {
+									requiresLogin : true
+								}
 							})
 
 							// ------------------------------
@@ -72,7 +74,10 @@ materialAdmin
 
 							.state('widgets', {
 								url : '/widgets',
-								templateUrl : 'views/common.html'
+								templateUrl : 'views/common.html',
+								data : {
+									requiresLogin : true
+								}
 							})
 
 							.state(
@@ -80,6 +85,9 @@ materialAdmin
 									{
 										url : '/widgets',
 										templateUrl : 'views/widgets.html',
+										data : {
+											requiresLogin : true
+										},
 										resolve : {
 											loadPlugin : function($ocLazyLoad) {
 												return $ocLazyLoad.load([
@@ -100,6 +108,9 @@ materialAdmin
 							.state('widgets.widget-templates', {
 								url : '/widget-templates',
 								templateUrl : 'views/widget-templates.html',
+								data : {
+									requiresLogin : true
+								}
 							})
 
 							// ------------------------------
@@ -108,17 +119,26 @@ materialAdmin
 
 							.state('tables', {
 								url : '/tables',
-								templateUrl : 'views/common.html'
+								templateUrl : 'views/common.html',
+								data : {
+									requiresLogin : true
+								}
 							})
 
 							.state('tables.tables', {
 								url : '/tables',
-								templateUrl : 'views/tables.html'
+								templateUrl : 'views/tables.html',
+								data : {
+									requiresLogin : true
+								}	
 							})
 
 							.state('tables.data-table', {
 								url : '/data-table',
-								templateUrl : 'views/data-table.html'
+								templateUrl : 'views/data-table.html',
+								data : {
+									requiresLogin : true
+								}
 							})
 
 							// ------------------------------
@@ -126,12 +146,18 @@ materialAdmin
 							// ------------------------------
 							.state('form', {
 								url : '/form',
-								templateUrl : 'views/common.html'
+								templateUrl : 'views/common.html',
+								data : {
+									requiresLogin : true
+								}
 							})
 
 							.state('form.basic-form-elements', {
 								url : '/basic-form-elements',
 								templateUrl : 'views/form-elements.html',
+								data : {
+									requiresLogin : true
+								},
 								resolve : {
 									loadPlugin : function($ocLazyLoad) {
 										return $ocLazyLoad.load([ {
@@ -147,6 +173,9 @@ materialAdmin
 									{
 										url : '/form-components',
 										templateUrl : 'views/form-components.html',
+										data : {
+											requiresLogin : true
+										},
 										resolve : {
 											loadPlugin : function($ocLazyLoad) {
 												return $ocLazyLoad
@@ -488,18 +517,32 @@ materialAdmin
 				}).run(function($rootScope, $state, store, jwtHelper, $window) {
 			$rootScope.$on('$stateChangeStart', function(e, to) {
 
-				if (to.data && to.data.requiresLogin) {
-					if (!store.get('jwt') || jwtHelper.isTokenExpired(store.get('jwt'))) {
-						e.preventDefault();
-
-						var isLogin = to.name === "login";
-						if (isLogin) {
-							return; // no need to redirect
+				
+				if (to.data) {
+					if(to.data.requiresLogin){
+						if (!store.get('jwt') || jwtHelper.isTokenExpired(store.get('jwt'))) {
+							e.preventDefault();
+	
+							if (to.name === "login") {
+								return; // no need to redirect
+							}
+	
+							// $state.go('login');
+							// $window.location.href = '/login';
+							window.location.href = '/login';
+						}else if (to.name === "login") {
+							$window.location.href = '/#/home';
 						}
-
-						// $state.go('login');
-						// $window.location.href = '/login';
-						window.location.href = '/login';
+					}else if (to.name === "login") {
+						//Não requer login mas esta indo para a tela de login
+						
+						if (store.get('jwt') && !jwtHelper.isTokenExpired(store.get('jwt'))) {
+							e.preventDefault();
+							
+							$window.location.href = '/#/home';
+						}else{
+							return;
+						}
 					}
 				}
 			});
