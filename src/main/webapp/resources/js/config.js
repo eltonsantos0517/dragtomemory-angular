@@ -469,6 +469,11 @@ materialAdmin
 								url : '/pricing-table',
 								templateUrl : 'views/pricing-table.html'
 							})
+							
+							.state('pages.user-list', {
+								url : '/user-list',
+								templateUrl : 'views/user-list.html'
+							})
 
 							.state('pages.contacts', {
 								url : '/contacts',
