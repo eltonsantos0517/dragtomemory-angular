@@ -1,10 +1,10 @@
 DELEGATES_PREFERENCE=delegateValidatorList
-USER_BUILD_PREFERENCE=enabledBuildValidatorList
+USER_BUILD_PREFERENCE=enabledBuildValidatorListorg.eclipse.jst.j2ee.internal.classpathdep.ClasspathDependencyValidator;
 USER_MANUAL_PREFERENCE=enabledManualValidatorListorg.eclipse.jst.j2ee.internal.classpathdep.ClasspathDependencyValidator;
-USER_PREFERENCE=overrideGlobalPreferencestruedisableAllValidationtrueversion1.2.600.v201501211647
+USER_PREFERENCE=overrideGlobalPreferencesfalse
 disabled=06target
 eclipse.preferences.version=1
-override=true
+override=false
 suspend=true
 vals/org.eclipse.jpt.jpa.core.jpaValidator/global=TF01
 vals/org.eclipse.jst.jsf.facelet.ui.FaceletHTMLValidator/global=TF01
