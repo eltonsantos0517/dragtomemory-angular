@@ -5,7 +5,7 @@
 	<packaging>war</packaging>
 	<version>1.0-SNAPSHOT</version>
 
-	<groupId>com.teste</groupId>
+	<groupId>com.obackend</groupId>
 	<artifactId>gae-spring-angular</artifactId>
 
 	<properties>

@@ -15,7 +15,7 @@
       <url-pattern>/*</url-pattern>
     </filter-mapping>
     <listener>
-      <listener-class>com.teste.OfyHelper</listener-class>
+      <listener-class>com.obackend.base.model.OfyHelper</listener-class>
     </listener>
 <!-- [END Objectify] -->
 
@@ -50,7 +50,7 @@
 	 <context-param>
 	     <param-name>contextConfigLocation</param-name>
 	     <param-value>
-	         com.websystique.springmvc.security.StatelessAuthenticationSecurityConfig
+	         com.obackend.base.security.StatelessAuthenticationSecurityConfig
 	     </param-value>
 	 </context-param>
 	 
@@ -73,7 +73,7 @@
 
 	<filter>
 		<filter-name>CORSFilter</filter-name>
-		<filter-class>com.websystique.springmvc.configuration.CORSFilter</filter-class>
+		<filter-class>com.obackend.base.config.cors.CORSFilter</filter-class>
 	</filter>
 	<filter-mapping>
 		<filter-name>CORSFilter</filter-name>
