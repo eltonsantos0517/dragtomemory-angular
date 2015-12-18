@@ -15,7 +15,7 @@
       <url-pattern>/*</url-pattern>
     </filter-mapping>
     <listener>
-      <listener-class>com.obackend.base.model.OfyHelper</listener-class>
+      <listener-class>com.backend.base.model.OfyHelper</listener-class>
     </listener>
 <!-- [END Objectify] -->
 
@@ -50,7 +50,7 @@
 	 <context-param>
 	     <param-name>contextConfigLocation</param-name>
 	     <param-value>
-	         com.obackend.base.security.StatelessAuthenticationSecurityConfig
+	         com.backend.base.security.config.StatelessAuthenticationSecurityConfig
 	     </param-value>
 	 </context-param>
 	 
@@ -73,7 +73,7 @@
 
 	<filter>
 		<filter-name>CORSFilter</filter-name>
-		<filter-class>com.obackend.base.config.cors.CORSFilter</filter-class>
+		<filter-class>com.backend.base.config.cors.CORSFilter</filter-class>
 	</filter>
 	<filter-mapping>
 		<filter-name>CORSFilter</filter-name>
