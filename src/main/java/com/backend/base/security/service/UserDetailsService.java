@@ -5,9 +5,10 @@ import java.util.Set;
 
 import org.springframework.security.authentication.AccountStatusUserDetailsChecker;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.backend.base.model.entity.AccountEntity;
+import com.backend.base.model.service.AccountService;
 import com.backend.base.security.entity.User;
 import com.backend.base.security.entity.UserRole;
 
@@ -18,25 +19,24 @@ public class UserDetailsService implements org.springframework.security.core.use
 
 	@Override
 	public final User loadUserByUsername(String username) throws UsernameNotFoundException {
-		
-		
-		//TODO Fazer a busca de um usuário por username/e-mail
-		//final User user = userRepo.findByUsername(username);
-		
+
+		AccountService service = new AccountService();
+		AccountEntity entity = service.getByColumn("email", username);
+
+		if (entity == null) {
+			throw new UsernameNotFoundException("Account not found");
+		}
+
 		Set<UserRole> roles = new HashSet<UserRole>();
 		roles.add(UserRole.ADMIN);
 		roles.add(UserRole.USER);
-		
-		User user =  new User();
-		user.setId(1l);
-		user.setUsername("admin");
-		user.setPassword(new BCryptPasswordEncoder().encode("admin"));
+
+		final User user = new User();
+		user.setUsername(entity.getEmail());
+		user.setId(entity.getObjectId());
+		user.setPassword(entity.getPassword());
 		user.setRoles(roles);
-		
-		
-		if (user == null) {
-			throw new UsernameNotFoundException("user not found");
-		}
+
 		detailsChecker.check(user);
 		return user;
 	}

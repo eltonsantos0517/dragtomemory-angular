@@ -20,6 +20,7 @@ public class IndexController {//Serves main index.html
 	     	return "login";	
 	     }
 	  	 
+	  	 
 		private String getPrincipal(){
 			String userName = null;
 			Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();

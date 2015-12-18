@@ -16,36 +16,27 @@
 }
 
 .alert-inverse {
-    background: fade(#333, 90%);
-    box-shadow: 0 0 5px fade(#333, 50%);
-    color: #fff;
-    
-    a {
-        color: #fff;
-    }
+    .alert-variant(@alert-inverse-bg; @alert-inverse-border; @alert-inverse-text);
 }
 
 .growl-animated {
-    border: 0;
-    color: #fff;
-
+    &.alert-inverse {
+        box-shadow: 0 0 5px fade(@alert-inverse-bg, 50%);
+    }
+    
     &.alert-info {
-        background: fade(@m-blue, 80%);
-        box-shadow: 0 0 5px fade(@m-blue, 50%);
+        box-shadow: 0 0 5px fade(@alert-info-bg, 50%);
     }
 
     &.alert-success {
-        background: fade(@m-green, 80%);
-        box-shadow: 0 0 5px fade(@m-green, 50%);
+        box-shadow: 0 0 5px fade(@alert-success-bg, 50%);
     }
 
     &.alert-warning {
-        background: fade(@m-orange, 80%);
-        box-shadow: 0 0 5px fade(@m-orange, 50%);
+        box-shadow: 0 0 5px fade(@alert-warning-bg, 50%);
     }
 
     &.alert-danger {
-        background: fade(@m-red, 80%);
-        box-shadow: 0 0 5px fade(@m-red, 50%);
+        box-shadow: 0 0 5px fade(@alert-danger-bg, 50%);
     }
 }

@@ -4,8 +4,8 @@
         <h2>Malinda Hollaway <small>Web/UI Developer, Dubai, United Arab Emirates</small></h2>
 
         <ul class="actions m-t-20 hidden-xs">
-            <li class="dropdown" dropdown>
-                <a href="" dropdown-toggle>
+            <li class="dropdown" uib-dropdown>
+                <a href="" uib-dropdown-toggle>
                     <i class="zmdi zmdi-more-vert"></i>
                 </a>
 
@@ -32,15 +32,15 @@
                         <img class="img-responsive" src="img/profile-pics/profile-pic-2.jpg" alt="">
                     </a>
 
-                    <div class="dropdown pmop-message" dropdown>
-                        <button dropdown-toggle class="btn bgm-white btn-float">
+                    <div class="dropdown pmop-message" uib-dropdown>
+                        <button uib-dropdown-toggle class="btn bgm-white btn-float">
                             <i class="zmdi zmdi-comment-text-alt"></i>
                         </button>
 
                         <div class="dropdown-menu stop-propagate">
                             <textarea placeholder="Write something..."></textarea>
 
-                            <button class="btn bgm-green btn-icon"><i class="zmdi zmdi-mail-send"></i></button>
+                            <button class="btn bgm-green btn-float"><i class="zmdi zmdi-mail-send"></i></button>
                         </div>
                     </div>
 
@@ -123,7 +123,6 @@
 
         <div class="pm-body clearfix">
             <ul class="tab-nav tn-justified" data-ng-include="'template/profile-menu.html'"></ul>
-
 
             <data ui-view></data>
         </div>

@@ -20,13 +20,11 @@ html, body {
 
 body {
     font-weight: 400;
-    padding-top: @header-height;
-    padding-bottom: @footer-height;
     position: relative;
 }
 
-audio, video {  
-      outline: none; 
+audio, video {
+    outline: none;
 }
 
 p {
@@ -43,51 +41,32 @@ h1, .h1, h2, .h2, h3, .h3, h4, .h4, h5, .h5, h6, .h6 {
     }
 }
 
-/*
- * Ordered Lists
- */
+#main {
+    position: relative;
+    padding-bottom: @footer-height;
+    padding-top: @header-height + 30;
+}
 
-
-.clist {
-    list-style: none;
-    
-    & > li {
-        &:before {
-            font-family: @font-icon-md;
-            margin: 0 10px 0 -20px;
-            vertical-align: middle;
-        }
-    }
-    
-    &.clist-angle > li:before {
-        content: "\f2fb";
-    }
-    
-    &.clist-check > li:before {
-        content: "\f26b";
-    }
-    
-    &.clist-star > li:before { 
-        content: "\f27d";
+.container {
+    &.c-alt {
+        max-width: 1170px;
     }
 }
 
- 
-#main {
-    position: relative;
+@media (min-width: @screen-sm-min) and (max-width: @screen-md-max) {
+    #content {
+        padding-left: 15px;
+        padding-right: 15px;
+    }
 }
 
 body {
-    #content {
-        padding: 30px 0;
-    }
-     
     &.sw-toggled {
         #content {
             @media (min-width: @screen-lg-min) {
-                padding: 30px 0 30px @sidebar-left-width;
+                padding-left: @sidebar-left-width;
             }
-            
+
             & > .container {
                 @media (min-width: @screen-lg-min) {
                     width: ~"calc(100% - 30px)";

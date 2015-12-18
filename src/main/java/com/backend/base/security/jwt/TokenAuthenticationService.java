@@ -16,6 +16,7 @@ public class TokenAuthenticationService {
 
 	private static final String AUTH_HEADER_NAME = "Authorization";
 	private static final long TEN_DAYS = 1000 * 60 * 60 * 24 * 10;
+	private static final long ONE_DAY = 1000 * 60 * 60 * 24 * 1;
 
 	private final TokenHandler tokenHandler;
 
@@ -32,7 +33,7 @@ public class TokenAuthenticationService {
 
 	public void addAuthentication(HttpServletResponse response, UserAuthentication authentication) {
 		final User user = authentication.getDetails();
-		user.setExpires(System.currentTimeMillis() + TEN_DAYS);
+		user.setExpires(System.currentTimeMillis() + ONE_DAY);
 		response.addHeader(AUTH_HEADER_NAME, tokenHandler.createTokenForUser(user));
 	}
 

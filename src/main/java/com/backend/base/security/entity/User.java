@@ -42,6 +42,8 @@ public class User implements UserDetails {
 
 	private String newPassword;
 
+	private String confirmPassword;
+
 	private Set<UserAuthority> authorities;
 
 	public Long getId() {
@@ -80,6 +82,16 @@ public class User implements UserDetails {
 	@JsonProperty
 	public void setNewPassword(String newPassword) {
 		this.newPassword = newPassword;
+	}
+
+	@JsonIgnore
+	public String getConfirmPassword() {
+		return confirmPassword;
+	}
+
+	@JsonProperty
+	public void setConfirmPassword(String confirmPassword) {
+		this.confirmPassword = confirmPassword;
 	}
 
 	@Override

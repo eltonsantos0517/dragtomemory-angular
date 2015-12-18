@@ -1,5 +1,7 @@
 package com.backend.base.security.config;
 
+import org.jasypt.springsecurity3.authentication.encoding.PasswordEncoder;
+import org.jasypt.util.password.StrongPasswordEncryptor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
@@ -9,7 +11,6 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import com.backend.base.security.jwt.TokenAuthenticationService;
@@ -27,68 +28,50 @@ public class StatelessAuthenticationSecurityConfig extends WebSecurityConfigurer
 	public StatelessAuthenticationSecurityConfig() {
 		super(true);
 		this.userDetailsService = new UserDetailsService();
-		this.tokenAuthenticationService = new TokenAuthenticationService("superSecreto", this.userDetailsService);
+		this.tokenAuthenticationService = new TokenAuthenticationService("superSecreto123", this.userDetailsService);
 
 	}
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-		http.exceptionHandling().and().anonymous().and().servletApi().and()
-				.authorizeRequests()
+		http.exceptionHandling().and().anonymous().and().servletApi().and().authorizeRequests()
 
 				// allow anonymous resource requests
-				.antMatchers("/login**").permitAll().antMatchers("/favicon.ico")
+				.antMatchers("/login**").permitAll().antMatchers("/favicon.ico").permitAll().antMatchers("/resources**")
 				.permitAll()
-				.antMatchers("/resources**")
-				.permitAll()
-				
-				//TODO Remove
-				.antMatchers("/vendors/**")
-				.permitAll()
-				
+
+				// TODO Remove
+				.antMatchers("/vendors/**").permitAll()
+
 				.antMatchers("**/*.html").permitAll()
+
+				.antMatchers("**/*.css").permitAll().antMatchers("**/*.js").permitAll()
 				
-				.antMatchers("**/*.css").permitAll()
-				.antMatchers("**/*.js").permitAll()
-				
-				//allow anonymous POSTs to login
-				.antMatchers(HttpMethod.POST, "/api/login").permitAll()
+				.antMatchers("/_ah/**/*").permitAll()
+				.antMatchers("/create-account**").permitAll()
 
 				// allow anonymous POSTs to login
-				/*
-				 * .antMatchers(HttpMethod.POST, "/login") .permitAll()
-				 */
-
-				// allow anonymous GETs to API
-				/*
-				 * .antMatchers(HttpMethod.GET, "/api/**") .permitAll()
-				 */
-
-				// defined Admin only API area
-				/*
-				 * .antMatchers("/admin/**") .hasRole("ADMIN")
-				 */
+				.antMatchers(HttpMethod.POST, "/api/login").permitAll()
 
 				// all other request need to be authenticated
-				.anyRequest()
-				.hasRole("USER")
-				.and()
-				
-				
+				.anyRequest().hasRole("USER").and()
 
 				// custom JSON based authentication by POST of
 				// {"username":"<name>","password":"<password>"} which sets the
 				// token header upon authentication
-				.addFilterBefore(new StatelessLoginFilter("/api/login", tokenAuthenticationService, userDetailsService, authenticationManager()),
-						UsernamePasswordAuthenticationFilter.class)
+				.addFilterBefore(new StatelessLoginFilter("/api/login", tokenAuthenticationService, userDetailsService,
+						authenticationManager()), UsernamePasswordAuthenticationFilter.class)
+				
+				.addFilterBefore(new StatelessRegisterFilter("/api/register", tokenAuthenticationService, userDetailsService,
+						authenticationManager()), UsernamePasswordAuthenticationFilter.class)
+				
 
 				// custom Token based authentication based on the header
 				// previously given to the client
-				.addFilterBefore(new StatelessAuthenticationFilter(tokenAuthenticationService), UsernamePasswordAuthenticationFilter.class);
+				.addFilterBefore(new StatelessAuthenticationFilter(tokenAuthenticationService),
+						UsernamePasswordAuthenticationFilter.class);
 
 		http.headers().cacheControl();
-
-		http.formLogin().loginPage("/login").permitAll();
 	}
 
 	@Bean
@@ -99,12 +82,14 @@ public class StatelessAuthenticationSecurityConfig extends WebSecurityConfigurer
 
 	@Override
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-		auth.userDetailsService(userDetailsService).passwordEncoder(new BCryptPasswordEncoder());
+		PasswordEncoder encoder = new PasswordEncoder();
+		encoder.setPasswordEncryptor(new StrongPasswordEncryptor());
+		auth.userDetailsService(userDetailsService).passwordEncoder(encoder);
 	}
 
 	@Override
 	protected UserDetailsService userDetailsService() {
 		return userDetailsService;
 	}
-	
+
 }

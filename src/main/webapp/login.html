@@ -31,7 +31,7 @@
 				<span class="input-group-addon"><i class="zmdi zmdi-account"></i></span>
 				<div class="fg-line">
 					<input type="text" class="form-control" ng-model="user.username"
-						placeholder="Username" name="username" id="username">
+						placeholder="Username or Email" name="username" id="username">
 				</div>
 			</div>
 
@@ -55,54 +55,56 @@
 			<button type="submit" class="btn btn-login btn-danger btn-float">
 				<i class="zmdi zmdi-arrow-forward"></i>
 			</button>
-
-			<ul class="login-navigation">
-				<li data-block="#l-register" class="bgm-red"
-					data-ng-click="lctrl.login = 0; lctrl.register = 1">Register</li>
-				<li data-block="#l-forget-password" class="bgm-orange"
-					data-ng-click="lctrl.login = 0; lctrl.forgot = 1">Forgot
-					Password?</li>
-			</ul>
-
 		</form>
+
+		<ul class="login-navigation">
+			<li data-block="#l-register" class="bgm-red"
+				data-ng-click="lctrl.login = 0; lctrl.register = 1">Register</li>
+			<li data-block="#l-forget-password" class="bgm-orange"
+				data-ng-click="lctrl.login = 0; lctrl.forgot = 1">Forgot
+				Password?</li>
+		</ul>
 	</div>
 
 	<!-- Register -->
 	<div class="lc-block" id="l-register"
 		data-ng-class="{ 'toggled': lctrl.register === 1 }"
 		data-ng-if="lctrl.register === 1">
-		<div class="input-group m-b-20">
-			<span class="input-group-addon"><i class="zmdi zmdi-account"></i></span>
-			<div class="fg-line">
-				<input type="text" class="form-control" placeholder="Username">
+
+		<form ng-submit="register()">
+			<div class="input-group m-b-20">
+				<span class="input-group-addon"><i class="zmdi zmdi-email"></i></span>
+				<div class="fg-line">
+					<input type="text" class="form-control" placeholder="Email Address" ng-model="user.username">
+				</div>
 			</div>
-		</div>
 
-		<div class="input-group m-b-20">
-			<span class="input-group-addon"><i class="zmdi zmdi-email"></i></span>
-			<div class="fg-line">
-				<input type="text" class="form-control" placeholder="Email Address">
+			<div class="input-group m-b-20">
+				<span class="input-group-addon"><i class="zmdi zmdi-male"></i></span>
+				<div class="fg-line">
+					<input type="password" class="form-control" placeholder="Password" ng-model="user.password" >
+				</div>
 			</div>
-		</div>
-
-		<div class="input-group m-b-20">
-			<span class="input-group-addon"><i class="zmdi zmdi-male"></i></span>
-			<div class="fg-line">
-				<input type="password" class="form-control" placeholder="Password">
+			
+			<div class="input-group m-b-20">
+				<span class="input-group-addon"><i class="zmdi zmdi-male"></i></span>
+				<div class="fg-line">
+					<input type="password" class="form-control" placeholder="Confirm password" ng-model="user.confirmPassword" >
+				</div>
 			</div>
-		</div>
 
-		<div class="clearfix"></div>
+			<div class="clearfix"></div>
 
-		<div class="checkbox">
-			<label> <input type="checkbox" value=""> <i
-				class="input-helper"></i> Accept the license agreement
-			</label>
-		</div>
+			<div class="checkbox">
+				<label> <input type="checkbox" value=""> <i
+					class="input-helper"></i> Accept the license agreement
+				</label>
+			</div>
 
-		<button type="submit" class="btn btn-login btn-danger btn-float">
-			<i class="zmdi zmdi-arrow-forward"></i>
-		</button>
+			<button type="submit" class="btn btn-login btn-danger btn-float">
+				<i class="zmdi zmdi-arrow-forward"></i>
+			</button>
+		</form>
 
 		<ul class="login-navigation">
 			<li data-block="#l-login" class="bgm-green"

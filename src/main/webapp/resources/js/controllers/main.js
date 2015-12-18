@@ -3,7 +3,7 @@ materialAdmin
     // Base controller for common functions
     // =========================================================================
 
-    .controller('materialadminCtrl', function($timeout, $state, growlService){
+    .controller('materialadminCtrl', function($timeout, $state, $scope, growlService){
         //Welcome Message
         growlService.growl('Welcome back Mallinda!', 'inverse')
         
@@ -48,6 +48,25 @@ materialAdmin
         this.wallImage = false;
         this.wallVideo = false;
         this.wallLink = false;
+
+        //Skin Switch
+        this.currentSkin = 'blue';
+
+        this.skinList = [
+            'lightblue',
+            'bluegray',
+            'cyan',
+            'teal',
+            'green',
+            'orange',
+            'blue',
+            'purple'
+        ]
+
+        this.skinSwitch = function (color) {
+            this.currentSkin = color;
+        }
+    
     })
 
 
@@ -55,11 +74,12 @@ materialAdmin
     // Header
     // =========================================================================
     .controller('headerCtrl', function($timeout, messageService){
-    
-         // Top Search
+
+
+        // Top Search
         this.openSearch = function(){
             angular.element('#header').addClass('search-toggled');
-            //growlService.growl('Welcome back Mallinda Hollaway', 'inverse');
+            angular.element('#top-search-wrap').find('input').focus();
         }
 
         this.closeSearch = function(){
@@ -239,11 +259,10 @@ materialAdmin
         this.twitter = "@malinda";
         this.twitterUrl = "twitter.com/malinda";
         this.skype = "malinda.hollaway";
-        this.addressSuite = "10098 ABC Towers";
-        this.addressCity = "Dubai Silicon Oasis, Dubai";
-        this.addressCountry = "United Arab Emirates";
-    
-    
+        this.addressSuite = "44-46 Morningside Road";
+        this.addressCity = "Edinburgh";
+        this.addressCountry = "Scotland";
+
         //Edit
         this.editSummary = 0;
         this.editInfo = 0;
@@ -267,8 +286,6 @@ materialAdmin
         }
 
     })
-
-
 
     //=================================================
     // LOGIN
@@ -295,6 +312,18 @@ materialAdmin
     		});  
     	};
     	
+    	$scope.register = function () {
+    		$http.post('/api/register', { username: $scope.user.username, password: $scope.user.password, confirmPassword: $scope.user.confirmPassword }).success(function (result, status, headers) {
+    			$scope.authenticated = true;
+    			store.set('jwt', headers('Authorization'));
+    			
+    			//window.location.href = '/';
+    			//$state.go('home');
+    			$window.location.href = '/#/home';
+    			
+    		});  
+    	};
+    	
     	$scope.logout = function () {
     		store.remove('jwt');
 			$window.location.href = '/login';
@@ -307,7 +336,7 @@ materialAdmin
     	});
         
     })
-    
+
 
     //=================================================
     // CALENDAR

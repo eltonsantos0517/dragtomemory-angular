@@ -61,6 +61,20 @@
 .padding(25, 0px, 0);
 
 /*
+ * Generate Font-Size Classes (8px - 20px)
+ */
+.font-size (@label, @size: 8, @key:10) when (@size =< 20){
+    .f-@{key} {
+        font-size: @size !important;
+    }
+    
+    .font-size(@label - 1; @size + 1; @key + 1);
+} 
+
+.font-size(20, 8px, 8);
+
+
+/*
  * Font Weight
  */
 .f-300 { font-weight: 300 !important; }
@@ -126,8 +140,3 @@
  * Border Radius 
  */ 
 .brd-2 { border-radius: 2px; }
-
-/*
- * Text Transform
- */
-.t-uppercase { text-transform: uppercase; }

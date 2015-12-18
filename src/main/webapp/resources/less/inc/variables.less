@@ -3,12 +3,11 @@
  */
 @font-icon-md:              'Material-Design-Iconic-Font';
 
-
 /*
  * Grid System
  */
-@container-tablet:             ~"calc(100% - @{grid-gutter-width})";
-@container-desktop:            ~"calc(100% - @{grid-gutter-width})";
+@container-tablet:                      100%;
+@container-desktop:                     100%;
 
 
 /* Typography + Scaffolding + Links */
@@ -19,18 +18,10 @@
 @link-hover-decoration:     none;
 @headings-color:			#000000;
 
-/* Border Radius */ 
+/* Border Radius */
 @border-radius-base:        2px;
 @border-radius-large:       4px;
 @border-radius-small:       2px;
-
-/* Colors */
-@brand-primary:             #2196F3;
-@brand-success:             #4CAF50;
-@brand-info:                #00BCD4;
-@brand-warning:             #FF9800;
-@brand-danger:              #F44336;
-@app-gray:                  #F7F7F7;   
 
 /* Tabs */
 @nav-tabs-border-color:                     #fff;
@@ -39,6 +30,7 @@
 
 /* Form */
 @input-border:              #e0e0e0;
+@input-color:               #000000;
 @input-border-radius:       0;
 @input-border-radius-large: 0px;
 @input-height-large:        40px;
@@ -47,9 +39,10 @@
 @input-border-focus:        #b4b4b4;
 
 /* Table */
+@table-bg:                      #fff;
 @table-border-color:            #f0f0f0;
-@table-cell-padding:            13px;
-@table-condensed-cell-padding:  10px;
+@table-cell-padding:            10px;
+@table-condensed-cell-padding:  7px;
 @table-bg-accent:               #f4f4f4;
 @table-bg-active:               #FFFCBE;
 
@@ -77,10 +70,8 @@
 /*
  * Popover
  */
-@zindex-popover:                9;
-@popover-title-bg:              #fff;
-@popover-border-color:          #fff;
-@popover-fallback-border-color: #fff;
+@popover-fallback-border-color: transparent;
+@popover-border-color:          transparent;
 
 /*
  * Dropdown
@@ -96,6 +87,7 @@
 @dropdown-link-active-color:    #333;
 @dropdown-link-active-bg:       rgba(0, 0, 0, 0.075);
 @zindex-dropdown:               9;
+@dropdown-shadow:               0 2px 10px rgba(0, 0, 0, 0.2);
 
 /*
  * Thumbnail
@@ -103,23 +95,44 @@
 @thumbnail-bg:                  #fff;
 
 /*
- * Form Stats and Alerts
+ * Alerts
  */
-@state-success-text:            @m-green;
-@state-info-text:               @m-blue;
-@state-danger-text:             @m-red;
-@state-warning-text:            @m-orange;
-@alert-success-border:          @alert-success-bg;
-@alert-info-border:		 		@alert-info-bg;
-@alert-warning-bg:              #FFEDD6;
-@alert-warning-border:		 	@alert-warning-bg;
-@alert-danger-border:		 	@alert-danger-bg;
+@alert-success-border:                  transparent;
+@alert-info-border:                     transparent;
+@alert-warning-border:		 	        transparent;
+@alert-danger-border:		 	        transparent;
+@alert-inverse-border:		 	        transparent;
+
+@alert-success-bg:                      fade(@m-green, 70%);
+@alert-info-bg:		 		            fade(@m-blue, 70%);
+@alert-warning-bg:                      fade(@m-amber, 70%);
+@alert-danger-bg:                       fade(@m-red, 70%);
+@alert-inverse-bg:                      #333;
+
+@alert-success-text:                    #fff;
+@alert-info-text:                       #fff;
+@alert-warning-text:                    #fff;
+@alert-danger-text:                     #fff;
+@alert-inverse-text:                    #fff;
+
+/*
+ * Form Validations
+ */
+@state-success-text:                    lighten(@m-green, 8%);
+@state-warning-text:                    lighten(@m-orange, 8%);
+@state-danger-text:                     lighten(@m-red, 8%);
+
+@state-success-bg:                      lighten(@m-green, 8%);
+@state-warning-bg:                      lighten(@m-orange, 8%);
+@state-danger-bg:                       lighten(@m-red, 8%);
+
+
 
 /*
  * Buttons
  */
 @border-radius-base:            2px;
-@border-radius-large:           2px; 
+@border-radius-large:           2px;
 @border-radius-small:           2px;
 @btn-font-weight:				400;
 
@@ -143,8 +156,8 @@
 @modal-header-border-color:				transparent;
 @modal-title-line-height:				transparent;
 @modal-footer-border-color:				transparent;
-@zindex-modal-background: 				0;
- 
+@zindex-modal-background: 				11;
+
 /*
  * Tooltips
  */
@@ -154,6 +167,7 @@
 /*
  * Popover
  */
+@zindex-popover:                9;
 @popover-title-bg:              #fff;
 @popover-border-color:          #fff;
 @popover-fallback-border-color: #fff;
@@ -173,9 +187,9 @@
 /*
  * List Groups
  */
-@list-group-border:                 #E9E9E9; 
+@list-group-border:                 #E9E9E9;
 @list-group-active-color:           #000;
-@list-group-active-bg:              #f5f5f5;  
+@list-group-active-bg:              #f5f5f5;
 @list-group-active-border:          #e9e9e9;
 @list-group-disabled-color:         #B5B4B4;
 @list-group-disabled-bg:            #fff;
@@ -190,7 +204,7 @@
 @badge-font-weight:         400;
 @badge-active-color:        #fff;
 @badge-active-bg:           @brand-primary;
-    
+
 /*
  * Material Colors
  */
@@ -200,7 +214,7 @@
 @m-red:                    #F44336;
 @m-purple:                 #9C27B0;
 @m-deeppurple:             #673AB7;
-@m-lightblue:              #03A9F4;  
+@m-lightblue:              #03A9F4;
 @m-cyan:                   #00BCD4;
 @m-teal:                   #009688;
 @m-green:                  #4CAF50;
@@ -216,10 +230,30 @@
 @m-pink:                   #E91E63;
 @m-brown:                  #795548;
 
-/* 
+
+/* Bootstrap Branding */
+@brand-primary:             @m-blue;
+@brand-success:             @m-green;
+@brand-info:                @m-cyan;
+@brand-warning:             @m-orange;
+@brand-danger:              @m-red;
+@app-gray:                  #F7F7F7;
+
+
+/*
+ * Colors
+ */
+@ace:                      #F7F7F7;
+
+/*
  * Blocks
  */
 @sidebar-left-width: 268px;
 @sidebar-right-width: 280px;
 @footer-height: 110px;
-@header-height: 65px;
+@header-height: 70px;
+
+/*
+ * Misc
+ */
+@card-shadow: 0 1px 1px rgba(0, 0, 0, 0.15);

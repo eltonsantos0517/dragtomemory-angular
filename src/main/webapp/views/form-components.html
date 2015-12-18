@@ -13,8 +13,8 @@
                     <i class="zmdi zmdi-check-all"></i>
                 </a>
             </li>
-            <li class="dropdown" dropdown>
-                <a href="" dropdown-toggle>
+            <li class="dropdown" uib-dropdown>
+                <a href="" uib-dropdown-toggle>
                     <i class="zmdi zmdi-more-vert"></i>
                 </a>
 
@@ -160,52 +160,42 @@
             </div>
 
             <br/><br/>
-            <p class="c-black f-500 m-b-5 m-t-20">Multiple Elements</p>
-            <small>You may add 2 or more possible input elements. Use grid classes to define the width of each elements.</small>
+            <p class="c-black f-500 m-b-5 m-t-20">Floating Labels</p>
+            <small>Basic example for input groups with floating labels</small>
 
-            <br/><br/>
+            <br/>
+            <br/>
+            <br/>
 
-            <div class="input-group">
-                <span class="input-group-addon"><i class="zmdi zmdi-account"></i></span>
+            <div class="row">
                 <div class="col-sm-4">
-                    <div class="fg-line">
-                        <input type="text" class="form-control" placeholder="First Name">
+                    <div class="input-group fg-float">
+                        <span class="input-group-addon"><i class="zmdi zmdi-account"></i></span>
+                        <div class="fg-line">
+                            <input type="text" class="form-control">
+                            <label class="fg-label">Full Name</label>
+                        </div>
                     </div>
                 </div>
-                <div class="col-sm-4">
-                    <div class="fg-line">
-                        <input type="text" class="form-control" placeholder="Last Name">
-                    </div>
-                </div>
-            </div>
 
-            <br/><br/>
-
-            <div class="input-group">
-                <span class="input-group-addon"><i class="zmdi zmdi-phone"></i></span>
-                <div class="col-sm-2">
-                    <div class="fg-line select">
-                        <select class="form-control">
-                            <option>055</option>
-                            <option>056</option>
-                            <option>057</option>
-                            <option>058</option>
-                        </select>
-                    </div>
-                </div>
-                <div class="col-sm-2">
-                    <div class="fg-line select">
-                        <select class="form-control">
-                            <option>812</option>
-                            <option>813</option>
-                            <option>814</option>
-                            <option>815</option>
-                        </select>
-                    </div>
-                </div>
                 <div class="col-sm-4">
-                    <div class="fg-line">
-                        <input type="text" class="form-control" placeholder="Phone Number">
+                    <div class="input-group fg-float">
+                        <div class="fg-line">
+                            <input type="text" class="form-control">
+                            <label class="fg-label">Location</label>
+                        </div>
+                        <span class="input-group-addon last"><i class="zmdi zmdi-my-location"></i></span>
+                    </div>
+                </div>
+
+                <div class="col-sm-4">
+                    <div class="input-group fg-float">
+                        <span class="input-group-addon"><i class="zmdi zmdi-mail-send"></i></span>
+                        <div class="fg-line">
+                            <input type="text" class="form-control">
+                            <label class="fg-label">Layers</label>
+                        </div>
+                        <span class="input-group-addon last"><i class="zmdi zmdi-layers "></i></span>
                     </div>
                 </div>
             </div>
@@ -576,8 +566,8 @@
 
 
             <ul class="actions">
-                <li dropdown class="dropdown action-show">
-                    <a href="" dropdown-toggle>
+                <li uib-dropdown class="dropdown action-show">
+                    <a href="" uib-dropdown-toggle>
                         <i class="zmdi zmdi-more-vert"></i>
                     </a>
 
@@ -605,19 +595,19 @@
             <div class="datepicker-demo">
                 <div class="dd-block">
                     <div class="date-picker">
-                        <datepicker show-weeks="false" ng-model="dtInline" min-date="minDate" class="dp-inline"></datepicker>
+                        <uib-datepicker show-weeks="false" ng-model="dtInline" min-date="minDate" class="dp-inline"></uib-datepicker>
                     </div>
                 </div>
 
                 <div class="dd-block">
                     <div class="date-picker dp-blue">
-                        <datepicker show-weeks="false" ng-model="dtInline2" min-date="minDate" class="dp-inline"></datepicker>
+                        <uib-datepicker show-weeks="false" ng-model="dtInline2" min-date="minDate" class="dp-inline"></uib-datepicker>
                     </div>
                 </div>
 
                 <div class="dd-block">
                     <div class="date-picker dp-red">
-                        <datepicker show-weeks="false" ng-model="dtInline3" min-date="minDate" class="dp-inline"></datepicker>
+                        <uib-datepicker show-weeks="false" ng-model="dtInline3" min-date="minDate" class="dp-inline"></uib-datepicker>
                     </div>
                 </div>
 
@@ -639,7 +629,7 @@
                     <div class="date-picker input-group" ng-class="{ 'is-opened': opened == true }">
                         <span class="input-group-addon"><i class="zmdi zmdi-calendar ma-icon"></i></span>
                         <div class="fg-line" ng-class="{ 'fg-toggled': opened == true }">
-                            <input ng-click="open($event, 'opened')" type="text" class="form-control" datepicker-popup="{{format}}" show-weeks="false" ng-model="dtPopup" is-open="opened" min-date="minDate" datepicker-options="dateOptions" ng-required="true" close-text="Close" placeholder="Select Date" />
+                            <input ng-click="open($event, 'opened')" type="text" class="form-control" uib-datepicker-popup="{{format}}" show-weeks="false" ng-model="dtPopup" is-open="opened" min-date="minDate" datepicker-options="dateOptions" ng-required="true" close-text="Close" placeholder="Select Date" />
                         </div>
                     </div>
 
@@ -650,7 +640,7 @@
                     <div class="date-picker input-group dp-blue" ng-class="{ 'is-opened': opened2 == true }">
                         <span class="input-group-addon"><i class="zmdi zmdi-calendar ma-icon"></i></span>
                         <div class="fg-line" ng-class="{ 'fg-toggled': opened2 == true }">
-                            <input ng-click="open($event, 'opened2')" type="text" class="form-control" datepicker-popup="{{format}}" show-weeks="false" ng-model="dtPopup2" is-open="opened2" min-date="minDate" datepicker-options="dateOptions" ng-required="true" close-text="Close" placeholder="Select Date" />
+                            <input ng-click="open($event, 'opened2')" type="text" class="form-control" uib-datepicker-popup="{{format}}" show-weeks="false" ng-model="dtPopup2" is-open="opened2" min-date="minDate" datepicker-options="dateOptions" ng-required="true" close-text="Close" placeholder="Select Date" />
                         </div>
                     </div>
 
@@ -661,7 +651,7 @@
                     <div class="date-picker input-group dp-red" ng-class="{ 'is-opened': opened3 == true }">
                         <span class="input-group-addon"><i class="zmdi zmdi-calendar ma-icon"></i></span>
                         <div class="fg-line" ng-class="{ 'fg-toggled': opened3 == true }">
-                            <input ng-click="open($event, 'opened3')" type="text" class="form-control" datepicker-popup="{{format}}" show-weeks="false" ng-model="dtPopup3" is-open="opened3" min-date="minDate" datepicker-options="dateOptions" ng-required="true" close-text="Close" placeholder="Select Date" />
+                            <input ng-click="open($event, 'opened3')" type="text" class="form-control" uib-datepicker-popup="{{format}}" show-weeks="false" ng-model="dtPopup3" is-open="opened3" min-date="minDate" datepicker-options="dateOptions" ng-required="true" close-text="Close" placeholder="Select Date" />
                         </div>
                     </div>
 
@@ -684,7 +674,7 @@
                     <div class="date-picker input-group dropup" ng-class="{ 'is-opened': opened4 == true }">
                         <span class="input-group-addon"><i class="zmdi zmdi-calendar ma-icon"></i></span>
                         <div class="fg-line" ng-class="{ 'fg-toggled': opened4 == true }">
-                            <input ng-click="open($event, 'opened4')" type="text" class="form-control" datepicker-popup="{{format}}" show-weeks="false" ng-model="dtUp" is-open="opened4" min-date="minDate" datepicker-options="dateOptions" ng-required="true" close-text="Close" placeholder="This is a dropup" />
+                            <input ng-click="open($event, 'opened4')" type="text" class="form-control" uib-datepicker-popup="{{format}}" show-weeks="false" ng-model="dtUp" is-open="opened4" min-date="minDate" datepicker-options="dateOptions" ng-required="true" close-text="Close" placeholder="This is a dropup" />
                         </div>
                     </div>
 
@@ -709,8 +699,8 @@
                     <div class="cp-container">
                         <div class="input-group form-group">
                             <span class="input-group-addon"><i class="zmdi zmdi-invert-colors"></i></span>
-                            <div class="fg-line dropdown" dropdown>
-                                <input type="text" class="form-control cp-value" ng-model="fctrl.color" dropdown-toggle>
+                            <div class="fg-line dropdown" uib-dropdown>
+                                <input type="text" class="form-control cp-value" ng-model="fctrl.color" uib-dropdown-toggle>
 
                                 <div class="dropdown-menu">
                                     <ng-farbtastic ng-model="fctrl.color"></ng-farbtastic>
@@ -726,8 +716,8 @@
                     <div class="cp-container">
                         <div class="input-group form-group">
                             <span class="input-group-addon"><i class="zmdi zmdi-invert-colors"></i></span>
-                            <div class="fg-line dropdown" dropdown>
-                                <input type="text" class="form-control cp-value" ng-model="fctrl.color2" dropdown-toggle>
+                            <div class="fg-line dropdown" uib-dropdown>
+                                <input type="text" class="form-control cp-value" ng-model="fctrl.color2" uib-dropdown-toggle>
 
                                 <div class="dropdown-menu">
                                     <ng-farbtastic ng-model="fctrl.color2"></ng-farbtastic>
@@ -743,8 +733,8 @@
                     <div class="cp-container">
                         <div class="input-group form-group">
                             <span class="input-group-addon"><i class="zmdi zmdi-invert-colors"></i></span>
-                            <div class="fg-line dropdown" dropdown>
-                                <input type="text" class="form-control cp-value" ng-model="fctrl.color3" dropdown-toggle>
+                            <div class="fg-line dropdown" uib-dropdown>
+                                <input type="text" class="form-control cp-value" ng-model="fctrl.color3" uib-dropdown-toggle>
 
                                 <div class="dropdown-menu">
                                     <ng-farbtastic ng-model="fctrl.color3"></ng-farbtastic>
@@ -760,8 +750,8 @@
                     <div class="cp-container">
                         <div class="input-group form-group">
                             <span class="input-group-addon"><i class="zmdi zmdi-invert-colors"></i></span>
-                            <div class="fg-line dropdown" dropdown>
-                                <input type="text" class="form-control cp-value" ng-model="fctrl.color4" dropdown-toggle>
+                            <div class="fg-line dropdown" uib-dropdown>
+                                <input type="text" class="form-control cp-value" ng-model="fctrl.color4" uib-dropdown-toggle>
 
                                 <div class="dropdown-menu">
                                     <ng-farbtastic ng-model="fctrl.color4"></ng-farbtastic>

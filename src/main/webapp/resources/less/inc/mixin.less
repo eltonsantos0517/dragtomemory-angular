@@ -6,9 +6,9 @@
         font-family: @family;
         src:url('../fonts/@{family}/@{name}.eot');
         src:url('../fonts/@{family}/@{name}.eot?#iefix') format('embedded-opentype'),
-            url('../fonts/@{family}/@{name}.woff') format('woff'),
-            url('../fonts/@{family}/@{name}.ttf') format('truetype'),
-            url('../fonts/@{family}/@{name}.svg#icon') format('svg');
+        url('../fonts/@{family}/@{name}.woff') format('woff'),
+        url('../fonts/@{family}/@{name}.ttf') format('truetype'),
+        url('../fonts/@{family}/@{name}.svg#icon') format('svg');
         font-weight: @weight;
         font-style: @style;
     }
@@ -91,27 +91,28 @@
  * Pop-in Hover effects
  */
 .hover-pop(@background: ~"rgba(0,0,0,0.5)", @radius: 0, @duration: 250ms, @zindex: 0) {
-    position: relative;
+    @media (min-width: @screen-sm-min) {
+        position: relative;
 
-    &:before {
-        left: 0;
-        top: 0;
-        content: "";
-        position: absolute;
-        width: 100%;
-        height: 100%;
-        .scale3d(0,0,0);
-        .transition(all);
-        .transition-duration(@duration);
-        .backface-visibility(hidden);
-        background-color: @background;
-        z-index: @zindex;
-        border-radius: @radius;
-        .opacity(0);
-    }
-
-    &:hover {
         &:before {
+            left: 0;
+            top: 0;
+            content: "";
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            .scale3d(0,0,0);
+            .transition(all);
+            .transition-duration(@duration);
+            .backface-visibility(hidden);
+            background-color: @background;
+            z-index: @zindex;
+            border-radius: @radius;
+            .opacity(0);
+        }
+
+        &:hover:before,
+        &.open:before {
             .scale3d(1,1,1);
             .opacity(1);
         }
@@ -126,31 +127,40 @@
     background-color: @background;
     border-color: @border;
 
-    &:focus,
-    &.focus {
-        color: @color;
-        background-color: @background;
-        border-color: transparent;
-    }
-
-    &:active,
-    &.active,
-    .open > .dropdown-toggle {
-        background-image: none;
-        background-color: darken(@background, 15%);
-    }
-
-    &.disabled,
-    &[disabled],
-    fieldset[disabled],
     &:hover,
     &:focus,
     &.focus,
-    &:active {
+    &:active,
+    .open > .dropdown-toggle& {
+        color: @color;
         background-color: @background;
-        border-color: @border;
-    }
+        border-color: transparent;
 
+        &:hover,
+        &:focus,
+        &.focus {
+            color: @color;
+            background-color: @background;
+            border-color: transparent
+        }
+    }
+    &:active,
+    &.active,
+    .open > .dropdown-toggle& {
+        background-image: none;
+    }
+    &.disabled,
+    &[disabled],
+    fieldset[disabled] & {
+        &,
+        &:hover,
+        &:focus,
+        &.focus,
+        &:active {
+            background-color: @background;
+            border-color: @border;
+        }
+    }
 
     .badge {
         color: @background;
@@ -162,10 +172,11 @@
  * Scale 3d
  */
 .scale3d(...) {
-  @process: ~`(function(e){return e=e||"1, 1, 1"})((function(){var e="@{arguments}";return e=e.replace(/^\[|\]$/g,"")})())`;
-  -webkit-transform: scale3d(@process);
-  -moz-transform: scale3d(@process);
-  -ms-transform: scale3d(@process);
-  -o-transform: scale3d(@process);
-  transform: scale3d(@process);
+    @process: ~`(function(e){return e=e||"1, 1, 1"})((function(){var e="@{arguments}";return e=e.replace(/^\[|\]$/g,"")})())`;
+    -webkit-transform: scale3d(@process);
+    -moz-transform: scale3d(@process);
+    -ms-transform: scale3d(@process);
+    -o-transform: scale3d(@process);
+    transform: scale3d(@process);
 }
+

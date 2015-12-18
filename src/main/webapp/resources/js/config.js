@@ -1,6 +1,8 @@
 materialAdmin
 		.config(
-				function($stateProvider, $urlRouterProvider, jwtInterceptorProvider, $httpProvider, $locationProvider) {
+				function($stateProvider, $urlRouterProvider,
+						jwtInterceptorProvider, $httpProvider,
+						$locationProvider) {
 					$urlRouterProvider.otherwise("home");
 
 					jwtInterceptorProvider.tokenGetter = function(store) {
@@ -18,7 +20,6 @@ materialAdmin
 									requiresLogin : false
 								}
 							})
-
 							.state('login', {
 								url : '^/login',
 								data : {
@@ -29,6 +30,7 @@ materialAdmin
 							// ------------------------------
 							// HOME
 							// ------------------------------
+
 							.state(
 									'home',
 									{
@@ -39,22 +41,60 @@ materialAdmin
 										},
 										resolve : {
 											loadPlugin : function($ocLazyLoad) {
-												return $ocLazyLoad.load([
-														{
-															name : 'css',
-															insertBefore : '#app-level',
-															files : [ 'vendors/bower_components/fullcalendar/dist/fullcalendar.min.css', ]
-														},
-														{
-															name : 'vendors',
-															insertBefore : '#app-level-js',
-															files : [ 'vendors/sparklines/jquery.sparkline.min.js',
-																	'vendors/bower_components/jquery.easy-pie-chart/dist/jquery.easypiechart.min.js',
-																	'vendors/bower_components/simpleWeather/jquery.simpleWeather.min.js' ]
-														} ])
+												return $ocLazyLoad
+														.load([
+																{
+																	name : 'css',
+																	insertBefore : '#app-level',
+																	files : [
+																			'vendors/bower_components/fullcalendar/dist/fullcalendar.min.css', ]
+																},
+																{
+																	name : 'vendors',
+																	insertBefore : '#app-level-js',
+																	files : [
+																			'vendors/sparklines/jquery.sparkline.min.js',
+																			'vendors/bower_components/jquery.easy-pie-chart/dist/jquery.easypiechart.min.js',
+																			'vendors/bower_components/simpleWeather/jquery.simpleWeather.min.js' ]
+																} ])
 											}
 										}
 									})
+
+							// ------------------------------
+							// HEADERS
+							// ------------------------------
+							.state('headers', {
+								url : '/headers',
+								templateUrl : 'views/common-2.html',
+								data : {
+									requiresLogin : true
+								}
+							})
+
+							.state('headers.textual-menu', {
+								url : '/textual-menu',
+								templateUrl : 'views/textual-menu.html',
+								data : {
+									requiresLogin : true
+								}
+							})
+
+							.state('headers.image-logo', {
+								url : '/image-logo',
+								templateUrl : 'views/image-logo.html',
+								data : {
+									requiresLogin : true
+								}
+							})
+
+							.state('headers.mainmenu-on-top', {
+								url : '/mainmenu-on-top',
+								templateUrl : 'views/mainmenu-on-top.html',
+								data : {
+									requiresLogin : true
+								}
+							})
 
 							// ------------------------------
 							// TYPOGRAPHY
@@ -90,17 +130,20 @@ materialAdmin
 										},
 										resolve : {
 											loadPlugin : function($ocLazyLoad) {
-												return $ocLazyLoad.load([
-														{
-															name : 'css',
-															insertBefore : '#app-level',
-															files : [ 'vendors/bower_components/mediaelement/build/mediaelementplayer.css', ]
-														},
-														{
-															name : 'vendors',
-															files : [ 'vendors/bower_components/mediaelement/build/mediaelement-and-player.js',
-																	'vendors/bower_components/autosize/dist/autosize.min.js' ]
-														} ])
+												return $ocLazyLoad
+														.load([
+																{
+																	name : 'css',
+																	insertBefore : '#app-level',
+																	files : [
+																			'vendors/bower_components/mediaelement/build/mediaelementplayer.css', ]
+																},
+																{
+																	name : 'vendors',
+																	files : [
+																			'vendors/bower_components/mediaelement/build/mediaelement-and-player.js',
+																			'vendors/bower_components/autosize/dist/autosize.min.js' ]
+																} ])
 											}
 										}
 									})
@@ -130,7 +173,7 @@ materialAdmin
 								templateUrl : 'views/tables.html',
 								data : {
 									requiresLogin : true
-								}	
+								}
 							})
 
 							.state('tables.data-table', {
@@ -152,21 +195,24 @@ materialAdmin
 								}
 							})
 
-							.state('form.basic-form-elements', {
-								url : '/basic-form-elements',
-								templateUrl : 'views/form-elements.html',
-								data : {
-									requiresLogin : true
-								},
-								resolve : {
-									loadPlugin : function($ocLazyLoad) {
-										return $ocLazyLoad.load([ {
-											name : 'vendors',
-											files : [ 'vendors/bower_components/autosize/dist/autosize.min.js' ]
-										} ])
-									}
-								}
-							})
+							.state(
+									'form.basic-form-elements',
+									{
+										url : '/basic-form-elements',
+										templateUrl : 'views/form-elements.html',
+										data : {
+											requiresLogin : true
+										},
+										resolve : {
+											loadPlugin : function($ocLazyLoad) {
+												return $ocLazyLoad
+														.load([ {
+															name : 'vendors',
+															files : [ 'vendors/bower_components/autosize/dist/autosize.min.js' ]
+														} ])
+											}
+										}
+									})
 
 							.state(
 									'form.form-components',
@@ -200,7 +246,8 @@ materialAdmin
 																			'vendors/bower_components/summernote/dist/summernote.min.js',
 																			'vendors/fileinput/fileinput.min.js',
 																			'vendors/bower_components/chosen/chosen.jquery.js',
-																			'vendors/bower_components/angular-chosen-localytics/chosen.js', ]
+																			'vendors/bower_components/angular-chosen-localytics/chosen.js',
+																			'vendors/bower_components/angular-farbtastic/angular-farbtastic.js' ]
 																} ])
 											}
 										}
@@ -208,61 +255,109 @@ materialAdmin
 
 							.state('form.form-examples', {
 								url : '/form-examples',
-								templateUrl : 'views/form-examples.html'
+								templateUrl : 'views/form-examples.html',
+								data : {
+									requiresLogin : true
+								}
 							})
 
 							.state('form.form-validations', {
 								url : '/form-validations',
-								templateUrl : 'views/form-validations.html'
+								templateUrl : 'views/form-validations.html',
+								data : {
+									requiresLogin : true
+								}
 							})
 
 							// ------------------------------
 							// USER INTERFACE
 							// ------------------------------
 
+							.state('pages.user-list', {
+								url : '/user-list',
+								templateUrl : 'views/user-list.html',
+								data : {
+									requiresLogin : true
+								}
+							})
 							.state('user-interface', {
 								url : '/user-interface',
-								templateUrl : 'views/common.html'
+								templateUrl : 'views/common.html',
+								data : {
+									requiresLogin : true
+								}
 							})
 
 							.state('user-interface.ui-bootstrap', {
 								url : '/ui-bootstrap',
-								templateUrl : 'views/ui-bootstrap.html'
+								templateUrl : 'views/ui-bootstrap.html',
+								data : {
+									requiresLogin : true
+								}
 							})
 
 							.state('user-interface.colors', {
 								url : '/colors',
-								templateUrl : 'views/colors.html'
+								templateUrl : 'views/colors.html',
+								data : {
+									requiresLogin : true
+								}
 							})
 
 							.state('user-interface.animations', {
 								url : '/animations',
-								templateUrl : 'views/animations.html'
+								templateUrl : 'views/animations.html',
+								data : {
+									requiresLogin : true
+								}
 							})
 
 							.state('user-interface.box-shadow', {
 								url : '/box-shadow',
-								templateUrl : 'views/box-shadow.html'
+								templateUrl : 'views/box-shadow.html',
+								data : {
+									requiresLogin : true
+								}
 							})
 
 							.state('user-interface.buttons', {
 								url : '/buttons',
-								templateUrl : 'views/buttons.html'
+								templateUrl : 'views/buttons.html',
+								data : {
+									requiresLogin : true
+								}
 							})
 
 							.state('user-interface.icons', {
 								url : '/icons',
-								templateUrl : 'views/icons.html'
+								templateUrl : 'views/icons.html',
+								data : {
+									requiresLogin : true
+								}
 							})
 
 							.state('user-interface.alerts', {
 								url : '/alerts',
-								templateUrl : 'views/alerts.html'
+								templateUrl : 'views/alerts.html',
+								data : {
+									requiresLogin : true
+								}
+							})
+
+							.state('user-interface.preloaders', {
+								url : '/preloaders',
+								templateUrl : 'views/preloaders.html',
+								data : {
+									requiresLogin : true
+								}
 							})
 
 							.state('user-interface.notifications-dialogs', {
 								url : '/notifications-dialogs',
-								templateUrl : 'views/notification-dialog.html'
+								templateUrl : 'views/notification-dialog.html',
+								data : {
+									requiresLogin : true
+								}
 							})
 
 							.state(
@@ -270,27 +365,36 @@ materialAdmin
 									{
 										url : '/media',
 										templateUrl : 'views/media.html',
+										data : {
+											requiresLogin : true
+										},
 										resolve : {
 											loadPlugin : function($ocLazyLoad) {
-												return $ocLazyLoad.load([
-														{
-															name : 'css',
-															insertBefore : '#app-level',
-															files : [ 'vendors/bower_components/mediaelement/build/mediaelementplayer.css',
-																	'vendors/bower_components/lightgallery/light-gallery/css/lightGallery.css' ]
-														},
-														{
-															name : 'vendors',
-															files : [ 'vendors/bower_components/mediaelement/build/mediaelement-and-player.js',
-																	'vendors/bower_components/lightgallery/light-gallery/js/lightGallery.min.js' ]
-														} ])
+												return $ocLazyLoad
+														.load([
+																{
+																	name : 'css',
+																	insertBefore : '#app-level',
+																	files : [
+																			'vendors/bower_components/mediaelement/build/mediaelementplayer.css',
+																			'vendors/bower_components/lightgallery/light-gallery/css/lightGallery.css' ]
+																},
+																{
+																	name : 'vendors',
+																	files : [
+																			'vendors/bower_components/mediaelement/build/mediaelement-and-player.js',
+																			'vendors/bower_components/lightgallery/light-gallery/js/lightGallery.min.js' ]
+																} ])
 											}
 										}
 									})
 
 							.state('user-interface.other-components', {
 								url : '/other-components',
-								templateUrl : 'views/other-components.html'
+								templateUrl : 'views/other-components.html',
+								data : {
+									requiresLogin : true
+								}
 							})
 
 							// ------------------------------
@@ -299,12 +403,18 @@ materialAdmin
 
 							.state('charts', {
 								url : '/charts',
-								templateUrl : 'views/common.html'
+								templateUrl : 'views/common.html',
+								data : {
+									requiresLogin : true
+								}
 							})
 
 							.state('charts.flot-charts', {
 								url : '/flot-charts',
 								templateUrl : 'views/flot-charts.html',
+								data : {
+									requiresLogin : true
+								}
 							})
 
 							.state(
@@ -312,13 +422,18 @@ materialAdmin
 									{
 										url : '/other-charts',
 										templateUrl : 'views/other-charts.html',
+										data : {
+											requiresLogin : true
+										},
 										resolve : {
 											loadPlugin : function($ocLazyLoad) {
-												return $ocLazyLoad.load([ {
-													name : 'vendors',
-													files : [ 'vendors/sparklines/jquery.sparkline.min.js',
-															'vendors/bower_components/jquery.easy-pie-chart/dist/jquery.easypiechart.min.js', ]
-												} ])
+												return $ocLazyLoad
+														.load([ {
+															name : 'vendors',
+															files : [
+																	'vendors/sparklines/jquery.sparkline.min.js',
+																	'vendors/bower_components/jquery.easy-pie-chart/dist/jquery.easypiechart.min.js', ]
+														} ])
 											}
 										}
 									})
@@ -332,19 +447,25 @@ materialAdmin
 									{
 										url : '/calendar',
 										templateUrl : 'views/calendar.html',
+										data : {
+											requiresLogin : true
+										},
 										resolve : {
 											loadPlugin : function($ocLazyLoad) {
-												return $ocLazyLoad.load([
-														{
-															name : 'css',
-															insertBefore : '#app-level',
-															files : [ 'vendors/bower_components/fullcalendar/dist/fullcalendar.min.css', ]
-														},
-														{
-															name : 'vendors',
-															files : [ 'vendors/bower_components/moment/min/moment.min.js',
-																	'vendors/bower_components/fullcalendar/dist/fullcalendar.min.js' ]
-														} ])
+												return $ocLazyLoad
+														.load([
+																{
+																	name : 'css',
+																	insertBefore : '#app-level',
+																	files : [
+																			'vendors/bower_components/fullcalendar/dist/fullcalendar.min.css', ]
+																},
+																{
+																	name : 'vendors',
+																	files : [
+																			'vendors/bower_components/moment/min/moment.min.js',
+																			'vendors/bower_components/fullcalendar/dist/fullcalendar.min.js' ]
+																} ])
 											}
 										}
 									})
@@ -353,35 +474,49 @@ materialAdmin
 							// PHOTO GALLERY
 							// ------------------------------
 
-							.state('photo-gallery', {
-								url : '/photo-gallery',
-								templateUrl : 'views/common.html',
-								resolve : {
-									loadPlugin : function($ocLazyLoad) {
-										return $ocLazyLoad.load([ {
-											name : 'css',
-											insertBefore : '#app-level',
-											files : [ 'vendors/bower_components/lightgallery/light-gallery/css/lightGallery.css' ]
-										}, {
-											name : 'vendors',
-											files : [ 'vendors/bower_components/lightgallery/light-gallery/js/lightGallery.min.js' ]
-										} ])
-									}
-								}
-							})
+							.state(
+									'photo-gallery',
+									{
+										url : '/photo-gallery',
+										templateUrl : 'views/common.html',
+										data : {
+											requiresLogin : true
+										},
+										resolve : {
+											loadPlugin : function($ocLazyLoad) {
+												return $ocLazyLoad
+														.load([
+																{
+																	name : 'css',
+																	insertBefore : '#app-level',
+																	files : [ 'vendors/bower_components/lightgallery/light-gallery/css/lightGallery.css' ]
+																},
+																{
+																	name : 'vendors',
+																	files : [ 'vendors/bower_components/lightgallery/light-gallery/js/lightGallery.min.js' ]
+																} ])
+											}
+										}
+									})
 
 							// Default
 
 							.state('photo-gallery.photos', {
 								url : '/photos',
-								templateUrl : 'views/photos.html'
+								templateUrl : 'views/photos.html',
+								data : {
+									requiresLogin : true
+								}
 							})
 
 							// Timeline
 
 							.state('photo-gallery.timeline', {
 								url : '/timeline',
-								templateUrl : 'views/photo-timeline.html'
+								templateUrl : 'views/photo-timeline.html',
+								data : {
+									requiresLogin : true
+								}
 							})
 
 							// ------------------------------
@@ -390,7 +525,10 @@ materialAdmin
 
 							.state('generic-classes', {
 								url : '/generic-classes',
-								templateUrl : 'views/generic-classes.html'
+								templateUrl : 'views/generic-classes.html',
+								data : {
+									requiresLogin : true
+								}
 							})
 
 							// ------------------------------
@@ -399,90 +537,128 @@ materialAdmin
 
 							.state('pages', {
 								url : '/pages',
-								templateUrl : 'views/common.html'
+								templateUrl : 'views/common.html',
+								data : {
+									requiresLogin : true
+								}
 							})
 
 							// Profile
 
 							.state('pages.profile', {
 								url : '/profile',
-								templateUrl : 'views/profile.html'
+								templateUrl : 'views/profile.html',
+								data : {
+									requiresLogin : true
+								}
 							})
 
 							.state('pages.profile.profile-about', {
 								url : '/profile-about',
-								templateUrl : 'views/profile-about.html'
-							})
-
-							.state('pages.profile.profile-timeline', {
-								url : '/profile-timeline',
-								templateUrl : 'views/profile-timeline.html',
-								resolve : {
-									loadPlugin : function($ocLazyLoad) {
-										return $ocLazyLoad.load([ {
-											name : 'css',
-											insertBefore : '#app-level',
-											files : [ 'vendors/bower_components/lightgallery/light-gallery/css/lightGallery.css' ]
-										}, {
-											name : 'vendors',
-											files : [ 'vendors/bower_components/lightgallery/light-gallery/js/lightGallery.min.js' ]
-										} ])
-									}
+								templateUrl : 'views/profile-about.html',
+								data : {
+									requiresLogin : true
 								}
 							})
 
-							.state('pages.profile.profile-photos', {
-								url : '/profile-photos',
-								templateUrl : 'views/profile-photos.html',
-								resolve : {
-									loadPlugin : function($ocLazyLoad) {
-										return $ocLazyLoad.load([ {
-											name : 'css',
-											insertBefore : '#app-level',
-											files : [ 'vendors/bower_components/lightgallery/light-gallery/css/lightGallery.css' ]
-										}, {
-											name : 'vendors',
-											files : [ 'vendors/bower_components/lightgallery/light-gallery/js/lightGallery.min.js' ]
-										} ])
-									}
-								}
-							})
+							.state(
+									'pages.profile.profile-timeline',
+									{
+										url : '/profile-timeline',
+										templateUrl : 'views/profile-timeline.html',
+										data : {
+											requiresLogin : true
+										},
+										resolve : {
+											loadPlugin : function($ocLazyLoad) {
+												return $ocLazyLoad
+														.load([
+																{
+																	name : 'css',
+																	insertBefore : '#app-level',
+																	files : [ 'vendors/bower_components/lightgallery/light-gallery/css/lightGallery.css' ]
+																},
+																{
+																	name : 'vendors',
+																	files : [ 'vendors/bower_components/lightgallery/light-gallery/js/lightGallery.min.js' ]
+																} ])
+											}
+										}
+									})
+
+							.state(
+									'pages.profile.profile-photos',
+									{
+										url : '/profile-photos',
+										templateUrl : 'views/profile-photos.html',
+										data : {
+											requiresLogin : true
+										},
+										resolve : {
+											loadPlugin : function($ocLazyLoad) {
+												return $ocLazyLoad
+														.load([
+																{
+																	name : 'css',
+																	insertBefore : '#app-level',
+																	files : [ 'vendors/bower_components/lightgallery/light-gallery/css/lightGallery.css' ]
+																},
+																{
+																	name : 'vendors',
+																	files : [ 'vendors/bower_components/lightgallery/light-gallery/js/lightGallery.min.js' ]
+																} ])
+											}
+										}
+									})
 
 							.state('pages.profile.profile-connections', {
 								url : '/profile-connections',
-								templateUrl : 'views/profile-connections.html'
+								templateUrl : 'views/profile-connections.html',
+								data : {
+									requiresLogin : true
+								}
 							})
 
 							// -------------------------------
 
 							.state('pages.listview', {
 								url : '/listview',
-								templateUrl : 'views/list-view.html'
+								templateUrl : 'views/list-view.html',
+								data : {
+									requiresLogin : true
+								}
 							})
 
 							.state('pages.messages', {
 								url : '/messages',
-								templateUrl : 'views/messages.html'
+								templateUrl : 'views/messages.html',
+								data : {
+									requiresLogin : true
+								}
 							})
 
 							.state('pages.pricing-table', {
 								url : '/pricing-table',
-								templateUrl : 'views/pricing-table.html'
-							})
-							
-							.state('pages.user-list', {
-								url : '/user-list',
-								templateUrl : 'views/user-list.html'
+								templateUrl : 'views/pricing-table.html',
+								data : {
+									requiresLogin : true
+								}
 							})
 
 							.state('pages.contacts', {
 								url : '/contacts',
-								templateUrl : 'views/contacts.html'
+								templateUrl : 'views/contacts.html',
+								data : {
+									requiresLogin : true
+								}
 							})
 
 							.state('pages.invoice', {
 								url : '/invoice',
-								templateUrl : 'views/invoice.html'
+								templateUrl : 'views/invoice.html',
+								data : {
+									requiresLogin : true
+								}
 							})
 
 							.state(
@@ -490,20 +666,26 @@ materialAdmin
 									{
 										url : '/wall',
 										templateUrl : 'views/wall.html',
+										data : {
+											requiresLogin : true
+										},
 										resolve : {
 											loadPlugin : function($ocLazyLoad) {
-												return $ocLazyLoad.load([
-														{
-															name : 'vendors',
-															insertBefore : '#app-level',
-															files : [ 'vendors/bower_components/autosize/dist/autosize.min.js',
-																	'vendors/bower_components/lightgallery/light-gallery/css/lightGallery.css' ]
-														},
-														{
-															name : 'vendors',
-															files : [ 'vendors/bower_components/mediaelement/build/mediaelement-and-player.js',
-																	'vendors/bower_components/lightgallery/light-gallery/js/lightGallery.min.js' ]
-														} ])
+												return $ocLazyLoad
+														.load([
+																{
+																	name : 'vendors',
+																	insertBefore : '#app-level',
+																	files : [
+																			'vendors/bower_components/autosize/dist/autosize.min.js',
+																			'vendors/bower_components/lightgallery/light-gallery/css/lightGallery.css' ]
+																},
+																{
+																	name : 'vendors',
+																	files : [
+																			'vendors/bower_components/mediaelement/build/mediaelement-and-player.js',
+																			'vendors/bower_components/lightgallery/light-gallery/js/lightGallery.min.js' ]
+																} ])
 											}
 										}
 									})
@@ -513,42 +695,49 @@ materialAdmin
 							// ------------------------------
 							.state('breadcrumb-demo', {
 								url : '/breadcrumb-demo',
-								templateUrl : 'views/breadcrumb-demo.html'
+								templateUrl : 'views/breadcrumb-demo.html',
+								data : {
+									requiresLogin : true
+								}
 							})
 
 					// use the HTML5 History API
 					$locationProvider.html5Mode(true);
+				}).run(
+				function($rootScope, $state, store, jwtHelper, $window) {
+					$rootScope.$on('$stateChangeStart', function(e, to) {
 
-				}).run(function($rootScope, $state, store, jwtHelper, $window) {
-			$rootScope.$on('$stateChangeStart', function(e, to) {
+						if (to.data) {
+							if (to.data.requiresLogin) {
+								if (!store.get('jwt')
+										|| jwtHelper.isTokenExpired(store
+												.get('jwt'))) {
+									e.preventDefault();
 
-				
-				if (to.data) {
-					if(to.data.requiresLogin){
-						if (!store.get('jwt') || jwtHelper.isTokenExpired(store.get('jwt'))) {
-							e.preventDefault();
-	
-							if (to.name === "login") {
-								return; // no need to redirect
+									if (to.name === "login") {
+										return; // no need to redirect
+									}
+
+									// $state.go('login');
+									// $window.location.href = '/login';
+									window.location.href = '/login';
+								} else if (to.name === "login") {
+									$window.location.href = '/#/home';
+								}
+							} else if (to.name === "login") {
+								// Não requer login mas esta indo para a tela de
+								// login
+
+								if (store.get('jwt')
+										&& !jwtHelper.isTokenExpired(store
+												.get('jwt'))) {
+									e.preventDefault();
+
+									$window.location.href = '/#/home';
+								} else {
+									return;
+								}
 							}
-	
-							// $state.go('login');
-							// $window.location.href = '/login';
-							window.location.href = '/login';
-						}else if (to.name === "login") {
-							$window.location.href = '/#/home';
 						}
-					}else if (to.name === "login") {
-						//Não requer login mas esta indo para a tela de login
-						
-						if (store.get('jwt') && !jwtHelper.isTokenExpired(store.get('jwt'))) {
-							e.preventDefault();
-							
-							$window.location.href = '/#/home';
-						}else{
-							return;
-						}
-					}
-				}
-			});
-		});
+					});
+				});

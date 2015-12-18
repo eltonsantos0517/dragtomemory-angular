@@ -13,8 +13,8 @@
                     <i class="zmdi zmdi-check-all"></i>
                 </a>
             </li>
-            <li class="dropdown" dropdown>
-                <a href="" dropdown-toggle>
+            <li class="dropdown" uib-dropdown>
+                <a href="" uib-dropdown-toggle>
                     <i class="zmdi zmdi-more-vert"></i>
                 </a>
 
@@ -41,8 +41,8 @@
                 <h2>Augue laoreet rutrum <small>Cras congue nec lorem eget posuere</small></h2>
 
                 <ul class="actions">
-                    <li class="dropdown action-show" dropdown>
-                        <a href="" dropdown-toggle>
+                    <li class="dropdown action-show" uib-dropdown>
+                        <a href="" uib-dropdown-toggle>
                             <i class="zmdi zmdi-more-vert"></i>
                         </a>
 
@@ -222,9 +222,9 @@
                         <li>
                             <i class="zmdi zmdi-pin"></i>
                             <address class="m-b-0 ng-binding">
-                                10098 ABC Towers, <br>
-                                Dubai Silicon Oasis, Dubai, <br>
-                                United Arab Emirates
+                                44-46 Morningside Road,<br>
+                                Edinburgh,<br>
+                                Scotland
                             </address>
                         </li>
                     </ul>
@@ -259,8 +259,8 @@
                 <small>Add, edit and manage your Todo Lists</small>
 
                 <ul class="actions actions-alt">
-                    <li class="dropdown" dropdown>
-                        <a href="" dropdown-toggle>
+                    <li class="dropdown" uib-dropdown>
+                        <a href="" uib-dropdown-toggle>
                             <i class="zmdi zmdi-more-vert"></i>
                         </a>
 
@@ -298,8 +298,8 @@
                 <div class="checkbox media" data-ng-repeat="w in tctrl.tdResult.list.slice(0,4)">
                     <div class="pull-right">
                         <ul class="actions actions-alt">
-                            <li class="dropdown" dropdown>
-                                <a href="" dropdown-toggle>
+                            <li class="dropdown" uib-dropdown>
+                                <a href="" uib-dropdown-toggle>
                                     <i class="zmdi zmdi-more-vert"></i>
                                 </a>
 
@@ -363,32 +363,32 @@
 
             <div class="card-body card-padding">
                 
-                <div class="form-group fg-float">
+                <div class="form-group fg-float m-b-30">
                     <div class="fg-line">
-                        <input type="text" class="form-control">
+                        <input type="text" class="form-control input-sm">
+                        <label class="fg-label">Name</label>
                     </div>
-                    <label class="fg-label">Name</label>
+                </div>
+
+                <div class="form-group fg-float m-b-30">
+                    <div class="fg-line">
+                        <input type="text" class="form-control input-sm">
+                        <label class="fg-label">Email address</label>
+                    </div>
+                </div>
+
+                <div class="form-group fg-float m-b-30">
+                    <div class="fg-line">
+                        <input type="text" class="form-control input-sm">
+                        <label class="fg-label">Contact Number</label>
+                    </div>
                 </div>
 
                 <div class="form-group fg-float">
                     <div class="fg-line">
-                        <input type="text" class="form-control">
+                        <textarea class="form-control input-sm" auto-size></textarea>
+                        <label class="fg-label">Message</label>
                     </div>
-                    <label class="fg-label">Email address</label>
-                </div>
-
-                <div class="form-group fg-float">
-                    <div class="fg-line">
-                        <input type="text" class="form-control">
-                    </div>
-                    <label class="fg-label">Contact Number</label>
-                </div>
-
-                <div class="form-group fg-float">
-                    <div class="fg-line">
-                        <textarea class="form-control" auto-size></textarea>
-                    </div>
-                    <label class="fg-label">Message</label>
                 </div>
 
                 <button class="btn btn-info">Submit</button>
@@ -520,7 +520,7 @@
                 <small>Praesent vitae justo purus. In hendrerit lorem nislac lacinia urnaunc vitae ante id magna </small>
 
                 <ul class="pv-contact">
-                    <li><i class="zmdi zmdi-room"></i> Jupitor</li>
+                    <li><i class="zmdi zmdi-pin"></i> Jupitor</li>
                     <li><i class="zmdi zmdi-phone"></i> +11 55694785</li>
                 </ul>
 

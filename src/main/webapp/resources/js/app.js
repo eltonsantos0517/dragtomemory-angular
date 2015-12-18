@@ -11,3 +11,4 @@ var materialAdmin = angular.module('materialAdmin', [
     'angular-jwt'
 ])
  
+ 

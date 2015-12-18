@@ -1,85 +1,21 @@
 materialAdmin
 
     // =========================================================================
-    // NICE SCROLL
+    // MALIHU SCROLL
     // =========================================================================
-
-    //Html
-
-    .directive('html', ['nicescrollService', function(nicescrollService){
-        return {
-            restrict: 'E',
-            link: function(scope, element) {
-
-                if (!element.hasClass('ismobile')) {
-                    if (!$('.login-content')[0]) {
-                        nicescrollService.niceScroll(element, 'rgba(0,0,0,0.3)', '5px');
-                    }
-                }
-            }
-        }
-    }])
-
-
-    //Table
-
-    .directive('tableResponsive', ['nicescrollService', function(nicescrollService){
+    
+    //On Custom Class
+    .directive('cOverflow', ['scrollService', function(scrollService){
         return {
             restrict: 'C',
             link: function(scope, element) {
 
                 if (!$('html').hasClass('ismobile')) {
-                    nicescrollService.niceScroll(element, 'rgba(0,0,0,0.3)', '5px');
+                    scrollService.malihuScroll(element, 'minimal-dark', 'y');
                 }
             }
         }
     }])
-
-
-    //Chosen
-
-    .directive('chosenResults', ['nicescrollService', function(nicescrollService){
-        return {
-            restrict: 'C',
-            link: function(scope, element) {
-
-                if (!$('html').hasClass('ismobile')) {
-                    nicescrollService.niceScroll(element, 'rgba(0,0,0,0.3)', '5px');
-                }
-            }
-        }
-    }])
-
-
-    //Tabs
-
-    .directive('tabNav', ['nicescrollService', function(nicescrollService){
-        return {
-            restrict: 'C',
-            link: function(scope, element) {
-
-                if (!$('html').hasClass('ismobile')) {
-                    nicescrollService.niceScroll(element, 'rgba(0,0,0,0.3)', '2px');
-                }
-            }
-        }
-    }])
-
-
-    //For custom class
-
-    .directive('cOverflow', ['nicescrollService', function(nicescrollService){
-        return {
-            restrict: 'C',
-            link: function(scope, element) {
-
-                if (!$('html').hasClass('ismobile')) {
-                    nicescrollService.niceScroll(element, 'rgba(0,0,0,0.5)', '5px');
-                }
-            }
-        }
-    }])
-
 
     // =========================================================================
     // WAVES

@@ -100,9 +100,9 @@ materialAdmin
             restrict: 'A',
             link: function(scope, element, attrs) {
                 element.click(function(){
+                    element.next().slideToggle(200);
                     element.parent().toggleClass('toggled');
-                    element.parent().find('ul').stop(true, false).slideToggle(200);
-                })
+                });
             }
         }
     })

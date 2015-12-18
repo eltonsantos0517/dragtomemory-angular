@@ -10,14 +10,8 @@
     .caret {
         margin-top: -3px;
     }
-     
+
     &:not(.btn-link) {
-        &:active,
-        &.active,
-        &:hover {
-            
-        }
-        
         .z-depth(1);
     }
 }
@@ -33,14 +27,14 @@
     .btn-group {
         box-shadow: none !important;
     }
-    
+
     .btn {
         margin: 0;
     }
 }
 
 .btn-xs {
-  .button-size(2px; @padding-xs-horizontal; 11px; @line-height-small; @border-radius-small);
+    .button-size(2px; @padding-xs-horizontal; 11px; @line-height-small; @border-radius-small);
 }
 
 .btn-link {
@@ -66,19 +60,13 @@
 .btn-icon {
     border-radius: 50%;
     width: 40px;
+    line-height: 42px;
     height: 40px;
     padding: 0;
     text-align: center;
-    
+
     .zmdi {
         font-size: 17px;
-    }
-    
-    
-    &.btn-default {
-        &:hover {
-            background: #fff;
-        }
     }
 }
 
@@ -87,18 +75,18 @@
         font-size: 15px;
         vertical-align: top;
         display: inline-block;
-        margin-top: 1px;
+        margin-top: 2px;
         line-height: 100%;
         margin-right: 5px;
     }
 }
 
-.btn-float { 
+.btn-float {
     width: 50px;
     height: 50px;
     border-radius: 50%;
     line-height: 45px !important;
-    
+
     &:not(.m-btn) {
         position: absolute !important;
     }
@@ -109,12 +97,24 @@
         .transition-duration(500ms);
     }
 
+    &:hover {
+        i {
+            .rotate(360deg);
+        }
+    }
+
     &:not(.bgm-white):not(.bgm-gray) {
         & > i {
             color: #fff;
         }
     }
-    
+
+    &:not(.bgm-white):not(.bgm-gray) {
+        & > i {
+            color: #fff;
+        }
+    }
+
     &.bgm-white,
     &.bgm-gray {
         & > i {
@@ -127,7 +127,7 @@
 .open .btn {
     outline: none !important;
     -webkit-tap-highlight-color: rgba(0, 0, 0, 0) !important;
-    
+
     &:focus, &:active {
         outline: none !important;
         -webkit-tap-highlight-color: rgba(0, 0, 0, 0) !important;
@@ -142,8 +142,4 @@
     bottom: 40px;
     right: 40px;
     position: fixed !important;
-}
-
-.btn-group .btn + .btn, .btn-group .btn + .btn-group, .btn-group .btn-group + .btn, .btn-group .btn-group + .btn-group {
-    margin-left: 0;
 }

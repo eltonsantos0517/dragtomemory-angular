@@ -12,7 +12,7 @@
 	<properties>
 		<app.id>gae-spring-angular</app.id>
 		<app.version>1</app.version>
-		<appengine.version>1.9.28</appengine.version>
+		<appengine.version>1.9.30</appengine.version>
 		<gcloud.plugin.version>2.0.9.74.v20150814</gcloud.plugin.version>
 
 		<springframework.version>4.2.2.RELEASE</springframework.version>
@@ -125,6 +125,32 @@
 
 		<!-- [END Jackson_Dependencies] -->
 
+		<!-- Joda Time -->
+		<dependency>
+			<groupId>joda-time</groupId>
+			<artifactId>joda-time</artifactId>
+			<version>2.8</version>
+		</dependency>
+
+		<!-- JASYPT: Java Simplified Encryption -->
+		<dependency>
+			<groupId>org.jasypt</groupId>
+			<artifactId>jasypt-spring3</artifactId>
+			<version>1.9.2</version>
+		</dependency>
+		<dependency>
+			<groupId>org.jasypt</groupId>
+			<artifactId>jasypt-springsecurity3</artifactId>
+			<version>1.9.2</version>
+		</dependency>
+
+
+		<!-- GSON -->
+		<dependency>
+			<groupId>com.google.code.gson</groupId>
+			<artifactId>gson</artifactId>
+			<version>2.3.1</version>
+		</dependency>
 
 		<!-- Test Dependencies -->
 		<dependency>

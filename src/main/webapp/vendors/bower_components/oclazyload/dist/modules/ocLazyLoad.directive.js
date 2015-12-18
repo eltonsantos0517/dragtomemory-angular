@@ -1,15 +1,15 @@
 (function (angular) {
-    "use strict";
+    'use strict';
 
-    angular.module("oc.lazyLoad").directive("ocLazyLoad", ["$ocLazyLoad", "$compile", "$animate", "$parse", function ($ocLazyLoad, $compile, $animate, $parse) {
+    angular.module('oc.lazyLoad').directive('ocLazyLoad', ["$ocLazyLoad", "$compile", "$animate", "$parse", "$timeout", function ($ocLazyLoad, $compile, $animate, $parse, $timeout) {
         return {
-            restrict: "A",
+            restrict: 'A',
             terminal: true,
             priority: 1000,
             compile: function compile(element, attrs) {
                 // we store the content and remove it before compilation
                 var content = element[0].innerHTML;
-                element.html("");
+                element.html('');
 
                 return function ($scope, $element, $attr) {
                     var model = $parse($attr.ocLazyLoad);
@@ -18,14 +18,12 @@
                     }, function (moduleName) {
                         if (angular.isDefined(moduleName)) {
                             $ocLazyLoad.load(moduleName).then(function () {
+                                // Attach element contents to DOM and then compile them.
+                                // This prevents an issue where IE invalidates saved element objects (HTMLCollections)
+                                // of the compiled contents when attaching to the parent DOM.
                                 $animate.enter(content, $element);
-                                var contents = element.contents();
-                                angular.forEach(contents, function (content) {
-                                    if (content.nodeType !== 3) {
-                                        // 3 is a text node
-                                        $compile(content)($scope);
-                                    }
-                                });
+                                // get the new content & compile it
+                                $compile($element.contents())($scope);
                             });
                         }
                     }, true);

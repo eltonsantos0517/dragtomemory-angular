@@ -234,24 +234,24 @@ materialAdmin
 
 
     // =========================================================================
-    // Nice Scroll - Custom Scroll bars
+    // Malihu Scroll - Custom Scroll bars
     // =========================================================================
-    .service('nicescrollService', function() {
-        var ns = {};
-        ns.niceScroll = function(selector, color, cursorWidth) {
-            
-            $(selector).niceScroll({
-                cursorcolor: color,
-                cursorborder: 0,
-                cursorborderradius: 0,
-                cursorwidth: cursorWidth,
-                bouncescroll: true,
-                mousescrollstep: 100,
-                autohidemode: false
+    .service('scrollService', function() {
+        var ss = {};
+        ss.malihuScroll = function scrollBar(selector, theme, mousewheelaxis) {
+            $(selector).mCustomScrollbar({
+                theme: theme,
+                scrollInertia: 100,
+                axis:'yx',
+                mouseWheel: {
+                    enable: true,
+                    axis: mousewheelaxis,
+                    preventDefault: true
+                }
             });
         }
         
-        return ns;
+        return ss;
     })
 
 
