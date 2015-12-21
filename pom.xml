@@ -221,6 +221,7 @@
 							<targetPath>WEB-INF</targetPath>
 						</resource>
 					</webResources>
+					<warSourceExcludes>node_modules/**, resources/less/**</warSourceExcludes>
 				</configuration>
 			</plugin>
 
