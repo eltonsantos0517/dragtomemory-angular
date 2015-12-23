@@ -15,9 +15,19 @@ public class IndexController {//Serves main index.html
 	        return "index";
 	    }
 	  	
-	  	 @RequestMapping(method = RequestMethod.GET, value="/login")
+	  	@RequestMapping(method = RequestMethod.GET, value="/login")
 	     public String getLogin() {
 	     	return "login";	
+	     }
+	  	
+	  	@RequestMapping(method = RequestMethod.GET, value="/console/home")
+	     public String getHome() {
+	     	return "index";	
+	     }
+	  	
+	  	@RequestMapping(method = RequestMethod.GET, value="/**")
+	     public String getAny() {
+	     	return "404";	
 	     }
 	  	 
 	  	 

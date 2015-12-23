@@ -137,7 +137,7 @@ materialAdmin
                     swal({   
                         title: "Sweet!",   
                         text: "Here's a custom image.",   
-                        imageUrl: "img/thumbs-up.png" 
+                        imageUrl: "resources/img/thumbs-up.png" 
                     });
                 });
             }

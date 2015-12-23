@@ -307,7 +307,7 @@ materialAdmin
     			
     			//window.location.href = '/';
     			//$state.go('home');
-    			$window.location.href = '/#/home';
+    			$window.location.href = '/#/console/home';
     			
     		});  
     	};
@@ -319,7 +319,7 @@ materialAdmin
     			
     			//window.location.href = '/';
     			//$state.go('home');
-    			$window.location.href = '/#/home';
+    			$window.location.href = '/#/console/home';
     			
     		});  
     	};

@@ -53,8 +53,10 @@ public class StatelessAuthenticationSecurityConfig extends WebSecurityConfigurer
 				// allow anonymous POSTs to login
 				.antMatchers(HttpMethod.POST, "/api/login").permitAll()
 
+				.antMatchers("/console/**").hasRole("USER")
+				
 				// all other request need to be authenticated
-				.anyRequest().hasRole("USER").and()
+				.anyRequest().anonymous().and()
 
 				// custom JSON based authentication by POST of
 				// {"username":"<name>","password":"<password>"} which sets the
@@ -72,6 +74,7 @@ public class StatelessAuthenticationSecurityConfig extends WebSecurityConfigurer
 						UsernamePasswordAuthenticationFilter.class);
 
 		http.headers().cacheControl();
+		http.formLogin().loginPage("/login").permitAll();
 	}
 
 	@Bean

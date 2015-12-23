@@ -3,7 +3,7 @@ materialAdmin
 				function($stateProvider, $urlRouterProvider,
 						jwtInterceptorProvider, $httpProvider,
 						$locationProvider) {
-					$urlRouterProvider.otherwise("home");
+					$urlRouterProvider.otherwise("404");
 
 					jwtInterceptorProvider.tokenGetter = function(store) {
 						return store.get('jwt');
@@ -26,7 +26,15 @@ materialAdmin
 									requiresLogin : false
 								}
 							})
-
+							
+							.state('console', {
+								url : '/console',
+								templateUrl : 'views/common.html',
+								data : {
+									requiresLogin : true
+								}
+							})
+							
 							// ------------------------------
 							// HOME
 							// ------------------------------
@@ -34,7 +42,7 @@ materialAdmin
 							.state(
 									'home',
 									{
-										url : '/home',
+										url : '/console/home',
 										templateUrl : 'views/home.html',
 										data : {
 											requiresLogin : true
@@ -113,7 +121,7 @@ materialAdmin
 							// ------------------------------
 
 							.state('widgets', {
-								url : '/widgets',
+								url : '/console',
 								templateUrl : 'views/common.html',
 								data : {
 									requiresLogin : true
@@ -161,7 +169,7 @@ materialAdmin
 							// ------------------------------
 
 							.state('tables', {
-								url : '/tables',
+								url : '/console',
 								templateUrl : 'views/common.html',
 								data : {
 									requiresLogin : true
@@ -188,7 +196,7 @@ materialAdmin
 							// FORMS
 							// ------------------------------
 							.state('form', {
-								url : '/form',
+								url : '/console',
 								templateUrl : 'views/common.html',
 								data : {
 									requiresLogin : true
@@ -273,7 +281,7 @@ materialAdmin
 							// USER INTERFACE
 							// ------------------------------
 
-							.state('pages.user-list', {
+							.state('console.user-list', {
 								url : '/user-list',
 								templateUrl : 'views/user-list.html',
 								data : {
@@ -281,7 +289,7 @@ materialAdmin
 								}
 							})
 							.state('user-interface', {
-								url : '/user-interface',
+								url : '/console',
 								templateUrl : 'views/common.html',
 								data : {
 									requiresLogin : true
@@ -402,7 +410,7 @@ materialAdmin
 							// ------------------------------
 
 							.state('charts', {
-								url : '/charts',
+								url : '/console',
 								templateUrl : 'views/common.html',
 								data : {
 									requiresLogin : true
@@ -477,7 +485,7 @@ materialAdmin
 							.state(
 									'photo-gallery',
 									{
-										url : '/photo-gallery',
+										url : '/console',
 										templateUrl : 'views/common.html',
 										data : {
 											requiresLogin : true
@@ -530,13 +538,14 @@ materialAdmin
 									requiresLogin : true
 								}
 							})
-
+							
+							
 							// ------------------------------
 							// PAGES
 							// ------------------------------
 
 							.state('pages', {
-								url : '/pages',
+								url : '/console',
 								templateUrl : 'views/common.html',
 								data : {
 									requiresLogin : true
@@ -722,7 +731,7 @@ materialAdmin
 									// $window.location.href = '/login';
 									window.location.href = '/login';
 								} else if (to.name === "login") {
-									$window.location.href = '/#/home';
+									$window.location.href = '/#/console/home';
 								}
 							} else if (to.name === "login") {
 								// Não requer login mas esta indo para a tela de
@@ -733,7 +742,7 @@ materialAdmin
 												.get('jwt'))) {
 									e.preventDefault();
 
-									$window.location.href = '/#/home';
+									$window.location.href = '/#/console/home';
 								} else {
 									return;
 								}
