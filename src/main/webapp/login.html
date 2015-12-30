@@ -44,6 +44,27 @@
 				</div>
 			</div>
 
+
+			<table>
+				<thead>
+					<tr>
+						<th>Project</th>
+						<th>Description</th>
+						<th><a href="#/new"><i class="icon-plus-sign"></i></a></th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr
+						ng-repeat="project in projects | filter:search | orderBy:'name'"
+						ng-show="project.objectId">
+						<td><a href="{{project.site}}" target="_blank">{{project.name}}</a></td>
+						<td>{{project.description}}</td>
+						<td><a href="#/edit/{{project.objectId}}"><i
+								class="icon-pencil"></i></a></td>
+					</tr>
+				</tbody>
+			</table>
+
 			<div class="clearfix"></div>
 
 			<div class="checkbox">
@@ -75,21 +96,24 @@
 			<div class="input-group m-b-20">
 				<span class="input-group-addon"><i class="zmdi zmdi-email"></i></span>
 				<div class="fg-line">
-					<input type="text" class="form-control" placeholder="Email Address" ng-model="user.username">
+					<input type="text" class="form-control" placeholder="Email Address"
+						ng-model="user.username">
 				</div>
 			</div>
 
 			<div class="input-group m-b-20">
 				<span class="input-group-addon"><i class="zmdi zmdi-male"></i></span>
 				<div class="fg-line">
-					<input type="password" class="form-control" placeholder="Password" ng-model="user.password" >
+					<input type="password" class="form-control" placeholder="Password"
+						ng-model="user.password">
 				</div>
 			</div>
-			
+
 			<div class="input-group m-b-20">
 				<span class="input-group-addon"><i class="zmdi zmdi-male"></i></span>
 				<div class="fg-line">
-					<input type="password" class="form-control" placeholder="Confirm password" ng-model="user.confirmPassword" >
+					<input type="password" class="form-control"
+						placeholder="Confirm password" ng-model="user.confirmPassword">
 				</div>
 			</div>
 
@@ -212,6 +236,8 @@
 	<!-- TODO Configurar no bower -->
 	<script src="resources/js/angular-jwt.js"></script>
 	<script src="resources/js/angular-storage.js"></script>
+	<script src="vendors/bower_components/underscore/underscore.js"></script>
+	<script src="resources/js/restangular.js"></script>
 
 
 	<!-- Common Vendors -->

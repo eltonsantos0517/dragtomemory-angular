@@ -8,7 +8,8 @@ var materialAdmin = angular.module('materialAdmin', [
     'nouislider',
     'ngTable',
     'angular-storage',
-    'angular-jwt'
+    'angular-jwt',
+    'restangular'
 ])
  
  

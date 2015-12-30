@@ -2,14 +2,44 @@ materialAdmin
 		.config(
 				function($stateProvider, $urlRouterProvider,
 						jwtInterceptorProvider, $httpProvider,
-						$locationProvider) {
+						$locationProvider, RestangularProvider) {
+
+					// Default Route
 					$urlRouterProvider.otherwise("404");
 
+					// JWT Config
 					jwtInterceptorProvider.tokenGetter = function(store) {
 						return store.get('jwt');
 					}
-
 					$httpProvider.interceptors.push('jwtInterceptor');
+
+					// RestAngular Config
+					RestangularProvider
+							.setBaseUrl('https://www.obackend.com/api/v0.1.1/');
+
+					RestangularProvider.setDefaultHeaders({
+						'X-API-Token' : '91387c5d1bb74b1f84198f3611972b53'
+					});
+
+					RestangularProvider.setRestangularFields({
+						id : 'objectId'
+					});
+
+					RestangularProvider.setRequestInterceptor(function(elem,
+							operation, what) {
+
+						if (operation === 'put') {
+							elem.objectId = undefined;
+							return elem;
+						}
+						return elem;
+					});
+
+					// add a response interceptor
+					RestangularProvider.addResponseInterceptor(function(data,
+							operation, what, url, response, deferred) {
+						return data.data;
+					});
 
 					$stateProvider
 
@@ -26,7 +56,7 @@ materialAdmin
 									requiresLogin : false
 								}
 							})
-							
+
 							.state('console', {
 								url : '/console',
 								templateUrl : 'views/common.html',
@@ -34,7 +64,7 @@ materialAdmin
 									requiresLogin : true
 								}
 							})
-							
+
 							// ------------------------------
 							// HOME
 							// ------------------------------
@@ -538,8 +568,7 @@ materialAdmin
 									requiresLogin : true
 								}
 							})
-							
-							
+
 							// ------------------------------
 							// PAGES
 							// ------------------------------
