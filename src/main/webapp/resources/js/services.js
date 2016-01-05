@@ -6,7 +6,7 @@ materialAdmin
 
 .service('crudService', [ 'Restangular', function(Restangular) {
 	this.getAll = function() {
-		 return Restangular.all("adventure").getList().$object;
+		 return Restangular.all("user").getList().$object;
 	}
 } ])
 
@@ -223,16 +223,16 @@ materialAdmin
 .service('scrollService', function() {
 	var ss = {};
 	ss.malihuScroll = function scrollBar(selector, theme, mousewheelaxis) {
-		$(selector).mCustomScrollbar({
-			theme : theme,
-			scrollInertia : 100,
-			axis : 'yx',
-			mouseWheel : {
-				enable : true,
-				axis : mousewheelaxis,
-				preventDefault : true
-			}
-		});
+//		$(selector).mCustomScrollbar({
+//			theme : theme,
+//			scrollInertia : 100,
+//			axis : 'yx',
+//			mouseWheel : {
+//				enable : true,
+//				axis : mousewheelaxis,
+//				preventDefault : true
+//			}
+//		});
 	}
 
 	return ss;

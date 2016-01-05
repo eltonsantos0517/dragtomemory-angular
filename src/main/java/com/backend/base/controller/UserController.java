@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.backend.base.model.entity.AccountEntity;
+import com.backend.base.model.service.AccountService;
 import com.backend.base.security.entity.User;
 import com.backend.base.security.entity.UserAuthentication;
 import com.backend.base.security.entity.UserRole;
@@ -27,6 +29,13 @@ public class UserController {
 			return ((UserAuthentication) authentication).getDetails();
 		}
 		return new User(authentication.getName()); // anonymous user support
+	}
+	
+	@RequestMapping(value = "/api/1/user", method = RequestMethod.GET)
+	public List<AccountEntity> getCurrenUsert() {
+		AccountService service = new AccountService();
+		
+		return service.listAll();
 	}
 
 	@RequestMapping(value = "/api/users/current", method = RequestMethod.PATCH)

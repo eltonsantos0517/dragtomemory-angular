@@ -54,6 +54,7 @@ public class StatelessAuthenticationSecurityConfig extends WebSecurityConfigurer
 				.antMatchers(HttpMethod.POST, "/api/login").permitAll()
 
 				.antMatchers("/console/**").hasRole("USER")
+				.antMatchers("/api/**").permitAll()
 				
 				// all other request need to be authenticated
 				.anyRequest().anonymous().and()

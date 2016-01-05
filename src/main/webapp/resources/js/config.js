@@ -4,9 +4,6 @@ materialAdmin
 						jwtInterceptorProvider, $httpProvider,
 						$locationProvider, RestangularProvider) {
 
-					// Default Route
-					$urlRouterProvider.otherwise("404");
-
 					// JWT Config
 					jwtInterceptorProvider.tokenGetter = function(store) {
 						return store.get('jwt');
@@ -14,8 +11,7 @@ materialAdmin
 					$httpProvider.interceptors.push('jwtInterceptor');
 
 					// RestAngular Config
-					RestangularProvider
-							.setBaseUrl('https://www.obackend.com/api/v0.1.1/');
+					RestangularProvider.setBaseUrl('api/1/');
 
 					RestangularProvider.setDefaultHeaders({
 						'X-API-Token' : '91387c5d1bb74b1f84198f3611972b53'
@@ -36,11 +32,15 @@ materialAdmin
 					});
 
 					// add a response interceptor
-					RestangularProvider.addResponseInterceptor(function(data,
-							operation, what, url, response, deferred) {
-						return data.data;
-					});
+//					RestangularProvider.addResponseInterceptor(function(data,
+//							operation, what, url, response, deferred) {
+//						return data.data;
+//					});
 
+					
+					// Default Route
+					$urlRouterProvider.otherwise("login");
+					
 					$stateProvider
 
 							.state('404', {
@@ -315,7 +315,7 @@ materialAdmin
 								url : '/user-list',
 								templateUrl : 'views/user-list.html',
 								data : {
-									requiresLogin : true
+									requiresLogin : true,
 								}
 							})
 							.state('user-interface', {
