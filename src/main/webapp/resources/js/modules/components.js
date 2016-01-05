@@ -171,7 +171,7 @@ materialAdmin
         return {
             restrict: 'A',
             link: function(scope, element, attrs) {
-                function notify(from, align, icon, type, animIn, animOut){
+            	function notify(from, align, icon, type, animIn, animOut){
                     $.growl({
                         icon: icon,
                         title: ' Bootstrap Growl ',

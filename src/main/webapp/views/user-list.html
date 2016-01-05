@@ -1,28 +1,25 @@
 <div class="container" data-ng-controller="userCtrl as uCtrl">
 
 
-	<div class="card">
+	<div class="card" data-ng-if="uCtrl.list === 1">
 		<div class="listview lv-bordered lv-lg">
 			<div class="lv-header-alt clearfix">
 				<h2 class="lvh-label hidden-xs">Some text here</h2>
 
-				<div class="lvh-search" data-ng-if="mactrl.listviewSearchStat"
-					data-ng-click="mactrl.listviewSearchStat">
-					<input type="text" placeholder="Start typing..." class="lvhs-input">
-
-					<i class="lvh-search-close"
+				<div class="lvh-search" data-ng-if="mactrl.listviewSearchStat" data-ng-click="mactrl.listviewSearchStat">
+					<input type="text" placeholder="Start typing..." class="lvhs-input"> <i class="lvh-search-close"
 						data-ng-click="mactrl.listviewSearchStat = false">&times;</i>
 				</div>
 
 				<ul class="lv-actions actions">
-					<li><a href=""
-						data-ng-click="mactrl.listviewSearchStat = true"> <i
-							class="zmdi zmdi-search"></i>
+					<li><button data-ng-click="uCtrl.list = 0; uCtrl.add = 1" class="btn btn-danger btn-icon waves-effect waves-circle">
+							<i class="zmdi zmdi-plus"></i>
+						</button></li>
+					<li><a href="" data-ng-click="mactrl.listviewSearchStat = true"> <i class="zmdi zmdi-search"></i>
 					</a></li>
 					<li><a href=""> <i class="zmdi zmdi-time"></i>
 					</a></li>
-					<li class="dropdown" dropdown><a href="" dropdown-toggle
-						aria-expanded="true"> <i class="zmdi zmdi-sort"></i>
+					<li class="dropdown" dropdown><a href="" dropdown-toggle aria-expanded="true"> <i class="zmdi zmdi-sort"></i>
 					</a>
 
 						<ul class="dropdown-menu dropdown-menu-right">
@@ -33,8 +30,7 @@
 						</ul></li>
 					<li><a href=""> <i class="zmdi zmdi-info"></i>
 					</a></li>
-					<li class="dropdown" dropdown><a href="" dropdown-toggle
-						aria-expanded="true"> <i class="zmdi zmdi-more-vert"></i>
+					<li class="dropdown" dropdown><a href="" dropdown-toggle aria-expanded="true"> <i class="zmdi zmdi-more-vert"></i>
 					</a>
 
 						<ul class="dropdown-menu dropdown-menu-right">
@@ -45,11 +41,10 @@
 			</div>
 
 			<div class="lv-body">
-			
+
 				<div class="lv-item media" ng-repeat="project in projects | filter:search | orderBy:'email'">
 					<div class="checkbox pull-left">
-						<label> <input type="checkbox" value=""> <i
-							class="input-helper"></i>
+						<label> <input type="checkbox" value=""> <i class="input-helper"></i>
 						</label>
 					</div>
 					<div class="media-body">
@@ -62,8 +57,7 @@
 						</ul>
 
 						<div class="lv-actions actions dropdown" dropdown>
-							<a href="" dropdown-toggle aria-expanded="true"> <i
-								class="zmdi zmdi-more-vert"></i>
+							<a href="" dropdown-toggle aria-expanded="true"> <i class="zmdi zmdi-more-vert"></i>
 							</a>
 
 							<ul class="dropdown-menu dropdown-menu-right">
@@ -78,10 +72,44 @@
 		</div>
 
 		<div class="lv-pagination" data-ng-controller="PaginationDemoCtrl">
-			<pagination total-items="totalItems" ng-model="currentPage"
-				ng-change="pageChanged()"></pagination>
+			<pagination total-items="totalItems" ng-model="currentPage" ng-change="pageChanged()"></pagination>
 		</div>
 	</div>
+
+	<div class="card" data-ng-if="uCtrl.add === 1 || uCtrl.edit === 1">
+		<div class="card-header">
+			<h2>
+				Basic Example <small>Individual form controls automatically receive some global styling. All textual 'input',
+					'textarea', and 'select' elements with .form-control are set to width: 100%; by default. Wrap labels and controls in
+					.form-group for optimum spacing. </small>
+			</h2>
+		</div>
+
+		<div class="card-body card-padding">
+			<form role="form" ng-submit="register()">
+				<div class="form-group fg-line">
+					<label for="exampleInputEmail1">Email address</label> <input type="email" class="form-control input-sm"
+						id="exampleInputEmail1" placeholder="Enter email" ng-model="user.username">
+				</div>
+				<div class="form-group fg-line">
+					<label for="exampleInputPassword1">Password</label> <input type="password" class="form-control input-sm"
+						id="exampleInputPassword1" placeholder="Password" ng-model="user.password">
+				</div>
+				<div class="form-group fg-line">
+					<label for="exampleInputPassword1">Password Again</label> <input type="password" class="form-control input-sm"
+						id="exampleInputPassword2" placeholder="Password Again" ng-model="user.confirmPassword">
+				</div>
+				
+				<div class="checkbox">
+					<label> <input type="checkbox" value=""> <i class="input-helper"></i> Eu aceito dar minha alma por esse sistema
+					</label>
+				</div>
+
+				<button type="submit" class="btn btn-primary btn-sm m-t-10">Save</button>
+			</form>
+		</div>
+	</div>
+
 </div>
 
 

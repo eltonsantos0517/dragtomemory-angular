@@ -1,6 +1,10 @@
 package com.backend.base.controller;
 
+import java.io.IOException;
+import java.security.NoSuchAlgorithmException;
 import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,11 +17,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.backend.base.controller.to.AccountTO;
 import com.backend.base.model.entity.AccountEntity;
 import com.backend.base.model.service.AccountService;
 import com.backend.base.security.entity.User;
 import com.backend.base.security.entity.UserAuthentication;
 import com.backend.base.security.entity.UserRole;
+import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 @RestController
 public class UserController {
@@ -37,6 +45,36 @@ public class UserController {
 		
 		return service.listAll();
 	}
+	
+	@RequestMapping(value = "/api/1/user", method = RequestMethod.POST)
+	public void createUser(HttpServletRequest request) {
+		
+		try {
+			final User user = new ObjectMapper().readValue(request.getInputStream(), User.class);
+
+			AccountTO to = new AccountTO();
+			to.setEmail(user.getUsername());
+			to.setPassword(user.getPassword());
+			to.setPasswordAgain(user.getConfirmPassword());
+
+			AccountService service = new AccountService();
+
+			service.createAccount(to);
+		} catch (NoSuchAlgorithmException e) {
+			e.printStackTrace();
+		} catch (JsonParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (JsonMappingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	
 
 	@RequestMapping(value = "/api/users/current", method = RequestMethod.PATCH)
 	public ResponseEntity<String> changePassword(@RequestBody final User user) {
