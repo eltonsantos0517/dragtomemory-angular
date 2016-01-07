@@ -48,7 +48,6 @@ public class UserController {
 		return service.listAll();
 	}
 
-<<<<<<< HEAD
 	@RequestMapping(value = "/api/1/user/{objectId}", method = RequestMethod.GET)
 	public AccountEntity getUserById(@PathVariable("objectId") long objectId) {
 		AccountService service = new AccountService();
@@ -56,8 +55,6 @@ public class UserController {
 		return service.get(objectId);
 	}
 
-=======
->>>>>>> branch 'master' of https://brungcm@bitbucket.org/brungcm/base-gae-spring-angular.git
 	@RequestMapping(value = "/api/1/user", method = RequestMethod.POST)
 	public void createUser(HttpServletRequest request) {
 
