@@ -48,6 +48,11 @@ public class UserController {
 		return service.listAll();
 	}
 
+	/**
+	 * 
+	 * @param objectId
+	 * @return AccountEntity
+	 */
 	@RequestMapping(value = "/api/1/user/{objectId}", method = RequestMethod.GET)
 	public AccountEntity getUserById(@PathVariable("objectId") long objectId) {
 		AccountService service = new AccountService();
