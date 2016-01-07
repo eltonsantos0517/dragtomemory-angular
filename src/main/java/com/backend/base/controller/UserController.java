@@ -7,6 +7,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.backend.base.controller.to.AccountTO;
+import com.backend.base.exception.InvalidEmailException;
 import com.backend.base.model.entity.AccountEntity;
 import com.backend.base.model.service.AccountService;
 import com.backend.base.security.entity.User;
@@ -38,17 +40,17 @@ public class UserController {
 		}
 		return new User(authentication.getName()); // anonymous user support
 	}
-	
+
 	@RequestMapping(value = "/api/1/user", method = RequestMethod.GET)
 	public List<AccountEntity> getCurrenUsert() {
 		AccountService service = new AccountService();
-		
+
 		return service.listAll();
 	}
-	
+
 	@RequestMapping(value = "/api/1/user", method = RequestMethod.POST)
 	public void createUser(HttpServletRequest request) {
-		
+
 		try {
 			final User user = new ObjectMapper().readValue(request.getInputStream(), User.class);
 
@@ -73,8 +75,21 @@ public class UserController {
 			e.printStackTrace();
 		}
 	}
-	
-	
+
+	@RequestMapping(value = "/api/1/forgotPassword", method = RequestMethod.POST, produces = MediaType.TEXT_PLAIN_VALUE)
+	public ResponseEntity<String> forgotPassword(@RequestBody final String email) {
+		AccountService service = new AccountService();
+
+		try {
+			service.forgotPassword(email);
+			return new ResponseEntity<String>("Email successfully sent", HttpStatus.OK);
+		} catch (InvalidEmailException e) {
+			return new ResponseEntity<String>(e.getMessage(), HttpStatus.BAD_REQUEST);
+		} catch (Exception e) {
+			return new ResponseEntity<String>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+
+	}
 
 	@RequestMapping(value = "/api/users/current", method = RequestMethod.PATCH)
 	public ResponseEntity<String> changePassword(@RequestBody final User user) {

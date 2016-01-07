@@ -10,6 +10,23 @@ materialAdmin
 	}
 } ])
 
+
+.service('accountService', [ 'Restangular','growlService', function(Restangular, growlService) {
+	this.forgotPassword = function(email) {
+				
+		return Restangular.all("forgotPassword").post(email)
+			.then(
+				//success
+				function (response) {
+					growlService.growl(response, 'success');
+				}, 
+				//fail
+				function(error) {
+					growlService.growl(error.data, 'danger');
+				});
+	}
+} ])
+
 // =========================================================================
 // Header Messages and Notifications list Data
 // =========================================================================

@@ -290,7 +290,7 @@ materialAdmin
     //=================================================
     // LOGIN
     //=================================================
-    .controller('loginCtrl', function( $scope, $http, store, $state, $location,$window, crudService){
+    .controller('loginCtrl', function( $scope, $http, store, $state, $location,$window, accountService, growlService){
         
         //Status
     
@@ -300,7 +300,7 @@ materialAdmin
         
         $scope.user = {};
         
-        $scope.projects = crudService.getAll();
+        //$scope.projects = crudService.getAll();
         
         $scope.login = function () {
     		$http.post('/api/login', { username: $scope.user.username, password: $scope.user.password }).success(function (result, status, headers) {
@@ -330,6 +330,10 @@ materialAdmin
     		store.remove('jwt');
 			$window.location.href = '/login';
     	};
+    	
+    	$scope.forgotPassword = function(){
+    		accountService.forgotPassword($scope.user.email);
+    	}
     	
     	$scope.$on('$routeChangeSuccess', function(e, nextRoute) {
     		if (nextRoute.$$route && angular.isDefined(nextRoute.$$route.pageTitle)) {
