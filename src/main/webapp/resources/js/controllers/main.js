@@ -300,8 +300,6 @@ materialAdmin
         
         $scope.user = {};
         
-        //$scope.projects = crudService.getAll();
-        
         $scope.login = function () {
     		$http.post('/api/login', { username: $scope.user.username, password: $scope.user.password }).success(function (result, status, headers) {
     			$scope.authenticated = true;

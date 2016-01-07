@@ -1,10 +1,7 @@
 package com.backend.base.controller;
 
-import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
 import java.util.List;
-
-import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -19,15 +16,13 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.backend.base.controller.to.AccountTO;
+import com.backend.base.controller.to.ApiResponse;
 import com.backend.base.exception.InvalidEmailException;
 import com.backend.base.model.entity.AccountEntity;
 import com.backend.base.model.service.AccountService;
 import com.backend.base.security.entity.User;
 import com.backend.base.security.entity.UserAuthentication;
 import com.backend.base.security.entity.UserRole;
-import com.fasterxml.jackson.core.JsonParseException;
-import com.fasterxml.jackson.databind.JsonMappingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 @RestController
 public class UserController {
@@ -42,7 +37,7 @@ public class UserController {
 	}
 
 	@RequestMapping(value = "/api/1/user", method = RequestMethod.GET)
-	public List<AccountEntity> getCurrenUsert() {
+	public List<AccountEntity> getCurrenUser() {
 		AccountService service = new AccountService();
 
 		return service.listAll();
@@ -61,34 +56,38 @@ public class UserController {
 	}
 
 	@RequestMapping(value = "/api/1/user", method = RequestMethod.POST)
-	public void createUser(HttpServletRequest request) {
+	public ResponseEntity<ApiResponse> saveUser(@RequestBody final AccountTO user) {
 
 		try {
-			final User user = new ObjectMapper().readValue(request.getInputStream(), User.class);
-
 			AccountTO to = new AccountTO();
-			to.setEmail(user.getUsername());
+			to.setObjectId(user.getObjectId());
+			to.setEmail(user.getEmail());
+			to.setFirstName(user.getFirstName());
 			to.setPassword(user.getPassword());
-			to.setPasswordAgain(user.getConfirmPassword());
+			to.setPasswordAgain(user.getPasswordAgain());
 
 			AccountService service = new AccountService();
 
-			service.createAccount(to);
+			if (to.getObjectId() == null) {
+				service.createAccount(to);
+			} else {
+				service.changeAccount(to);
+			}
+
+			ApiResponse ret = new ApiResponse(null, HttpStatus.OK.value(), HttpStatus.OK.getReasonPhrase(), null, null,
+					null);
+
+			return new ResponseEntity<ApiResponse>(ret, HttpStatus.OK);
 		} catch (NoSuchAlgorithmException e) {
 			e.printStackTrace();
-		} catch (JsonParseException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (JsonMappingException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+
+			ApiResponse ret = new ApiResponse("Sorry, something bad happened", HttpStatus.INTERNAL_SERVER_ERROR.value(),
+					HttpStatus.INTERNAL_SERVER_ERROR.getReasonPhrase(), null, null, null);
+
+			return new ResponseEntity<ApiResponse>(ret, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
-	
- 
+
 	/**
 	 * @param email
 	 * @return ResponseEntity<String>

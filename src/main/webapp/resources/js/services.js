@@ -4,30 +4,31 @@ materialAdmin
 // Header Messages and Notifications list Data
 // =========================================================================
 
-.service('crudService', [ 'Restangular', function(Restangular) {
+.service('accountService', [ 'Restangular', 'growlService', function(Restangular, growlService) {
+
 	this.getAll = function() {
 		return Restangular.all("user").getList().$object;
 	}
+
 	this.getById = function(userId) {
 		return Restangular.one('user', userId).get().$object;
 	}
 
-} ])
-
-
-.service('accountService', [ 'Restangular','growlService', function(Restangular, growlService) {
 	this.forgotPassword = function(email) {
-				
-		return Restangular.all("forgotPassword").post(email)
-			.then(
-				//success
-				function (response) {
-					growlService.growl(response, 'success');
-				}, 
-				//fail
-				function(error) {
-					growlService.growl(error.data, 'danger');
-				});
+
+		return Restangular.all("forgotPassword").post(email).then(
+		// success
+		function(response) {
+			growlService.growl(response, 'success');
+		},
+		// fail
+		function(error) {
+			growlService.growl(error.data, 'danger');
+		});
+	}
+
+	this.save = function(user) {
+		return Restangular.all("user").post(user);
 	}
 } ])
 
@@ -263,48 +264,45 @@ materialAdmin
 // BOOTSTRAP GROWL
 // ==============================================
 
-.service('growlService', function() {
-	var gs = {};
-	gs.growl = function(message, type, timer) {
-		$.growl({
-			message : message
-		}, {
-			type : type,
-			allow_dismiss : false,
-			label : 'Cancel',
-			className : 'btn-xs btn-inverse',
-			placement : {
-				from : 'top',
-				align : 'right'
-			},
-			delay : 2500,
-			animate : {
-				enter : 'animated bounceIn',
-				exit : 'animated bounceOut'
-			},
-			offset : {
-				x : 20,
-				y : 85
-			},
-			spacing: 10,
-            z_index: 1031,
-            delay: 2500,
-            timer: timer,
-            url_target: '_blank',
-            mouse_over: false,
-            icon_type: 'class',
-            template: '<div data-growl="container" class="alert" role="alert">' +
-                            '<button type="button" class="close" data-growl="dismiss">' +
-                                '<span aria-hidden="true">&times;</span>' +
-                                '<span class="sr-only">Close</span>' +
-                            '</button>' +
-                            '<span data-growl="icon"></span>' +
-                            '<span data-growl="title"></span>' +
-                            '<span data-growl="message"></span>' +
-                            '<a href="#" data-growl="url"></a>' +
-                        '</div>'
-		});
-	}
+.service(
+		'growlService',
+		function() {
+			var gs = {};
+			gs.growl = function(message, type, timer) {
+				$.growl({
+					message : message
+				}, {
+					type : type,
+					allow_dismiss : false,
+					label : 'Cancel',
+					className : 'btn-xs btn-inverse',
+					placement : {
+						from : 'top',
+						align : 'right'
+					},
+					delay : 2500,
+					animate : {
+						enter : 'animated bounceIn',
+						exit : 'animated bounceOut'
+					},
+					offset : {
+						x : 20,
+						y : 85
+					},
+					spacing : 10,
+					z_index : 1031,
+					delay : 2500,
+					timer : timer,
+					url_target : '_blank',
+					mouse_over : false,
+					icon_type : 'class',
+					template : '<div data-growl="container" class="alert" role="alert">'
+							+ '<button type="button" class="close" data-growl="dismiss">'
+							+ '<span aria-hidden="true">&times;</span>' + '<span class="sr-only">Close</span>' + '</button>'
+							+ '<span data-growl="icon"></span>' + '<span data-growl="title"></span>'
+							+ '<span data-growl="message"></span>' + '<a href="#" data-growl="url"></a>' + '</div>'
+				});
+			}
 
-	return gs;
-})
+			return gs;
+		})

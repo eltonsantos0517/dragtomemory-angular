@@ -42,16 +42,16 @@
 
 			<div class="lv-body">
 
-				<div class="lv-item media" ng-repeat="project in projects | filter:search | orderBy:'email'">
+				<div class="lv-item media" ng-repeat="user in users | filter:search | orderBy:'email'">
 					<div class="checkbox pull-left">
 						<label> <input type="checkbox" value=""> <i class="input-helper"></i>
 						</label>
 					</div>
 					<div class="media-body">
-						<div class="lv-title">{{project.email}}</div>
-						<small class="lv-small">{{project.password}}</small>
+						<div class="lv-title">{{user.firstName}} {{user.email}}</div>
+						<small class="lv-small">{{user.password}}</small>
 						<ul class="lv-attrs">
-							<li>Date Created: {{project.createdAt | date: 'yyyy-MM-dd HH:mm:ss'}}</li>
+							<li>Date Created: {{user.createdAt | date: 'yyyy-MM-dd HH:mm:ss'}}</li>
 							<li>Members: 78954</li>
 							<li>Published: No</li>
 						</ul>
@@ -61,7 +61,7 @@
 							</a>
 
 							<ul class="dropdown-menu dropdown-menu-right">
-								<li><a href="" data-ng-click="initEdit(project.objectId)">Edit</a></li>
+								<li><a href="" data-ng-click="initEdit(user.objectId)">Edit</a></li>
 								<li><a href="">Delete</a></li>
 							</ul>
 						</div>
@@ -91,7 +91,11 @@
 				<input type="hidden" id="exampleInputHidden" ng-model="user.objectId" ng-hidden>
 				<div class="form-group fg-line">
 					<label for="exampleInputEmail1">Email address</label> <input type="email" class="form-control input-sm"
-						id="exampleInputEmail1" placeholder="Enter email" ng-model="user.email">
+						id="exampleInputEmail1" placeholder="Enter email" ng-model="user.email" readonly="readonly" disabled="disabled">
+				</div>
+				<div class="form-group fg-line">
+					<label for="exampleInputEmail1">Name</label> <input type="text" class="form-control input-sm"
+						id="exampleInputName" placeholder="Enter name" ng-model="user.firstName">
 				</div>
 				<div class="form-group fg-line">
 					<label for="exampleInputPassword1">Password</label> <input type="password" class="form-control input-sm"
@@ -99,7 +103,7 @@
 				</div>
 				<div class="form-group fg-line">
 					<label for="exampleInputPassword1">Password Again</label> <input type="password" class="form-control input-sm"
-						id="exampleInputPassword2" placeholder="Password Again" ng-model="user.confirmPassword">
+						id="exampleInputPassword2" placeholder="Password Again" ng-model="user.passwordAgain">
 				</div>
 
 				<div class="checkbox">

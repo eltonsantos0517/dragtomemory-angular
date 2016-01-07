@@ -24,7 +24,7 @@ public class User implements UserDetails {
 		this.expires = expires.getTime();
 	}
 
-	private Long id;
+	private Long objectId;
 
 	private String username;
 
@@ -46,12 +46,48 @@ public class User implements UserDetails {
 
 	private Set<UserAuthority> authorities;
 
-	public Long getId() {
-		return id;
+	public Long getObjectId() {
+		return objectId;
 	}
 
-	public void setId(Long id) {
-		this.id = id;
+	public void setObjectId(Long objectId) {
+		this.objectId = objectId;
+	}
+
+	public boolean isAccountExpired() {
+		return accountExpired;
+	}
+
+	public void setAccountExpired(boolean accountExpired) {
+		this.accountExpired = accountExpired;
+	}
+
+	public boolean isAccountLocked() {
+		return accountLocked;
+	}
+
+	public void setAccountLocked(boolean accountLocked) {
+		this.accountLocked = accountLocked;
+	}
+
+	public boolean isCredentialsExpired() {
+		return credentialsExpired;
+	}
+
+	public void setCredentialsExpired(boolean credentialsExpired) {
+		this.credentialsExpired = credentialsExpired;
+	}
+
+	public boolean isAccountEnabled() {
+		return accountEnabled;
+	}
+
+	public void setAccountEnabled(boolean accountEnabled) {
+		this.accountEnabled = accountEnabled;
+	}
+
+	public void setAuthorities(Set<UserAuthority> authorities) {
+		this.authorities = authorities;
 	}
 
 	@Override

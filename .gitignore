@@ -1,3 +1,5 @@
 /target/
 .classpath
 .settings/org.eclipse.wst.common.component
+/.project
+/.settings/

@@ -33,7 +33,7 @@ public class UserDetailsService implements org.springframework.security.core.use
 
 		final User user = new User();
 		user.setUsername(entity.getEmail());
-		user.setId(entity.getObjectId());
+		user.setObjectId(entity.getObjectId());
 		user.setPassword(entity.getPassword());
 		user.setRoles(roles);
 
