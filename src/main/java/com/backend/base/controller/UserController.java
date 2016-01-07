@@ -65,6 +65,7 @@ public class UserController {
 
 		try {
 			final User user = new ObjectMapper().readValue(request.getInputStream(), User.class);
+			User x = new User();
 
 			AccountTO to = new AccountTO();
 			to.setEmail(user.getUsername());
