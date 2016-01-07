@@ -82,7 +82,12 @@ public class UserController {
 			e.printStackTrace();
 		}
 	}
-
+	
+ 
+	/**
+	 * @param email
+	 * @return ResponseEntity<String>
+	 */
 	@RequestMapping(value = "/api/1/forgotPassword", method = RequestMethod.POST, produces = MediaType.TEXT_PLAIN_VALUE)
 	public ResponseEntity<String> forgotPassword(@RequestBody final String email) {
 		AccountService service = new AccountService();
