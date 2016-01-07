@@ -96,24 +96,6 @@ materialAdmin
 					this.add = 0;
 					this.edit = 0;
 					$scope.user = {};
-
-					$scope.register = function() {
-						$http.post('/api/1/user', {
-							username : $scope.user.username,
-							password : $scope.user.password,
-							confirmPassword : $scope.user.confirmPassword
-						}).success(
-								function(result, status, headers) {
-									$scope.uCtrl.list = 1;
-									$scope.uCtrl.add = 0;
-									$scope.uCtrl.edit = 0;
-
-									$scope.projects = crudService.getAll();
-
-									growlService.growl('Usuário cadastrado com sucesso.', 'success')
-								});
-					};
-
 					$scope.projects = crudService.getAll();
 
 					var data = tableService.data;
@@ -200,4 +182,33 @@ materialAdmin
 									* params.count()));
 						}
 					});
+					
+					
+					$scope.register = function() {
+						$http.post('/api/1/user', {
+							username : $scope.user.email,
+							password : $scope.user.password,
+							confirmPassword : $scope.user.confirmPassword
+						}).success(
+								function(result, status, headers) {
+									$scope.uCtrl.list = 1;
+									$scope.uCtrl.add = 0;
+									$scope.uCtrl.edit = 0;
+
+									$scope.projects = crudService.getAll();
+
+									growlService.growl('Usuário cadastrado com sucesso.', 'success', 1000)
+								});
+					};
+					
+					$scope.initEdit = function(userId) {
+						$scope.uCtrl.list = 0;
+						$scope.uCtrl.add = 0;
+						$scope.uCtrl.edit = 1;
+						
+						$scope.user = crudService.getById(userId);
+					};
+					
+					
+					
 				})

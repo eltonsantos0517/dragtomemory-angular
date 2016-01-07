@@ -6,7 +6,28 @@ materialAdmin
 
 .service('crudService', [ 'Restangular', function(Restangular) {
 	this.getAll = function() {
-		 return Restangular.all("user").getList().$object;
+		return Restangular.all("user").getList().$object;
+	}
+	this.getById = function(userId) {
+		return Restangular.one('user', userId).get().$object;
+	}
+
+} ])
+
+
+.service('accountService', [ 'Restangular','growlService', function(Restangular, growlService) {
+	this.forgotPassword = function(email) {
+				
+		return Restangular.all("forgotPassword").post(email)
+			.then(
+				//success
+				function (response) {
+					growlService.growl(response, 'success');
+				}, 
+				//fail
+				function(error) {
+					growlService.growl(error.data, 'danger');
+				});
 	}
 } ])
 
@@ -223,16 +244,16 @@ materialAdmin
 .service('scrollService', function() {
 	var ss = {};
 	ss.malihuScroll = function scrollBar(selector, theme, mousewheelaxis) {
-//		$(selector).mCustomScrollbar({
-//			theme : theme,
-//			scrollInertia : 100,
-//			axis : 'yx',
-//			mouseWheel : {
-//				enable : true,
-//				axis : mousewheelaxis,
-//				preventDefault : true
-//			}
-//		});
+		// $(selector).mCustomScrollbar({
+		// theme : theme,
+		// scrollInertia : 100,
+		// axis : 'yx',
+		// mouseWheel : {
+		// enable : true,
+		// axis : mousewheelaxis,
+		// preventDefault : true
+		// }
+		// });
 	}
 
 	return ss;
@@ -244,7 +265,7 @@ materialAdmin
 
 .service('growlService', function() {
 	var gs = {};
-	gs.growl = function(message, type) {
+	gs.growl = function(message, type, timer) {
 		$.growl({
 			message : message
 		}, {
@@ -264,7 +285,24 @@ materialAdmin
 			offset : {
 				x : 20,
 				y : 85
-			}
+			},
+			spacing: 10,
+            z_index: 1031,
+            delay: 2500,
+            timer: timer,
+            url_target: '_blank',
+            mouse_over: false,
+            icon_type: 'class',
+            template: '<div data-growl="container" class="alert" role="alert">' +
+                            '<button type="button" class="close" data-growl="dismiss">' +
+                                '<span aria-hidden="true">&times;</span>' +
+                                '<span class="sr-only">Close</span>' +
+                            '</button>' +
+                            '<span data-growl="icon"></span>' +
+                            '<span data-growl="title"></span>' +
+                            '<span data-growl="message"></span>' +
+                            '<a href="#" data-growl="url"></a>' +
+                        '</div>'
 		});
 	}
 

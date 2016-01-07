@@ -61,7 +61,7 @@
 							</a>
 
 							<ul class="dropdown-menu dropdown-menu-right">
-								<li><a href="">Edit</a></li>
+								<li><a href="" data-ng-click="initEdit(project.objectId)">Edit</a></li>
 								<li><a href="">Delete</a></li>
 							</ul>
 						</div>
@@ -87,9 +87,11 @@
 
 		<div class="card-body card-padding">
 			<form role="form" ng-submit="register()">
+
+				<input type="hidden" id="exampleInputHidden" ng-model="user.objectId" ng-hidden>
 				<div class="form-group fg-line">
 					<label for="exampleInputEmail1">Email address</label> <input type="email" class="form-control input-sm"
-						id="exampleInputEmail1" placeholder="Enter email" ng-model="user.username">
+						id="exampleInputEmail1" placeholder="Enter email" ng-model="user.email">
 				</div>
 				<div class="form-group fg-line">
 					<label for="exampleInputPassword1">Password</label> <input type="password" class="form-control input-sm"
@@ -99,9 +101,10 @@
 					<label for="exampleInputPassword1">Password Again</label> <input type="password" class="form-control input-sm"
 						id="exampleInputPassword2" placeholder="Password Again" ng-model="user.confirmPassword">
 				</div>
-				
+
 				<div class="checkbox">
-					<label> <input type="checkbox" value=""> <i class="input-helper"></i> Eu aceito dar minha alma por esse sistema
+					<label> <input type="checkbox" value=""> <i class="input-helper"></i> Eu aceito dar minha alma por esse
+						sistema
 					</label>
 				</div>
 
