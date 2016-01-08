@@ -167,5 +167,9 @@ materialAdmin.controller('tableCtrl', function($filter, $sce, ngTableParams, tab
 
 		$scope.user = accountService.getById(userId);
 	};
+	
+	$scope.removeUser = function(userId) {
+		$scope.user = accountService.removeUser(userId);
+	};
 
 })

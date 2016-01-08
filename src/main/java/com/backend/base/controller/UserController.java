@@ -55,6 +55,26 @@ public class UserController {
 		return service.get(objectId);
 	}
 
+	@RequestMapping(value = "/api/1/user/{objectId}", method = RequestMethod.GET)
+	public ResponseEntity<ApiResponse> deleteUser(@PathVariable("objectId") long objectId) {
+		try {
+			AccountService service = new AccountService();
+			service.deleteById(objectId);
+
+			ApiResponse ret = new ApiResponse(null, HttpStatus.OK.value(), HttpStatus.OK.getReasonPhrase(), null, null,
+					null);
+
+			return new ResponseEntity<ApiResponse>(ret, HttpStatus.OK);
+		} catch (Exception e) {
+			e.printStackTrace();
+
+			ApiResponse ret = new ApiResponse("Sorry, something bad happened", HttpStatus.INTERNAL_SERVER_ERROR.value(),
+					HttpStatus.INTERNAL_SERVER_ERROR.getReasonPhrase(), null, null, null);
+
+			return new ResponseEntity<ApiResponse>(ret, HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
+
 	@RequestMapping(value = "/api/1/user", method = RequestMethod.POST)
 	public ResponseEntity<ApiResponse> saveUser(@RequestBody final AccountTO user) {
 
@@ -109,7 +129,8 @@ public class UserController {
 
 	@RequestMapping(value = "/api/users/current", method = RequestMethod.PATCH)
 	public ResponseEntity<String> changePassword(@RequestBody final User user) {
-		//final Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		// final Authentication authentication =
+		// SecurityContextHolder.getContext().getAuthentication();
 		final User currentUser = null;// userRepository.findByUsername(authentication.getName());
 
 		if (user.getNewPassword() == null || user.getNewPassword().length() < 4) {
