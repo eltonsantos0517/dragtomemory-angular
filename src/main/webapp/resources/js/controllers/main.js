@@ -301,7 +301,7 @@ materialAdmin
         $scope.user = {};
         
         $scope.login = function () {
-    		$http.post('/api/login', { username: $scope.user.username, password: $scope.user.password }).success(function (result, status, headers) {
+    		$http.post('/api/login', { email: $scope.user.email, password: $scope.user.password }).success(function (result, status, headers) {
     			$scope.authenticated = true;
     			store.set('jwt', headers('Authorization'));
     			
@@ -313,7 +313,7 @@ materialAdmin
     	};
     	
     	$scope.register = function () {
-    		$http.post('/api/register', { username: $scope.user.username, password: $scope.user.password, confirmPassword: $scope.user.confirmPassword }).success(function (result, status, headers) {
+    		$http.post('/api/register', { email: $scope.user.email, password: $scope.user.password, passwordAgain: $scope.user.confirmPassword }).success(function (result, status, headers) {
     			$scope.authenticated = true;
     			store.set('jwt', headers('Authorization'));
     			

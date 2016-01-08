@@ -122,7 +122,7 @@ public class UserController {
 
 	@RequestMapping(value = "/api/users/current", method = RequestMethod.PATCH)
 	public ResponseEntity<String> changePassword(@RequestBody final User user) {
-		final Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		//final Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		final User currentUser = null;// userRepository.findByUsername(authentication.getName());
 
 		if (user.getNewPassword() == null || user.getNewPassword().length() < 4) {

@@ -41,23 +41,17 @@ class StatelessRegisterFilter extends AbstractAuthenticationProcessingFilter {
 	public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response)
 			throws AuthenticationException, IOException, ServletException {
 
-		final User user = new ObjectMapper().readValue(request.getInputStream(), User.class);
+		final AccountTO to = new ObjectMapper().readValue(request.getInputStream(), AccountTO.class);
 
 		try {
-			AccountTO to = new AccountTO();
-			to.setEmail(user.getUsername());
-			to.setPassword(user.getPassword());
-			to.setPasswordAgain(user.getConfirmPassword());
-
 			AccountService service = new AccountService();
-
 			service.createAccount(to);
 		} catch (NoSuchAlgorithmException e) {
 			e.printStackTrace();
 		}
 
 		final UsernamePasswordAuthenticationToken loginToken = new UsernamePasswordAuthenticationToken(
-				user.getUsername(), user.getPassword());
+				to.getEmail(), to.getPassword());
 		return getAuthenticationManager().authenticate(loginToken);
 
 	}

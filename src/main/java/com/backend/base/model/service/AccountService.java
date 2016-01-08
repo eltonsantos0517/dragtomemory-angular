@@ -37,8 +37,6 @@ public class AccountService extends GenericService<AccountEntity> {
 		entity.setLastName(to.getLastName());
 		entity.setEmail(to.getEmail());
 		entity.setPassword(SecurityUtil.encryptPassword(to.getPassword()));
-		to.setPassword(null);
-		to.setPasswordAgain(null);
 
 		return super.save(entity);
 	}
