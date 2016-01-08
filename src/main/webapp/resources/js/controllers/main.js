@@ -166,7 +166,7 @@ materialAdmin
 	//=================================================
     // LOGIN
     //=================================================
-    .controller('loginCtrl', function( $scope, $http, store, $state, $location,$window, accountService, growlService){
+    .controller('loginCtrl', function( $scope, $http, store, $state, $location,$window, accountService, growlService, $stateParams){
         
         //Status
     
@@ -216,7 +216,7 @@ materialAdmin
     	});
     	
     	$scope.recoveryPassword = function(){
-    		accountService.recoveryPassword($scope.user.newPassword, $scope.user.newPasswordAgain);
+    		accountService.recoveryPassword($stateParams.token, $scope.user.newPassword, $scope.user.newPasswordAgain);
     	}
         
     })
