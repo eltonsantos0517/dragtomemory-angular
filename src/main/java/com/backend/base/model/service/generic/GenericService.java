@@ -33,7 +33,7 @@ public abstract class GenericService<T extends GenericEntity> {
 		getDAO().delete(entity);
 	}
 
-	public void deleteById(String objectId) {
+	public void deleteById(long objectId) {
 		Key<T> key = Key.create(clazz, objectId);
 		getDAO().delete(key);
 	}

@@ -16,15 +16,7 @@ materialAdmin
 
 	this.forgotPassword = function(email) {
 
-		return Restangular.all("forgotPassword").post(email).then(
-		// success
-		function(response) {
-			growlService.growl(response, 'success');
-		},
-		// fail
-		function(error) {
-			growlService.growl(error.data, 'danger');
-		});
+		return Restangular.all("forgotPassword").post(email);
 	}
 	
 	this.recoveryPassword = function(token, newPassword, newPasswordAgain){
