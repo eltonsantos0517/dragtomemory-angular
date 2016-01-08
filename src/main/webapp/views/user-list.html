@@ -12,11 +12,20 @@
 				</div>
 
 				<ul class="lv-actions actions">
-					<li><button data-ng-click="uCtrl.list = 0; uCtrl.add = 1" class="btn btn-danger btn-icon waves-effect waves-circle">
+					<li><button data-ng-click="uCtrl.list = 0;uCtrl.add = 1;" class="btn btn-danger btn-icon waves-effect waves-circle">
 							<i class="zmdi zmdi-plus"></i>
-						</button></li>
-					<li><a href="" data-ng-click="mactrl.listviewSearchStat = true"> <i class="zmdi zmdi-search"></i>
-					</a></li>
+						</button>
+					</li>
+					<li>
+						<button class="btn bgm-teal btn-icon" data-ng-click="refresh()" >
+							<i class="zmdi zmdi-refresh"></i>
+						</button>
+					</li>
+					<li>
+						<button class="btn btn-info btn-icon" data-ng-click="mactrl.listviewSearchStat = true">
+							<i class="zmdi zmdi-search"></i>
+						</button>
+					</li>
 					<li><a href=""> <i class="zmdi zmdi-time"></i>
 					</a></li>
 					<li class="dropdown" dropdown><a href="" dropdown-toggle aria-expanded="true"> <i class="zmdi zmdi-sort"></i>
@@ -30,13 +39,6 @@
 						</ul></li>
 					<li><a href=""> <i class="zmdi zmdi-info"></i>
 					</a></li>
-					<li class="dropdown" dropdown><a href="" dropdown-toggle aria-expanded="true"> <i class="zmdi zmdi-more-vert"></i>
-					</a>
-
-						<ul class="dropdown-menu dropdown-menu-right">
-							<li><a href="">Refresh</a></li>
-							<li><a href="">Listview Settings</a></li>
-						</ul></li>
 				</ul>
 			</div>
 
@@ -117,6 +119,7 @@
 				</div>
 
 				<button type="submit" class="btn btn-primary btn-sm m-t-10">Save</button>
+				<button type="button" class="btn btn-primary btn-sm m-t-10" data-ng-click="back()">Cancel</button>
 			</form>
 		</div>
 	</div>

@@ -72,7 +72,13 @@ materialAdmin.controller('tableCtrl', function($filter, $sce, ngTableParams, tab
 	$scope.user = {};
 	$scope.users = accountService.getAll();
 
-	var data = tableService.data;
+	// TODO Paginação - PaginationDemoCtrl - retornar esses campos do backend
+	// totalItems
+	// currentPage
+	
+	// TODO implementar pageChanged() ??
+
+	var data = $scope.users; // tableService.data;
 
 	// Basic Example
 	this.tableBasic = new ngTableParams({
@@ -89,9 +95,9 @@ materialAdmin.controller('tableCtrl', function($filter, $sce, ngTableParams, tab
 	// Sorting
 	this.tableSorting = new ngTableParams({
 		page : 1, // show first page
-		count : 10, // count per page
+		count : 3, // count per page
 		sorting : {
-			name : 'asc' // initial sorting
+			email : 'asc' // initial sorting
 		}
 	}, {
 		total : data.length, // length of data
@@ -106,30 +112,28 @@ materialAdmin.controller('tableCtrl', function($filter, $sce, ngTableParams, tab
 	// Filtering
 	this.tableFilter = new ngTableParams({
 		page : 1, // show first page
-		count : 10
+		count : 3
 	}, {
 		total : data.length, // length of data
 		getData : function($defer, params) {
 			// use build-in angular filter
 			var orderedData = params.filter() ? $filter('filter')(data, params.filter()) : data;
 
-			this.id = orderedData.slice((params.page() - 1) * params.count(), params.page() * params.count());
-			this.name = orderedData.slice((params.page() - 1) * params.count(), params.page() * params.count());
+			this.objectId = orderedData.slice((params.page() - 1) * params.count(), params.page() * params.count());
+			this.firstName = orderedData.slice((params.page() - 1) * params.count(), params.page() * params.count());
 			this.email = orderedData.slice((params.page() - 1) * params.count(), params.page() * params.count());
-			this.username = orderedData.slice((params.page() - 1) * params.count(), params.page() * params.count());
-			this.contact = orderedData.slice((params.page() - 1) * params.count(), params.page() * params.count());
 
 			params.total(orderedData.length); // set total for
 			// recalc
 			// pagination
-			$defer.resolve(this.id, this.name, this.email, this.username, this.contact);
+			$defer.resolve(this.objectId, this.firstName, this.email);
 		}
 	})
 
 	// Editable
 	this.tableEdit = new ngTableParams({
 		page : 1, // show first page
-		count : 10
+		count : 3
 	// count per page
 	}, {
 		total : data.length, // length of data
@@ -145,6 +149,7 @@ materialAdmin.controller('tableCtrl', function($filter, $sce, ngTableParams, tab
 			$scope.uCtrl.list = 1;
 			$scope.uCtrl.add = 0;
 			$scope.uCtrl.edit = 0;
+			$scope.user = {};
 
 			$scope.users = accountService.getAll();
 
@@ -166,6 +171,16 @@ materialAdmin.controller('tableCtrl', function($filter, $sce, ngTableParams, tab
 		$scope.uCtrl.edit = 1;
 
 		$scope.user = accountService.getById(userId);
+	};
+
+	$scope.refresh = function() {
+		$scope.users = accountService.getAll();
+	};
+
+	$scope.back = function() {
+		$scope.uCtrl.list = 1;
+		$scope.uCtrl.add = 0;
+		$scope.uCtrl.edit = 0;
 	};
 
 	$scope.removeUser = function(userId) {
