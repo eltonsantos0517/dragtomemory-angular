@@ -55,7 +55,7 @@ public class UserController {
 		return service.get(objectId);
 	}
 
-	@RequestMapping(value = "/api/1/user/{objectId}", method = RequestMethod.GET)
+	@RequestMapping(value = "/api/1/user/{objectId}", method = RequestMethod.DELETE)
 	public ResponseEntity<ApiResponse> deleteUser(@PathVariable("objectId") long objectId) {
 		try {
 			AccountService service = new AccountService();

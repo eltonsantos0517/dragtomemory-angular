@@ -148,9 +148,9 @@ materialAdmin.controller('tableCtrl', function($filter, $sce, ngTableParams, tab
 
 			$scope.projects = accountService.getAll();
 
-			if($scope.user.objectId == null){
+			if ($scope.user.objectId == null) {
 				growlService.growl('Usuário criado com sucesso.', 'success', 1000)
-			}else{
+			} else {
 				growlService.growl('Usuário atualizado com sucesso.', 'success', 1000)
 			}
 		},
@@ -167,9 +167,18 @@ materialAdmin.controller('tableCtrl', function($filter, $sce, ngTableParams, tab
 
 		$scope.user = accountService.getById(userId);
 	};
-	
+
 	$scope.removeUser = function(userId) {
-		$scope.user = accountService.removeUser(userId);
+		$scope.user = accountService.removeUser(userId).then(
+		// success
+		function(response) {
+			$scope.projects = accountService.getAll();
+			growlService.growl('Usuário deletado com sucesso.', 'success', 1000)
+		},
+		// fail
+		function(response) {
+			growlService.growl('Erro ao deletar usuário.', 'danger', 1000)
+		});
 	};
 
 })
