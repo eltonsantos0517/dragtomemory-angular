@@ -338,6 +338,10 @@ materialAdmin
     			$scope.pageTitle = nextRoute.$$route.pageTitle + ' | ngEurope Sample';
     		}
     	});
+    	
+    	$scope.recoveryPassword = function(){
+    		accountService.recoveryPassword($scope.user.newPassword, $scope.user.newPasswordAgain);
+    	}
         
     })
 

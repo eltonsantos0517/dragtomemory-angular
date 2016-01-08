@@ -26,6 +26,19 @@ materialAdmin
 			growlService.growl(error.data, 'danger');
 		});
 	}
+	
+	this.recoveryPassword = function(newPassword, newPasswordAgain){
+		return Restangular.all("recoveryPassword").post(newPassword, newPasswordAgain).then(
+				//succes
+				function(response){
+					growlService.growl(response, 'success');
+				},
+				//fail
+				function(error){
+					growlService.growl(error.data, 'success');
+				}
+			);
+	}
 
 	this.save = function(user) {
 		return Restangular.all("user").post(user);

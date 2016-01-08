@@ -80,7 +80,7 @@ public abstract class GenericService<T extends GenericEntity> {
 	
 	public List<T> listAll() {
 		try {
-			return getDAO().listAlll();
+			return getDAO().listAll();
 		} catch (EntityNotFoundException e) {
 			return null;
 		}
@@ -97,6 +97,14 @@ public abstract class GenericService<T extends GenericEntity> {
 	public List<T> listByColumnWithOrder(String columnName, Object value, String order) {
 		try {
 			return getDAO().listByColumnWithOrder(columnName, value, order);
+		} catch (EntityNotFoundException e) {
+			return null;
+		}
+	}
+	
+	public List<T> listByFilterAndColumn(Filter filter, String columnName, Object value) {
+		try {
+			return getDAO().listByFilterAndColumn(filter, columnName, value);
 		} catch (EntityNotFoundException e) {
 			return null;
 		}

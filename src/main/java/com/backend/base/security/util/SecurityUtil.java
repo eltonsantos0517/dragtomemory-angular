@@ -14,6 +14,7 @@ public class SecurityUtil {
 
 		return uuid;
 	}
+	
 
 	public static String newTokenSHA256() throws NoSuchAlgorithmException {
 
@@ -37,6 +38,10 @@ public class SecurityUtil {
 		}
 		return false;
 	}
+	
+	public static int getValidateOfTokenInDays(){
+		return 3;
+	}
 
 	/**
 	 * The byte[] returned by MessageDigest does not have a nice textual
@@ -59,9 +64,6 @@ public class SecurityUtil {
 		return result.toString();
 	}
 
-	public static boolean validateToken(String token) {
-
-		return true;
-	}
+	
 
 }

@@ -17,10 +17,6 @@ materialAdmin
 						'X-API-Token' : '91387c5d1bb74b1f84198f3611972b53'
 					});
 
-					RestangularProvider.setRestangularFields({
-						id : 'objectId'
-					});
-
 					RestangularProvider.setRequestInterceptor(function(elem,
 							operation, what) {
 
@@ -56,7 +52,12 @@ materialAdmin
 									requiresLogin : false
 								}
 							})
-
+							.state('recovery-password/:token', {
+								url : '^/recovery-password/{token}',
+								data : {
+									requiresLogin : false
+								}
+							})
 							.state('console', {
 								url : '/console',
 								templateUrl : 'views/common.html',

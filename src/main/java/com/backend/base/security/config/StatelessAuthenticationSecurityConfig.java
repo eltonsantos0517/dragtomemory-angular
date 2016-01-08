@@ -37,7 +37,7 @@ public class StatelessAuthenticationSecurityConfig extends WebSecurityConfigurer
 		http.exceptionHandling().and().anonymous().and().servletApi().and().authorizeRequests()
 
 				// allow anonymous resource requests
-				.antMatchers("/login**").permitAll().antMatchers("/favicon.ico").permitAll().antMatchers("/resources**")
+				.antMatchers("/login**").permitAll().antMatchers("/recovery-password**/*").permitAll().antMatchers("/favicon.ico").permitAll().antMatchers("/resources**")
 				.permitAll()
 
 				// TODO Remove
@@ -57,7 +57,7 @@ public class StatelessAuthenticationSecurityConfig extends WebSecurityConfigurer
 				.antMatchers("/api/**").permitAll()
 				
 				// all other request need to be authenticated
-				.anyRequest().anonymous().and()
+				.anyRequest().hasRole("USER").and()
 
 				// custom JSON based authentication by POST of
 				// {"username":"<name>","password":"<password>"} which sets the

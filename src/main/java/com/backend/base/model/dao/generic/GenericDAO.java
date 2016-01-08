@@ -49,7 +49,7 @@ public class GenericDAO<T extends GenericEntity> {
 		return ofy().load().type(clazz).filter(filter).filter(columnName, value).first().now();
 	}
 
-	public List<T> listAlll() throws EntityNotFoundException {
+	public List<T> listAll() throws EntityNotFoundException {
 		return ofy().load().type(clazz).list();
 	}
 	
@@ -63,5 +63,9 @@ public class GenericDAO<T extends GenericEntity> {
 	
 	public List<T> listByColumnWithOrder(String columnName, Object value, String order) throws EntityNotFoundException {
 		return ofy().load().type(clazz).filter(columnName, value).order(order).list();
+	}
+	
+	public List<T> listByFilterAndColumn(Filter filter, String columnName, Object value) throws EntityNotFoundException {
+		return ofy().load().type(clazz).filter(filter).filter(columnName, value).list();
 	}
 }
