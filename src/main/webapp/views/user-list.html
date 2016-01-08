@@ -90,12 +90,16 @@
 
 				<input type="hidden" id="exampleInputHidden" ng-model="user.objectId" ng-hidden>
 				<div class="form-group fg-line">
+
 					<label for="exampleInputEmail1">Email address</label> <input type="email" class="form-control input-sm"
-						id="exampleInputEmail1" placeholder="Enter email" ng-model="user.email" readonly="readonly" disabled="disabled">
+						id="exampleInputEmail1" placeholder="Email" ng-model="user.email" readonly="readonly" disabled="disabled"
+						data-ng-if="uCtrl.edit === 1"> <input type="email" class="form-control input-sm" id="exampleInputEmail1_2"
+						placeholder="Enter email" ng-model="user.email" data-ng-if="uCtrl.add === 1">
+
 				</div>
 				<div class="form-group fg-line">
-					<label for="exampleInputEmail1">Name</label> <input type="text" class="form-control input-sm"
-						id="exampleInputName" placeholder="Enter name" ng-model="user.firstName">
+					<label for="exampleInputEmail1">Name</label> <input type="text" class="form-control input-sm" id="exampleInputName"
+						placeholder="Enter name" ng-model="user.firstName">
 				</div>
 				<div class="form-group fg-line">
 					<label for="exampleInputPassword1">Password</label> <input type="password" class="form-control input-sm"

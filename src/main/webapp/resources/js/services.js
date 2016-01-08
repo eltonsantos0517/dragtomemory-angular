@@ -38,6 +38,9 @@ materialAdmin
 	this.save = function(user) {
 		return Restangular.all("user").post(user);
 	}
+	this.removeUser = function(userId) {
+		return Restangular.one("user", userId).remove();
+	}
 } ])
 
 // =========================================================================

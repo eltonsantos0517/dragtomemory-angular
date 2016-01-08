@@ -146,7 +146,7 @@ materialAdmin.controller('tableCtrl', function($filter, $sce, ngTableParams, tab
 			$scope.uCtrl.add = 0;
 			$scope.uCtrl.edit = 0;
 
-			$scope.projects = accountService.getAll();
+			$scope.users = accountService.getAll();
 
 			if ($scope.user.objectId == null) {
 				growlService.growl('Usuário criado com sucesso.', 'success', 1000)
@@ -172,7 +172,7 @@ materialAdmin.controller('tableCtrl', function($filter, $sce, ngTableParams, tab
 		$scope.user = accountService.removeUser(userId).then(
 		// success
 		function(response) {
-			$scope.projects = accountService.getAll();
+			$scope.users = accountService.getAll();
 			growlService.growl('Usuário deletado com sucesso.', 'success', 1000)
 		},
 		// fail
