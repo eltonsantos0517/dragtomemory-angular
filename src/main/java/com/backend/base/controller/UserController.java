@@ -108,11 +108,10 @@ public class UserController {
 	}
 	
 	@RequestMapping(value = "/api/1/recoveryPassword", method = RequestMethod.POST)
-	public ResponseEntity<String> recoveryPassword(@RequestBody final String newPassword, @RequestBody final String newPasswordAgain) {
+	public ResponseEntity<String> recoveryPassword(@RequestBody final String token, @RequestBody final String newPassword, @RequestBody final String newPasswordAgain) {
 		AccountService service = new AccountService();
-
 		try {
-			service.recoveryPassword(null, newPassword, newPasswordAgain);
+			service.recoveryPassword(token, newPassword, newPasswordAgain);
 			return new ResponseEntity<String>("Email successfully sent", HttpStatus.OK);
 		} catch (Exception e) {
 			return new ResponseEntity<String>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);

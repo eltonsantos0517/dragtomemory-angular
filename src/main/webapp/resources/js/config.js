@@ -52,8 +52,8 @@ materialAdmin
 									requiresLogin : false
 								}
 							})
-							.state('recovery-password/:token', {
-								url : '^/recovery-password/{token}',
+							.state('recovery-password', {
+								url : '/recovery-password/{token}',
 								data : {
 									requiresLogin : false
 								}
