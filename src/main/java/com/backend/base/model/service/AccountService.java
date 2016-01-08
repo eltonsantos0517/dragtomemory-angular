@@ -2,6 +2,7 @@ package com.backend.base.model.service;
 
 import java.io.UnsupportedEncodingException;
 import java.security.NoSuchAlgorithmException;
+import java.util.Date;
 
 import javax.mail.MessagingException;
 
@@ -12,6 +13,7 @@ import com.backend.base.exception.InvalidEmailException;
 import com.backend.base.model.dao.AccountDAO;
 import com.backend.base.model.dao.generic.GenericDAO;
 import com.backend.base.model.entity.AccountEntity;
+import com.backend.base.model.entity.RecoveryTokenEntity;
 import com.backend.base.model.service.generic.GenericService;
 import com.backend.base.security.entity.User;
 import com.backend.base.security.service.UserDetailsService;
@@ -56,30 +58,48 @@ public class AccountService extends GenericService<AccountEntity> {
 
 		return super.save(entity);
 	}
-	
-	public void forgotPassword(final String email) throws Exception{
-		
-		if(!Util.isValidEmail(email)){
+
+	public void forgotPassword(final String email) throws Exception {
+
+		if (!Util.isValidEmail(email)) {
 			throw new InvalidEmailException("Invalid e-mail");
 		}
-		
+
 		final UserDetailsService service = new UserDetailsService();
-		User entity = null;
-		
-		try{
-			entity = service.loadUserByUsername(email);
-		}catch(UsernameNotFoundException e){
+		User user = null;
+
+		try {
+			user = service.loadUserByUsername(email);
+		} catch (UsernameNotFoundException e) {
 			System.out.println("User not found");
 			return;
 		}
-		
+
+		// inativar tokens do usuario
+		RecoveryTokenService recoveryTokenService = new RecoveryTokenService();
+		recoveryTokenService.inactivateTokensByUser(user);
+
+		// gerar novo token
+		final RecoveryTokenEntity recoveryToken = new RecoveryTokenEntity();
+		recoveryToken.setToken(SecurityUtil.newToken().replace("-", ""));
+		recoveryToken.setUserId(user.getObjectId());
+		recoveryToken.setValidate(SecurityUtil.getValidateOfTokenInDays());
+		recoveryToken.setCreatedAt(new Date());
+		recoveryToken.setActive(true);
+		recoveryTokenService.save(recoveryToken);
+
+		System.out.println(recoveryToken.getToken());
 		final String http = "<html><head></head><body><p> Your new password is 'XxXx'</p></body></html>";
-		
+
 		try {
-			EmailUtil.sendEmail(email, entity.getUsername(), "Change Password Request", http);
+			EmailUtil.sendEmail(email, user.getUsername(), "Change Password Request", http);
 		} catch (UnsupportedEncodingException | MessagingException e) {
 			System.out.println("Error sending email");
 		}
+	}
+
+	public void recoveryPassword(final String token, final String newPassword, final String newPasswordAgain) {
+		System.out.println("AQUIII");
 	}
 
 	@Override

@@ -3,6 +3,7 @@ package com.backend.base.controller;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -23,6 +24,11 @@ public class IndexController {//Serves main index.html
 	  	@RequestMapping(method = RequestMethod.GET, value="/console/home")
 	     public String getHome() {
 	     	return "index";	
+	     }
+	  	
+	  	@RequestMapping(method = RequestMethod.GET, value="/recovery-password/{token}")
+	     public String getRecoveryPassword(@PathVariable("token") String token) {
+	     	return "recovery-password";	
 	     }
 	  	
 	  	@RequestMapping(method = RequestMethod.GET, value="/**")

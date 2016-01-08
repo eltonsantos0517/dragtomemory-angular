@@ -161,8 +161,65 @@ materialAdmin
 					launchIntoFullscreen(document.documentElement);
 				}
 			}
-
 		})
+
+	//=================================================
+    // LOGIN
+    //=================================================
+    .controller('loginCtrl', function( $scope, $http, store, $state, $location,$window, accountService, growlService){
+        
+        //Status
+    
+        this.login = 1;
+        this.register = 0;
+        this.forgot = 0;
+        
+        $scope.user = {};
+        
+        $scope.login = function () {
+    		$http.post('/api/login', { email: $scope.user.email, password: $scope.user.password }).success(function (result, status, headers) {
+    			$scope.authenticated = true;
+    			store.set('jwt', headers('Authorization'));
+    			
+    			//window.location.href = '/';
+    			//$state.go('home');
+    			$window.location.href = '/#/console/home';
+    			
+    		});  
+    	};
+    	
+    	$scope.register = function () {
+    		$http.post('/api/register', { email: $scope.user.email, password: $scope.user.password, passwordAgain: $scope.user.confirmPassword }).success(function (result, status, headers) {
+    			$scope.authenticated = true;
+    			store.set('jwt', headers('Authorization'));
+    			
+    			//window.location.href = '/';
+    			//$state.go('home');
+    			$window.location.href = '/#/console/home';
+    			
+    		});  
+    	};
+    	
+    	$scope.logout = function () {
+    		store.remove('jwt');
+			$window.location.href = '/login';
+    	};
+    	
+    	$scope.forgotPassword = function(){
+    		accountService.forgotPassword($scope.user.email);
+    	}
+    	
+    	$scope.$on('$routeChangeSuccess', function(e, nextRoute) {
+    		if (nextRoute.$$route && angular.isDefined(nextRoute.$$route.pageTitle)) {
+    			$scope.pageTitle = nextRoute.$$route.pageTitle + ' | ngEurope Sample';
+    		}
+    	});
+    	
+    	$scope.recoveryPassword = function(){
+    		accountService.recoveryPassword($scope.user.newPassword, $scope.user.newPasswordAgain);
+    	}
+        
+    })
 
 		// =========================================================================
 		// Best Selling Widget
