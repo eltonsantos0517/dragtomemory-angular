@@ -99,7 +99,9 @@ public class AccountService extends GenericService<AccountEntity> {
 	}
 
 	public void recoveryPassword(final String token, final String newPassword, final String newPasswordAgain) {
-		System.out.println("AQUIII");
+		System.out.println(token);
+		System.out.println(newPassword);
+		System.out.println(newPasswordAgain);
 	}
 
 	@Override

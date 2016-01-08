@@ -28,6 +28,9 @@ materialAdmin
 	}
 	
 	this.recoveryPassword = function(token, newPassword, newPasswordAgain){
+		console.log(token);
+		console.log(newPassword);
+		console.log(newPasswordAgain);
 		return Restangular.all("recoveryPassword").post(token, newPassword, newPasswordAgain).then(
 				//succes
 				function(response){
