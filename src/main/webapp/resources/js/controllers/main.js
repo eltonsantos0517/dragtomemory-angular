@@ -273,7 +273,7 @@ materialAdmin
 		// =================================================
 		.controller(
 				'loginCtrl',
-				function($scope, $http, store, $state, $location, $window, accountService, growlService, $stateParams) {
+				function($scope, $http, store, $state, $location, $window, accountService, growlService, $stateParams, $timeout) {
 
 					// Status
 
@@ -325,7 +325,9 @@ materialAdmin
 										//succes
 										function(response){
 											growlService.growl(response.errorMessage, 'success');
-											$window.location.href = '/login';
+											$timeout(function(){
+												$window.location.href = '/login';
+											}, 1000);
 										},
 										//fail
 										function(error){
@@ -338,7 +340,10 @@ materialAdmin
 						accountService.forgotPassword($scope.user.email).then(
 								function(response){
 									growlService.growl(response.errorMessage,'success');
-									$window.location.href = '/login';
+									$timeout(function(){
+										$window.location.href = '/login';
+									}, 1000);
+									
 									
 								},
 								function(error){
