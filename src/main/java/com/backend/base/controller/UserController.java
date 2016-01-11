@@ -4,7 +4,6 @@ import java.security.NoSuchAlgorithmException;
 import java.util.List;
 
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -115,17 +114,24 @@ public class UserController {
 	 * @param email
 	 * @return ResponseEntity<String>
 	 */
-	@RequestMapping(value = "/api/1/forgotPassword", method = RequestMethod.POST, produces = MediaType.TEXT_PLAIN_VALUE)
-	public ResponseEntity<String> forgotPassword(@RequestBody final String email) {
+	@RequestMapping(value = "/api/1/forgotPassword", method = RequestMethod.POST)
+	public ResponseEntity<ApiResponse> forgotPassword(@RequestBody final String email) {
 		AccountService service = new AccountService();
+		ApiResponse ret = null;
 
 		try {
 			service.forgotPassword(email);
-			return new ResponseEntity<String>("Email successfully sent", HttpStatus.OK);
+			ret = new ApiResponse("Email successfully sent", HttpStatus.OK.value(),
+					HttpStatus.OK.getReasonPhrase(), null, null, null);
+			return new ResponseEntity<ApiResponse>(ret, HttpStatus.OK);
 		} catch (InvalidEmailException e) {
-			return new ResponseEntity<String>(e.getMessage(), HttpStatus.BAD_REQUEST);
+			ret = new ApiResponse(e.getMessage(), HttpStatus.BAD_REQUEST.value(),
+					HttpStatus.BAD_REQUEST.getReasonPhrase(), null, null, null);
+			return new ResponseEntity<ApiResponse>(ret, HttpStatus.BAD_REQUEST);
 		} catch (Exception e) {
-			return new ResponseEntity<String>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+			ret = new ApiResponse(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR.value(),
+					HttpStatus.INTERNAL_SERVER_ERROR.getReasonPhrase(), null, null, null);
+			return new ResponseEntity<ApiResponse>(ret, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 
 	}

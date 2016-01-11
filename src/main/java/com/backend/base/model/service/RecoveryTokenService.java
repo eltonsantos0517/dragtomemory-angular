@@ -26,8 +26,7 @@ public class RecoveryTokenService extends GenericService<RecoveryTokenEntity> {
 	}
 
 	public void inactivateTokensByUser(final User user) {
-		//TODO possivel gargalo, com o tempo muitos tokens inativo vão ficar na base de dados, e do jeito q foi implementado ira trazer todos eles e percorre-los
-		
+				
 		Filter f = new FilterPredicate("active", FilterOperator.EQUAL, true);
 		final List<RecoveryTokenEntity> rtes = super.listByFilterAndColumn(f, "userId", user.getObjectId());
 

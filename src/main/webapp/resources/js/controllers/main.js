@@ -329,7 +329,7 @@ materialAdmin
 										},
 										//fail
 										function(error){
-											growlService.growl(error.errorMessage, 'danger');
+											growlService.growl(error.data.errorMessage, 'danger');
 										}
 									);;
 					};
@@ -337,12 +337,12 @@ materialAdmin
 					$scope.forgotPassword = function() {
 						accountService.forgotPassword($scope.user.email).then(
 								function(response){
-									growlService.growl(response,'success');
+									growlService.growl(response.errorMessage,'success');
 									$window.location.href = '/login';
 									
 								},
 								function(error){
-									growlService.growl(error.data,'danger');
+									growlService.growl(error.data.errorMessage,'danger');
 								}
 							);
 					};
