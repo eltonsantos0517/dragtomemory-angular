@@ -321,11 +321,30 @@ materialAdmin
 
 					$scope.recoveryPassword = function() {
 						accountService.recoveryPassword($stateParams.token, $scope.user.newPassword,
-								$scope.user.newPasswordAgain);
+								$scope.user.newPasswordAgain).then(
+										//succes
+										function(response){
+											growlService.growl(response.errorMessage, 'success');
+											$window.location.href = '/login';
+										},
+										//fail
+										function(error){
+											growlService.growl(error.errorMessage, 'danger');
+										}
+									);;
 					};
 
 					$scope.forgotPassword = function() {
-						accountService.forgotPassword($scope.user.email);
+						accountService.forgotPassword($scope.user.email).then(
+								function(response){
+									growlService.growl(response,'success');
+									$window.location.href = '/login';
+									
+								},
+								function(error){
+									growlService.growl(error.data,'danger');
+								}
+							);
 					};
 
 					$scope.$on('$routeChangeSuccess', function(e, nextRoute) {

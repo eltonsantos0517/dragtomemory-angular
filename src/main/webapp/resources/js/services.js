@@ -19,20 +19,13 @@ materialAdmin
 		return Restangular.all("forgotPassword").post(email);
 	}
 	
-	this.recoveryPassword = function(token, newPassword, newPasswordAgain){
-		console.log(token);
-		console.log(newPassword);
-		console.log(newPasswordAgain);
-		return Restangular.all("recoveryPassword").post(token, newPassword, newPasswordAgain).then(
-				//succes
-				function(response){
-					growlService.growl(response, 'success');
-				},
-				//fail
-				function(error){
-					growlService.growl(error.data, 'danger');
-				}
-			);
+	this.recoveryPassword = function(token, newPassword, newPasswordAgain){		
+		var data = {}
+		data.token = token;
+		data.newPassword = newPassword;
+		data.newPasswordAgain = newPasswordAgain;
+				
+		return Restangular.all("recoveryPassword").post(data)
 	}
 
 	this.save = function(user) {

@@ -18,7 +18,10 @@ import org.springframework.web.bind.annotation.RestController;
 import com.backend.base.controller.to.AccountTO;
 import com.backend.base.controller.to.ApiResponse;
 import com.backend.base.exception.InvalidEmailException;
+import com.backend.base.exception.InvalidTokenException;
+import com.backend.base.exception.MismatchedPasswordsException;
 import com.backend.base.model.entity.AccountEntity;
+import com.backend.base.model.entity.RecoveryTokenEntity;
 import com.backend.base.model.service.AccountService;
 import com.backend.base.security.entity.User;
 import com.backend.base.security.entity.UserAuthentication;
@@ -126,17 +129,25 @@ public class UserController {
 		}
 
 	}
-	
-	@RequestMapping(value = "/api/1/recoveryPassword", method = RequestMethod.POST)
-	public ResponseEntity<String> recoveryPassword(@RequestBody final String token, @RequestBody final String newPassword, @RequestBody final String newPasswordAgain) {
-		AccountService service = new AccountService();
-		try {
-			service.recoveryPassword(token, newPassword, newPasswordAgain);
-			return new ResponseEntity<String>("Email successfully sent", HttpStatus.OK);
-		} catch (Exception e) {
-			return new ResponseEntity<String>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
-		}
 
+	@RequestMapping(value = "/api/1/recoveryPassword", method = RequestMethod.POST)
+	public ResponseEntity<ApiResponse> recoveryPassword(@RequestBody final RecoveryTokenEntity recoveryToken) {
+		AccountService service = new AccountService();
+		ApiResponse ret = null;
+		try {
+			service.recoveryPassword(recoveryToken);
+			ret = new ApiResponse("Successfully reset password", HttpStatus.OK.value(),
+					HttpStatus.OK.getReasonPhrase(), null, null, null);
+			return new ResponseEntity<ApiResponse>(ret, HttpStatus.OK);
+		} catch (InvalidTokenException | MismatchedPasswordsException e) {
+			ret = new ApiResponse(e.getMessage(), HttpStatus.BAD_REQUEST.value(),
+					HttpStatus.BAD_REQUEST.getReasonPhrase(), null, null, null);
+			return new ResponseEntity<ApiResponse>(ret, HttpStatus.BAD_REQUEST);
+		} catch (Exception e) {
+			ret = new ApiResponse(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR.value(),
+					HttpStatus.INTERNAL_SERVER_ERROR.getReasonPhrase(), null, null, null);
+			return new ResponseEntity<ApiResponse>(ret, HttpStatus.INTERNAL_SERVER_ERROR);
+		}
 	}
 
 	@RequestMapping(value = "/api/users/current", method = RequestMethod.PATCH)

@@ -10,6 +10,8 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
 import com.backend.base.controller.to.AccountTO;
 import com.backend.base.exception.InvalidEmailException;
+import com.backend.base.exception.InvalidTokenException;
+import com.backend.base.exception.MismatchedPasswordsException;
 import com.backend.base.model.dao.AccountDAO;
 import com.backend.base.model.dao.generic.GenericDAO;
 import com.backend.base.model.entity.AccountEntity;
@@ -75,11 +77,9 @@ public class AccountService extends GenericService<AccountEntity> {
 			return;
 		}
 
-		// inativar tokens do usuario
 		RecoveryTokenService recoveryTokenService = new RecoveryTokenService();
 		recoveryTokenService.inactivateTokensByUser(user);
 
-		// gerar novo token
 		final RecoveryTokenEntity recoveryToken = new RecoveryTokenEntity();
 		recoveryToken.setToken(SecurityUtil.newToken().replace("-", ""));
 		recoveryToken.setUserId(user.getObjectId());
@@ -88,9 +88,8 @@ public class AccountService extends GenericService<AccountEntity> {
 		recoveryToken.setActive(true);
 		recoveryTokenService.save(recoveryToken);
 
-		System.out.println(recoveryToken.getToken());
-		final String http = "<html><head></head><body><p> Your new password is 'XxXx'</p></body></html>";
-
+		final String http = "<html><head></head><body><p><a href=\"" + "https://gae-spring-angular.appspot.com/recovery-password/" +recoveryToken.getToken()+ "\">Clique aqui</a></p></body></html>";
+		System.out.println(http);
 		try {
 			EmailUtil.sendEmail(email, user.getUsername(), "Change Password Request", http);
 		} catch (UnsupportedEncodingException | MessagingException e) {
@@ -98,15 +97,51 @@ public class AccountService extends GenericService<AccountEntity> {
 		}
 	}
 
-	public void recoveryPassword(final String token, final String newPassword, final String newPasswordAgain) {
-		System.out.println(token);
-		System.out.println(newPassword);
-		System.out.println(newPasswordAgain);
+	public void recoveryPassword(final RecoveryTokenEntity recoveryToken) throws Exception {
+		
+		final RecoveryTokenService service = new RecoveryTokenService();
+		final RecoveryTokenEntity recoveryTokenPersisted = service.getByColumn("token", recoveryToken.getToken());
+		
+		if(recoveryTokenPersisted == null){
+			throw new InvalidTokenException("Invalid token");
+		}
+		
+		if(!recoveryTokenPersisted.isActive() || recoveryTokenPersisted.getCreatedAt().compareTo(new Date()) > recoveryTokenPersisted.getValidate()){
+			throw new InvalidTokenException("Expired token");
+		}
+		
+		if(!SecurityUtil.validateNewPassword(recoveryToken.getNewPassword(), recoveryToken.getNewPasswordAgain())){
+			throw new MismatchedPasswordsException("Mismatched passwords");
+		}
+		
+		Key<AccountEntity> accountKey = Key.create(AccountEntity.class, recoveryTokenPersisted.getUserId());
+		AccountEntity user = super.get(accountKey.getId());
+		
+		if(user==null){
+			throw new Exception("Invalid user in token");
+		}
+		
+		AccountTO to = new AccountTO();
+		
+		to.setCreatedAt(user.getCreatedAt());
+		to.setEmail(user.getEmail());
+		to.setFirstName(user.getFirstName());
+		to.setLastName(user.getLastName());
+		to.setObjectId(user.getObjectId());
+		to.setPassword(recoveryToken.getNewPassword());
+		to.setUpdatedAt(user.getUpdatedAt());
+		
+		changeAccount(to);
+		
+		//inativar token
+		recoveryTokenPersisted.setActive(false);
+		service.save(recoveryTokenPersisted);
 	}
 
 	@Override
 	public GenericDAO<AccountEntity> getDAO() {
 		return accountDAO;
 	}
+
 
 }

@@ -34,7 +34,6 @@ public class RecoveryTokenService extends GenericService<RecoveryTokenEntity> {
 		if (rtes != null && rtes.size() > 0) {
 			for (RecoveryTokenEntity rte : rtes) {
 				rte.setActive(false);
-				System.out.println("Token -> " + rte.getToken() + " invalidado");
 				super.save(rte);
 			}
 		}else{

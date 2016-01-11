@@ -5,9 +5,10 @@ import java.io.Serializable;
 import com.backend.base.model.entity.generic.GenericEntity;
 import com.googlecode.objectify.annotation.Entity;
 import com.googlecode.objectify.annotation.Index;
+import com.googlecode.objectify.annotation.Serialize;
 
 @Entity
-public class RecoveryTokenEntity  extends GenericEntity implements Serializable {
+public class RecoveryTokenEntity extends GenericEntity implements Serializable {
 
 	/**
 	 * 
@@ -22,6 +23,12 @@ public class RecoveryTokenEntity  extends GenericEntity implements Serializable 
 
 	@Index
 	private int validate;
+
+	@Index
+	private String newPassword;
+
+	@Serialize
+	private String newPasswordAgain;
 
 	@Index
 	private boolean active;
@@ -48,6 +55,22 @@ public class RecoveryTokenEntity  extends GenericEntity implements Serializable 
 
 	public void setValidate(int validate) {
 		this.validate = validate;
+	}
+
+	public String getNewPassword() {
+		return newPassword;
+	}
+
+	public void setNewPassword(String newPassword) {
+		this.newPassword = newPassword;
+	}
+
+	public String getNewPasswordAgain() {
+		return newPasswordAgain;
+	}
+
+	public void setNewPasswordAgain(String newPasswordAgain) {
+		this.newPasswordAgain = newPasswordAgain;
 	}
 
 	public boolean isActive() {
