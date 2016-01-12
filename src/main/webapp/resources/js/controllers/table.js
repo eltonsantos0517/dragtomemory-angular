@@ -75,72 +75,22 @@ materialAdmin.controller('tableCtrl', function($filter, $sce, ngTableParams, tab
 	// TODO Paginação - PaginationDemoCtrl - retornar esses campos do backend
 	// totalItems
 	// currentPage
-	
+
 	// TODO implementar pageChanged() ??
 
-	var data = $scope.users; // tableService.data;
+	$scope.totalItems = 64;
+	$scope.currentPage = 3;
 
-	// Basic Example
-	this.tableBasic = new ngTableParams({
-		page : 1, // show first page
-		count : 10
-	// count per page
-	}, {
-		total : data.length, // length of data
-		getData : function($defer, params) {
-			$defer.resolve(data.slice((params.page() - 1) * params.count(), params.page() * params.count()));
-		}
-	})
+	$scope.setPage = function(pageNo) {
+		$scope.currentPage = pageNo;
+	};
 
-	// Sorting
-	this.tableSorting = new ngTableParams({
-		page : 1, // show first page
-		count : 3, // count per page
-		sorting : {
-			email : 'asc' // initial sorting
-		}
-	}, {
-		total : data.length, // length of data
-		getData : function($defer, params) {
-			// use build-in angular filter
-			var orderedData = params.sorting() ? $filter('orderBy')(data, params.orderBy()) : data;
+	$scope.maxSize = 5;
+	$scope.bigTotalItems = 175;
+	$scope.bigCurrentPage = 1;
 
-			$defer.resolve(orderedData.slice((params.page() - 1) * params.count(), params.page() * params.count()));
-		}
-	})
-
-	// Filtering
-	this.tableFilter = new ngTableParams({
-		page : 1, // show first page
-		count : 3
-	}, {
-		total : data.length, // length of data
-		getData : function($defer, params) {
-			// use build-in angular filter
-			var orderedData = params.filter() ? $filter('filter')(data, params.filter()) : data;
-
-			this.objectId = orderedData.slice((params.page() - 1) * params.count(), params.page() * params.count());
-			this.firstName = orderedData.slice((params.page() - 1) * params.count(), params.page() * params.count());
-			this.email = orderedData.slice((params.page() - 1) * params.count(), params.page() * params.count());
-
-			params.total(orderedData.length); // set total for
-			// recalc
-			// pagination
-			$defer.resolve(this.objectId, this.firstName, this.email);
-		}
-	})
-
-	// Editable
-	this.tableEdit = new ngTableParams({
-		page : 1, // show first page
-		count : 3
-	// count per page
-	}, {
-		total : data.length, // length of data
-		getData : function($defer, params) {
-			$defer.resolve(data.slice((params.page() - 1) * params.count(), params.page() * params.count()));
-		}
-	});
+	$scope.pageChanged = function() {
+	};
 
 	$scope.register = function() {
 		accountService.save($scope.user).then(
