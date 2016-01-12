@@ -275,8 +275,7 @@ materialAdmin
 				'loginCtrl',
 				function($scope, $http, store, $state, $location, $window, accountService, growlService, $stateParams, $timeout) {
 
-					// Status
-
+					// Status					
 					this.login = 1;
 					this.register = 0;
 					this.forgot = 0;

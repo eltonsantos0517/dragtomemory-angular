@@ -9,7 +9,8 @@ var materialAdmin = angular.module('materialAdmin', [
     'ngTable',
     'angular-storage',
     'angular-jwt',
-    'restangular'
+    'restangular',
+    'jm.i18next'
 ])
  
  
