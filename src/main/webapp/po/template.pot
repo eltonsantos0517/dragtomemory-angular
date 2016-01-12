@@ -1,0 +1,13 @@
+msgid ""
+msgstr ""
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Project-Id-Version: \n"
+
+#: login.html:53
+msgid "Hello {{name}}!"
+msgstr ""
+
+#: login.html:52
+msgid "Hello!"
+msgstr ""

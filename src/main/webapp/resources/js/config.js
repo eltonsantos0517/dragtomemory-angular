@@ -2,7 +2,7 @@ materialAdmin
 		.config(
 				function($stateProvider, $urlRouterProvider,
 						jwtInterceptorProvider, $httpProvider,
-						$locationProvider, RestangularProvider, $i18nextProvider) {
+						$locationProvider, RestangularProvider) {
 
 					// JWT Config
 					jwtInterceptorProvider.tokenGetter = function(store) {
@@ -27,16 +27,6 @@ materialAdmin
 						return elem;
 					});
 					
-					
-					$i18nextProvider.options = {
-						lng: 'dev',
-						useCookie: false,
-						useLocalStorage: false,
-						fallbackLng: 'dev',
-						resGetPath: 'locales/__lng__/__ns__.json',
-						defaultLoadingValue: ''
-					 };
-
 					// add a response interceptor
 //					RestangularProvider.addResponseInterceptor(function(data,
 //							operation, what, url, response, deferred) {
@@ -752,7 +742,10 @@ materialAdmin
 					// use the HTML5 History API
 					$locationProvider.html5Mode(true);
 				}).run(
-				function($rootScope, $state, store, jwtHelper, $window) {
+				function($rootScope, $state, store, jwtHelper, $window, gettextCatalog) {
+					
+					gettextCatalog.setCurrentLanguage('pt_BR');
+					
 					$rootScope.$on('$stateChangeStart', function(e, to) {
 
 						if (to.data) {

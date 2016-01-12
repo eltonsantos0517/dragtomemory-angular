@@ -10,7 +10,7 @@ var materialAdmin = angular.module('materialAdmin', [
     'angular-storage',
     'angular-jwt',
     'restangular',
-    'jm.i18next'
+    'gettext'
 ])
  
  
