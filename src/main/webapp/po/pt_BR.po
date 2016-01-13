@@ -16,9 +16,21 @@ msgstr ""
 msgid "Accept the license agreement"
 msgstr "Aceitar o contrato de licença"
 
+#: login.html:88
+msgid "Confirm password"
+msgstr "Confirme a senha"
+
 #: views/home.html:12
 msgid "Dashboard"
 msgstr "Painel"
+
+#: login.html:34
+msgid "Email"
+msgstr "Email"
+
+#: login.html:121 login.html:74
+msgid "Email Address"
+msgstr "Endereço de email"
 
 #: login.html:108 login.html:63
 msgid "Forgot password?"
@@ -31,6 +43,22 @@ msgstr "Mantenha-me logado!"
 #: login.html:107 login.html:130
 msgid "Login"
 msgstr "Entrar"
+
+#: 404.html:26
+msgid "Nah.. it's 404"
+msgstr "Nah.. é 404"
+
+#: recovery-password.html:34
+msgid "New password"
+msgstr "Nova senha"
+
+#: recovery-password.html:42
+msgid "New password again"
+msgstr "Nova senha denovo"
+
+#: login.html:42 login.html:81
+msgid "Password"
+msgstr "Senha"
 
 #: login.html:116
 msgid "Please, enter the email to which the new password will be sent"

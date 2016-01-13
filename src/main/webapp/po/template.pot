@@ -8,8 +8,21 @@ msgstr ""
 msgid "Accept the license agreement"
 msgstr ""
 
+#: login.html:88
+msgid "Confirm password"
+msgstr ""
+
 #: views/home.html:12
 msgid "Dashboard"
+msgstr ""
+
+#: login.html:34
+msgid "Email"
+msgstr ""
+
+#: login.html:121
+#: login.html:74
+msgid "Email Address"
 msgstr ""
 
 #: login.html:108
@@ -24,6 +37,23 @@ msgstr ""
 #: login.html:107
 #: login.html:130
 msgid "Login"
+msgstr ""
+
+#: 404.html:26
+msgid "Nah.. it's 404"
+msgstr ""
+
+#: recovery-password.html:34
+msgid "New password"
+msgstr ""
+
+#: recovery-password.html:42
+msgid "New password again"
+msgstr ""
+
+#: login.html:42
+#: login.html:81
+msgid "Password"
 msgstr ""
 
 #: login.html:116
