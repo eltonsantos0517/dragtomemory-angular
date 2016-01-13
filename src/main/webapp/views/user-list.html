@@ -73,8 +73,8 @@
 			</div>
 		</div>
 
-		<div class="lv-pagination" data-ng-controller="PaginationDemoCtrl">
-			<pagination total-items="totalItems" ng-model="currentPage" ng-change="pageChanged()"></pagination>
+		<div class="lv-pagination" ng-controller="userCtrl">
+			<pagination total-items="totalItems" ng-model="currentPage" items-per-page="itemsPerPage" ng-change="pageChanged()"></pagination>
 		</div>
 	</div>
 

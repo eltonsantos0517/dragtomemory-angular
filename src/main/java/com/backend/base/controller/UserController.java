@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.backend.base.controller.to.AccountTO;
@@ -39,7 +40,7 @@ public class UserController {
 	}
 
 	@RequestMapping(value = "/api/1/user", method = RequestMethod.GET)
-	public List<AccountEntity> getCurrenUser() {
+	public List<AccountEntity> getCurrenUser(@RequestParam("limit") String limit, @RequestParam("offset") String offset) {
 		AccountService service = new AccountService();
 
 		return service.listAll();

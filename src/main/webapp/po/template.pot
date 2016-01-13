@@ -9,5 +9,13 @@ msgid "Hello {{name}}!"
 msgstr ""
 
 #: login.html:52
-msgid "Hello!"
+msgid "Hi!"
+msgstr ""
+
+#: login.html:55
+msgid "Hola {{name}}!"
+msgstr ""
+
+#: login.html:54
+msgid "Thanks {{name}}!"
 msgstr ""
