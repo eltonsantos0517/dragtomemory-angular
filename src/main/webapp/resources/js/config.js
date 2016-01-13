@@ -744,7 +744,8 @@ materialAdmin
 				}).run(
 				function($rootScope, $state, store, jwtHelper, $window, gettextCatalog) {
 					
-					gettextCatalog.setCurrentLanguage('pt_BR');
+					var lang = $window.navigator.language || $window.navigator.userLanguage;				
+					gettextCatalog.setCurrentLanguage(lang.replace("-","_"));
 					
 					$rootScope.$on('$stateChangeStart', function(e, to) {
 

@@ -4,18 +4,33 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Project-Id-Version: \n"
 
-#: login.html:53
-msgid "Hello {{name}}!"
+#: login.html:97
+msgid "Accept the license agreement"
+msgstr ""
+
+#: views/home.html:12
+msgid "Dashboard"
+msgstr ""
+
+#: login.html:108
+#: login.html:63
+msgid "Forgot password?"
 msgstr ""
 
 #: login.html:52
-msgid "Hi!"
+msgid "Keep me signed in!"
 msgstr ""
 
-#: login.html:55
-msgid "Hola {{name}}!"
+#: login.html:107
+#: login.html:130
+msgid "Login"
 msgstr ""
 
-#: login.html:54
-msgid "Thanks {{name}}!"
+#: login.html:116
+msgid "Please, enter the email to which the new password will be sent"
+msgstr ""
+
+#: login.html:131
+#: login.html:62
+msgid "Register"
 msgstr ""

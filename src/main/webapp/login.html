@@ -48,9 +48,8 @@
 
 			<div class="checkbox">
 				<label> 
-					<input type="checkbox" value="" /> <i class="input-helper"></i>
-					<h1 translate>Hello!</h1>
-					<div translate>Hello {{name}}!</div>
+					<input type="checkbox" value="" /> <i class="input-helper"></i> 
+					<translate> Keep me signed in! </translate>
 				</label>
 			</div>
 
@@ -60,9 +59,8 @@
 		</form>
 
 		<ul class="login-navigation">
-			<li data-block="#l-register" class="bgm-red" data-ng-click="lctrl.login = 0; lctrl.register = 1">Register</li>
-			<li data-block="#l-forget-password" class="bgm-orange" data-ng-click="lctrl.login = 0; lctrl.forgot = 1">Forgot
-				Password?</li>
+			<li data-block="#l-register" class="bgm-red" data-ng-click="lctrl.login = 0; lctrl.register = 1" translate>Register</li>
+			<li data-block="#l-forget-password" class="bgm-orange" data-ng-click="lctrl.login = 0; lctrl.forgot = 1" translate>Forgot password?</li>
 		</ul>
 	</div>
 
@@ -94,7 +92,9 @@
 			<div class="clearfix"></div>
 
 			<div class="checkbox">
-				<label> <input type="checkbox" value=""> <i class="input-helper"></i> Accept the license agreement
+				<label> 
+					<input type="checkbox" value=""> <i class="input-helper"></i> 
+					<translate>Accept the license agreement </translate>
 				</label>
 			</div>
 
@@ -104,9 +104,8 @@
 		</form>
 
 		<ul class="login-navigation">
-			<li data-block="#l-login" class="bgm-green" data-ng-click="lctrl.register = 0; lctrl.login = 1">Login</li>
-			<li data-block="#l-forget-password" class="bgm-orange" data-ng-click="lctrl.register = 0; lctrl.forgot = 1">Forgot
-				Password?</li>
+			<li data-block="#l-login" class="bgm-green" data-ng-click="lctrl.register = 0; lctrl.login = 1" translate>Login</li>
+			<li data-block="#l-forget-password" class="bgm-orange" data-ng-click="lctrl.register = 0; lctrl.forgot = 1" translate>Forgot password?</li>
 		</ul>
 	</div>
 
@@ -114,7 +113,7 @@
 	<form ng-submit="forgotPassword()">
 		<div class="lc-block" id="l-forget-password" data-ng-class="{ 'toggled': lctrl.forgot === 1 }"
 			data-ng-if="lctrl.forgot === 1">
-			<p class="text-left">Please, enter the email to which the new password will be sent</p>
+			<p class="text-left" translate>Please, enter the email to which the new password will be sent</p>
 
 			<div class="input-group m-b-20">
 				<span class="input-group-addon"><i class="zmdi zmdi-email"></i></span>
@@ -128,8 +127,8 @@
 			</button>
 
 			<ul class="login-navigation">
-				<li data-block="#l-login" class="bgm-green" data-ng-click="lctrl.forgot = 0; lctrl.login = 1">Login</li>
-				<li data-block="#l-register" class="bgm-red" data-ng-click="lctrl.forgot = 0; lctrl.register = 1">Register</li>
+				<li data-block="#l-login" class="bgm-green" data-ng-click="lctrl.forgot = 0; lctrl.login = 1" translate>Login</li>
+				<li data-block="#l-register" class="bgm-red" data-ng-click="lctrl.forgot = 0; lctrl.register = 1" translate>Register</li>
 			</ul>
 		</div>
 	</form>
@@ -191,7 +190,7 @@
         <script src="vendors/bower_components/angular-loading-bar/src/loading-bar.js"></script>
         <script src="vendors/bower_components/oclazyload/dist/ocLazyLoad.min.js"></script>
         <script src="vendors/bower_components/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>
-        <script src="vendors/bower_components/angular-gettext/dist/angular-gettext.min.js"></script>
+        <script charset="utf-8" src="vendors/bower_components/angular-gettext/dist/angular-gettext.min.js"></script>
 
         <!-- Common Vendors -->
         <script src="vendors/bower_components/jquery.nicescroll/jquery.nicescroll.min.js"></script>
@@ -231,7 +230,7 @@
         <script src="resources/js/templates.js"></script>
         <script src="resources/js/controllers/ui-bootstrap.js"></script>
         <script src="resources/js/controllers/table.js"></script>
-        <script src="resources/js/translations.js"></script>
+        <script charset="utf-8" src="resources/js/translations.js"></script>
 
 
         <!-- Template Modules -->

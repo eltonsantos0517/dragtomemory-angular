@@ -12,14 +12,30 @@ msgstr ""
 "X-Generator: Poedit 1.8.6\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
-#: login.html:53
-msgid "Hello {{name}}!"
-msgstr "Oi {{name}}!"
+#: login.html:97
+msgid "Accept the license agreement"
+msgstr "Aceitar o contrato de licença"
+
+#: views/home.html:12
+msgid "Dashboard"
+msgstr "Painel"
+
+#: login.html:108 login.html:63
+msgid "Forgot password?"
+msgstr "Esqueceu a senha?"
 
 #: login.html:52
-msgid "Hello!"
-msgstr "Olá"
+msgid "Keep me signed in!"
+msgstr "Mantenha-me logado!"
 
-#: login.html:54
-msgid "Thanks {{name}}!"
-msgstr "Obrigado {{name}}!"
+#: login.html:107 login.html:130
+msgid "Login"
+msgstr "Entrar"
+
+#: login.html:116
+msgid "Please, enter the email to which the new password will be sent"
+msgstr "Por favor, insira o e-mail para o qual a nova senha será enviada"
+
+#: login.html:131 login.html:62
+msgid "Register"
+msgstr "Registrar"

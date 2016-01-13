@@ -1,3 +1,23 @@
+Grab the files, either by copying the files from the dist folder or (preferably) through bower:
+
+bower install --save angular-gettext
+Include the angular-gettext source files in your app:
+
+<script src="bower_components/angular-gettext/dist/angular-gettext.min.js"></script>
+Add a dependency to angular-gettext in your Angular app:
+
+angular.module('myApp', ['gettext']);
+You can now start using the translate directive to mark strings as translatable.
+
+-- 2
+
+<h1 translate>Hello!</h1>
+
+Adicionar tag translate no .html
+
+
+
+
 App Engine Java Guestbook
 Copyright (C) 2010-2012 Google Inc.
 
