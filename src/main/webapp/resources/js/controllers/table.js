@@ -70,28 +70,17 @@ materialAdmin.controller('tableCtrl', function($filter, $sce, ngTableParams, tab
 	this.add = 0;
 	this.edit = 0;
 	$scope.user = {};
-	$scope.users = accountService.getAll();
+	
+	//Pagination Config
+	$scope.totalItems = 4;
+	$scope.currentPage = 1;
+	$scope.itemsPerPage = 2;
 
-	// TODO Paginação - PaginationDemoCtrl - retornar esses campos do backend
-	// totalItems
-	// currentPage
-
-	// TODO implementar pageChanged() ??
-
-	$scope.totalItems = 64;
-	$scope.currentPage = 3;
-
-	$scope.setPage = function(pageNo) {
-		$scope.currentPage = pageNo;
-	};
-
-	$scope.maxSize = 5;
-	$scope.bigTotalItems = 175;
-	$scope.bigCurrentPage = 1;
-
+	$scope.users = accountService.list($scope.itemsPerPage, $scope.currentPage);
+	
 	$scope.pageChanged = function() {
+		$scope.users = accountService.list($scope.itemsPerPage, $scope.currentPage);
 	};
-
 	$scope.register = function() {
 		accountService.save($scope.user).then(
 		// success
@@ -101,7 +90,7 @@ materialAdmin.controller('tableCtrl', function($filter, $sce, ngTableParams, tab
 			$scope.uCtrl.edit = 0;
 			$scope.user = {};
 
-			$scope.users = accountService.getAll();
+			$scope.users = accountService.list($scope.itemsPerPage, $scope.currentPage);
 
 			if ($scope.user.objectId == null) {
 				growlService.growl('Usuário criado com sucesso.', 'success', 1000)
@@ -124,7 +113,7 @@ materialAdmin.controller('tableCtrl', function($filter, $sce, ngTableParams, tab
 	};
 
 	$scope.refresh = function() {
-		$scope.users = accountService.getAll();
+		$scope.users = accountService.list($scope.itemsPerPage, $scope.currentPage);
 	};
 
 	$scope.back = function() {
@@ -137,7 +126,7 @@ materialAdmin.controller('tableCtrl', function($filter, $sce, ngTableParams, tab
 		$scope.user = accountService.removeUser(userId).then(
 		// success
 		function(response) {
-			$scope.users = accountService.getAll();
+			$scope.users = accountService.list($scope.itemsPerPage, $scope.currentPage);
 			growlService.growl('Usuário deletado com sucesso.', 'success', 1000)
 		},
 		// fail
@@ -146,4 +135,4 @@ materialAdmin.controller('tableCtrl', function($filter, $sce, ngTableParams, tab
 		});
 	};
 
-})
+});
