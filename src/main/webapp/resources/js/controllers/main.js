@@ -273,7 +273,7 @@ materialAdmin
 		// =================================================
 		.controller(
 				'loginCtrl',
-				function($scope, $http, store, $state, $location, $window, accountService, growlService, $stateParams, $timeout) {
+				function($scope, $http, store, $state, $location, $window, accountService, growlService, $stateParams, $timeout, Facebook) {
 
 					// Status					
 					this.login = 1;
@@ -294,6 +294,31 @@ materialAdmin
 							// $state.go('home');
 							$window.location.href = '/#/console/home';
 
+						});
+					};
+					
+					$scope.facebookLogin = function(){
+						Facebook.login(function(response) {
+								console.log($scope.getFacebookLoginStatus());
+								console.log($scope.me());
+						      });
+					};
+					
+					
+					$scope.getFacebookLoginStatus = function() {
+						Facebook.getLoginStatus(function(response) {
+					    	console.log(response.status);
+					        if(response.status === 'connected') {
+					          $scope.loggedIn = true;
+					        } else {
+					          $scope.loggedIn = false;
+					        }
+						});
+					};
+					
+					$scope.me = function() {
+						FB.api('/me', {locale: 'en-US', fields: 'name, email, birthday, hometown, education, gender, website, work'}, function(response) {
+							console.log(response);
 						});
 					};
 
