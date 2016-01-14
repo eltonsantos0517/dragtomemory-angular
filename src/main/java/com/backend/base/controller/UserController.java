@@ -3,6 +3,8 @@ package com.backend.base.controller;
 import java.security.NoSuchAlgorithmException;
 import java.util.List;
 
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -26,9 +28,13 @@ import com.backend.base.model.service.AccountService;
 import com.backend.base.security.entity.User;
 import com.backend.base.security.entity.UserAuthentication;
 import com.backend.base.security.entity.UserRole;
+import com.backend.base.security.jwt.TokenHandler;
+import com.backend.base.security.service.UserDetailsService;
 
 @RestController
 public class UserController {
+	
+	private static final String AUTH_HEADER_NAME = "Authorization";
 
 	@RequestMapping(value = "/api/users/current", method = RequestMethod.GET)
 	public User getCurrent() {
@@ -155,6 +161,23 @@ public class UserController {
 					HttpStatus.INTERNAL_SERVER_ERROR.getReasonPhrase(), null, null, null);
 			return new ResponseEntity<ApiResponse>(ret, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
+	}
+	
+	@RequestMapping(value = "/api/facebookAuthenticate", method = RequestMethod.POST)
+	public void facebookAuthenticate(@RequestBody final AccountTO to, HttpServletResponse response) {
+		AccountService service = new AccountService();
+		
+		try {
+			service.createAccount(to);
+		} catch (NoSuchAlgorithmException e) {
+			e.printStackTrace();
+		}
+		UserDetailsService udService = new UserDetailsService();
+		
+		User user = udService.loadUserByUsername(to.getEmail());
+		
+		TokenHandler tokenHandler = new TokenHandler("superSecreto123", udService);
+		response.addHeader(AUTH_HEADER_NAME, tokenHandler.createTokenForUser(user));		
 	}
 
 	@RequestMapping(value = "/api/users/current", method = RequestMethod.PATCH)

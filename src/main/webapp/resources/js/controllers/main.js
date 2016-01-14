@@ -299,15 +299,39 @@ materialAdmin
 					
 					$scope.facebookLogin = function(){
 						Facebook.login(function(response) {
-								console.log($scope.getFacebookLoginStatus());
-								console.log($scope.me());
-						      });
+							$scope.me();
+							console.log(response);
+								if(response.status === "connected"){
+									FB.api('/me', {locale: 'en-US', fields: 'name, email, gender'}, function(response) {
+										$scope.user.email = response.email;
+										$scope.user.password = "";
+										$scope.user.confirmPassword = "";
+										console.log($scope.user);
+										$scope.facebookAuthenticate();
+									});						
+								}
+							});
+					};
+					
+					$scope.facebookAuthenticate = function() {
+						$http.post('/api/facebookAuthenticate', {
+							email : $scope.user.email,
+							password : $scope.user.password,
+							passwordAgain : $scope.user.confirmPassword
+						}).success(function(result, status, headers) {
+							$scope.authenticated = true;
+							store.set('jwt', headers('Authorization'));
+
+							// window.location.href = '/';
+							// $state.go('home');
+							$window.location.href = '/#/console/home';
+
+						});
 					};
 					
 					
 					$scope.getFacebookLoginStatus = function() {
 						Facebook.getLoginStatus(function(response) {
-					    	console.log(response.status);
 					        if(response.status === 'connected') {
 					          $scope.loggedIn = true;
 					        } else {
@@ -317,8 +341,12 @@ materialAdmin
 					};
 					
 					$scope.me = function() {
-						FB.api('/me', {locale: 'en-US', fields: 'name, email, birthday, hometown, education, gender, website, work'}, function(response) {
-							console.log(response);
+						FB.api('/me', {locale: 'en-US', fields: 'name, email, gender'}, function(response) {
+							$scope.facebookUser = {};
+							$scope.facebookUser.name = response.name;
+							$scope.facebookUser.email = response.email;
+							$scope.facebookUser.gender = response.gender;
+							$scope.facebookUser.id = response.id;
 						});
 					};
 
