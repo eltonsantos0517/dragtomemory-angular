@@ -17,7 +17,7 @@
 						</button>
 					</li>
 					<li>
-						<button class="btn bgm-teal btn-icon" data-ng-click="refresh()" >
+						<button class="btn bgm-teal btn-icon" data-ng-click="uCtrl.refresh()" >
 							<i class="zmdi zmdi-refresh"></i>
 						</button>
 					</li>
@@ -44,7 +44,7 @@
 
 			<div class="lv-body">
 
-				<div class="lv-item media" ng-repeat="user in users | filter:search | orderBy:'email'">
+				<div class="lv-item media" ng-repeat="user in uCtrl.users | filter:search | orderBy:'email' track by $index">
 					<div class="checkbox pull-left">
 						<label> <input type="checkbox" value=""> <i class="input-helper"></i>
 						</label>
@@ -63,8 +63,8 @@
 							</a>
 
 							<ul class="dropdown-menu dropdown-menu-right">
-								<li><a href="" data-ng-click="initEdit(user.objectId)">Edit</a></li>
-								<li><a href="" data-ng-click="removeUser(user.objectId)">Delete</a></li>
+								<li><a href="" data-ng-click="uCtrl.initEdit(user.objectId)">Edit</a></li>
+								<li><a href="" data-ng-click="uCtrl.removeUser(user.objectId)">Delete</a></li>
 							</ul>
 						</div>
 					</div>
@@ -73,8 +73,8 @@
 			</div>
 		</div>
 
-		<div class="lv-pagination" ng-controller="userCtrl">
-			<pagination total-items="totalItems" ng-model="currentPage" items-per-page="itemsPerPage" ng-change="pageChanged()"></pagination>
+		<div class="lv-pagination">
+			<pagination total-items="uCtrl.totalItems" ng-model="uCtrl.currentPage" items-per-page="uCtrl.itemsPerPage" ng-change="uCtrl.pageChanged()"></pagination>
 		</div>
 	</div>
 
@@ -88,28 +88,28 @@
 		</div>
 
 		<div class="card-body card-padding">
-			<form role="form" ng-submit="register()">
+			<form role="form" ng-submit="uCtrl.register()">
 
-				<input type="hidden" id="exampleInputHidden" ng-model="user.objectId" ng-hidden>
+				<input type="hidden" id="exampleInputHidden" ng-model="uCtrl.user.objectId" ng-hidden>
 				<div class="form-group fg-line">
 
 					<label for="exampleInputEmail1">Email address</label> <input type="email" class="form-control input-sm"
-						id="exampleInputEmail1" placeholder="Email" ng-model="user.email" readonly="readonly" disabled="disabled"
+						id="exampleInputEmail1" placeholder="Email" ng-model="uCtrl.user.email" readonly="readonly" disabled="disabled"
 						data-ng-if="uCtrl.edit === 1"> <input type="email" class="form-control input-sm" id="exampleInputEmail1_2"
-						placeholder="Enter email" ng-model="user.email" data-ng-if="uCtrl.add === 1">
+						placeholder="Enter email" ng-model="uCtrl.user.email" data-ng-if="uCtrl.add === 1">
 
 				</div>
 				<div class="form-group fg-line">
 					<label for="exampleInputEmail1">Name</label> <input type="text" class="form-control input-sm" id="exampleInputName"
-						placeholder="Enter name" ng-model="user.firstName">
+						placeholder="Enter name" ng-model="uCtrl.user.firstName">
 				</div>
 				<div class="form-group fg-line">
 					<label for="exampleInputPassword1">Password</label> <input type="password" class="form-control input-sm"
-						id="exampleInputPassword1" placeholder="Password" ng-model="user.password">
+						id="exampleInputPassword1" placeholder="Password" ng-model="uCtrl.user.password">
 				</div>
 				<div class="form-group fg-line">
 					<label for="exampleInputPassword1">Password Again</label> <input type="password" class="form-control input-sm"
-						id="exampleInputPassword2" placeholder="Password Again" ng-model="user.passwordAgain">
+						id="exampleInputPassword2" placeholder="Password Again" ng-model="uCtrl.user.passwordAgain">
 				</div>
 
 				<div class="checkbox">
@@ -119,7 +119,7 @@
 				</div>
 
 				<button type="submit" class="btn btn-primary btn-sm m-t-10">Save</button>
-				<button type="button" class="btn btn-primary btn-sm m-t-10" data-ng-click="back()">Cancel</button>
+				<button type="button" class="btn btn-primary btn-sm m-t-10" data-ng-click="uCtrl.back()">Cancel</button>
 			</form>
 		</div>
 	</div>

@@ -2,12 +2,17 @@ package com.backend.base.model.dao.generic;
 
 import static com.googlecode.objectify.ObjectifyService.ofy;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.backend.base.model.entity.generic.GenericEntity;
+import com.google.api.server.spi.response.CollectionResponse;
+import com.google.appengine.api.datastore.Cursor;
 import com.google.appengine.api.datastore.EntityNotFoundException;
 import com.google.appengine.api.datastore.Query.Filter;
+import com.google.appengine.api.datastore.QueryResultIterator;
 import com.googlecode.objectify.Key;
+import com.googlecode.objectify.cmd.Query;
 
 /**
  * @author brunogc
@@ -51,6 +56,34 @@ public class GenericDAO<T extends GenericEntity> {
 
 	public List<T> listAll() throws EntityNotFoundException {
 		return ofy().load().type(clazz).list();
+	}
+	
+	public CollectionResponse<T> listPage(int limit, String cursor) throws EntityNotFoundException {
+		Query<T> query = ofy().load().type(clazz).limit(limit);
+
+		if (cursor != null && !cursor.isEmpty()) {
+			query = query.startAt(Cursor.fromWebSafeString(cursor));
+		}
+		boolean continu = false;
+		QueryResultIterator<T> iterator = query.iterator();
+		List<T> resultList = new ArrayList<>();
+		while (iterator.hasNext()) {
+			T t = iterator.next();
+			resultList.add(t);
+			continu = true;
+		}
+
+		if (continu) {
+			Cursor cursorRet = iterator.getCursor();
+			CollectionResponse<T> response = CollectionResponse.<T> builder().setItems(resultList)
+					.setNextPageToken(cursorRet.toWebSafeString()).build();
+			return response;
+		}
+		return null;
+	}
+	
+	public List<T> listPage(int limit, int offset) throws EntityNotFoundException {
+		return ofy().load().type(clazz).orderKey(true).limit(limit).offset(offset).list();
 	}
 	
 	public List<T> listByColumn(String columnName, Object value) throws EntityNotFoundException {

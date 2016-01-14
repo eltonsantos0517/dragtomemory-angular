@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.backend.base.model.dao.generic.GenericDAO;
 import com.backend.base.model.entity.generic.GenericEntity;
+import com.google.api.server.spi.response.CollectionResponse;
 import com.google.appengine.api.NamespaceManager;
 import com.google.appengine.api.datastore.EntityNotFoundException;
 import com.google.appengine.api.datastore.Query.Filter;
@@ -77,10 +78,26 @@ public abstract class GenericService<T extends GenericEntity> {
 			return null;
 		}
 	}
-	
+
 	public List<T> listAll() {
 		try {
 			return getDAO().listAll();
+		} catch (EntityNotFoundException e) {
+			return null;
+		}
+	}
+
+	public CollectionResponse<T> listPage(int limit, String cursor) throws EntityNotFoundException {
+		try {
+			return getDAO().listPage(limit, cursor);
+		} catch (EntityNotFoundException e) {
+			return null;
+		}
+	}
+
+	public List<T> listPage(int limit, int offset) {
+		try {
+			return getDAO().listPage(limit, offset);
 		} catch (EntityNotFoundException e) {
 			return null;
 		}
@@ -93,7 +110,7 @@ public abstract class GenericService<T extends GenericEntity> {
 			return null;
 		}
 	}
-	
+
 	public List<T> listByColumnWithOrder(String columnName, Object value, String order) {
 		try {
 			return getDAO().listByColumnWithOrder(columnName, value, order);
@@ -101,7 +118,7 @@ public abstract class GenericService<T extends GenericEntity> {
 			return null;
 		}
 	}
-	
+
 	public List<T> listByFilterAndColumn(Filter filter, String columnName, Object value) {
 		try {
 			return getDAO().listByFilterAndColumn(filter, columnName, value);

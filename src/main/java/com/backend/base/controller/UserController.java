@@ -26,6 +26,7 @@ import com.backend.base.model.service.AccountService;
 import com.backend.base.security.entity.User;
 import com.backend.base.security.entity.UserAuthentication;
 import com.backend.base.security.entity.UserRole;
+import com.google.api.server.spi.response.CollectionResponse;
 
 @RestController
 public class UserController {
@@ -40,10 +41,33 @@ public class UserController {
 	}
 
 	@RequestMapping(value = "/api/1/user", method = RequestMethod.GET)
-	public List<AccountEntity> getCurrenUser(@RequestParam("limit") String limit, @RequestParam("offset") String offset) {
-		AccountService service = new AccountService();
+	public ResponseEntity<ApiResponse> getCurrenUser(@RequestParam(name = "limit", required = false) int limit,
+			@RequestParam("cursor") String cursor) {
 
-		return service.listAll();
+		try {
+			AccountService service = new AccountService();
+
+			CollectionResponse<AccountEntity> response = service.listPage(limit, cursor);
+			if (response != null) {
+
+				ApiResponse ret = new ApiResponse(null, HttpStatus.OK.value(), HttpStatus.OK.getReasonPhrase(), null,
+						response.getItems().size(), response.getNextPageToken(), response.getItems());
+
+				return new ResponseEntity<ApiResponse>(ret, HttpStatus.OK);
+			}
+
+			ApiResponse ret = new ApiResponse(null, HttpStatus.OK.value(), HttpStatus.OK.getReasonPhrase(), null, 0, null,
+					null);
+
+			return new ResponseEntity<ApiResponse>(ret, HttpStatus.OK);
+		} catch (Exception e) {
+			e.printStackTrace();
+
+			ApiResponse ret = new ApiResponse("Sorry, something bad happened", HttpStatus.INTERNAL_SERVER_ERROR.value(),
+					HttpStatus.INTERNAL_SERVER_ERROR.getReasonPhrase(), null, null, null, null);
+
+			return new ResponseEntity<ApiResponse>(ret, HttpStatus.INTERNAL_SERVER_ERROR);
+		}
 	}
 
 	/**
@@ -65,14 +89,14 @@ public class UserController {
 			service.deleteById(objectId);
 
 			ApiResponse ret = new ApiResponse(null, HttpStatus.OK.value(), HttpStatus.OK.getReasonPhrase(), null, null,
-					null);
+					null, null);
 
 			return new ResponseEntity<ApiResponse>(ret, HttpStatus.OK);
 		} catch (Exception e) {
 			e.printStackTrace();
 
 			ApiResponse ret = new ApiResponse("Sorry, something bad happened", HttpStatus.INTERNAL_SERVER_ERROR.value(),
-					HttpStatus.INTERNAL_SERVER_ERROR.getReasonPhrase(), null, null, null);
+					HttpStatus.INTERNAL_SERVER_ERROR.getReasonPhrase(), null, null, null, null);
 
 			return new ResponseEntity<ApiResponse>(ret, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
@@ -98,14 +122,14 @@ public class UserController {
 			}
 
 			ApiResponse ret = new ApiResponse(null, HttpStatus.OK.value(), HttpStatus.OK.getReasonPhrase(), null, null,
-					null);
+					null, null);
 
 			return new ResponseEntity<ApiResponse>(ret, HttpStatus.OK);
 		} catch (NoSuchAlgorithmException e) {
 			e.printStackTrace();
 
 			ApiResponse ret = new ApiResponse("Sorry, something bad happened", HttpStatus.INTERNAL_SERVER_ERROR.value(),
-					HttpStatus.INTERNAL_SERVER_ERROR.getReasonPhrase(), null, null, null);
+					HttpStatus.INTERNAL_SERVER_ERROR.getReasonPhrase(), null, null, null, null);
 
 			return new ResponseEntity<ApiResponse>(ret, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
@@ -122,16 +146,16 @@ public class UserController {
 
 		try {
 			service.forgotPassword(email);
-			ret = new ApiResponse("Email successfully sent", HttpStatus.OK.value(),
-					HttpStatus.OK.getReasonPhrase(), null, null, null);
+			ret = new ApiResponse("Email successfully sent", HttpStatus.OK.value(), HttpStatus.OK.getReasonPhrase(),
+					null, null, null, null);
 			return new ResponseEntity<ApiResponse>(ret, HttpStatus.OK);
 		} catch (InvalidEmailException e) {
 			ret = new ApiResponse(e.getMessage(), HttpStatus.BAD_REQUEST.value(),
-					HttpStatus.BAD_REQUEST.getReasonPhrase(), null, null, null);
+					HttpStatus.BAD_REQUEST.getReasonPhrase(), null, null, null, null);
 			return new ResponseEntity<ApiResponse>(ret, HttpStatus.BAD_REQUEST);
 		} catch (Exception e) {
 			ret = new ApiResponse(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR.value(),
-					HttpStatus.INTERNAL_SERVER_ERROR.getReasonPhrase(), null, null, null);
+					HttpStatus.INTERNAL_SERVER_ERROR.getReasonPhrase(), null, null, null, null);
 			return new ResponseEntity<ApiResponse>(ret, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 
@@ -143,16 +167,16 @@ public class UserController {
 		ApiResponse ret = null;
 		try {
 			service.recoveryPassword(recoveryToken);
-			ret = new ApiResponse("Successfully reset password", HttpStatus.OK.value(),
-					HttpStatus.OK.getReasonPhrase(), null, null, null);
+			ret = new ApiResponse("Successfully reset password", HttpStatus.OK.value(), HttpStatus.OK.getReasonPhrase(),
+					null, null, null, null);
 			return new ResponseEntity<ApiResponse>(ret, HttpStatus.OK);
 		} catch (InvalidTokenException | MismatchedPasswordsException e) {
 			ret = new ApiResponse(e.getMessage(), HttpStatus.BAD_REQUEST.value(),
-					HttpStatus.BAD_REQUEST.getReasonPhrase(), null, null, null);
+					HttpStatus.BAD_REQUEST.getReasonPhrase(), null, null, null, null);
 			return new ResponseEntity<ApiResponse>(ret, HttpStatus.BAD_REQUEST);
 		} catch (Exception e) {
 			ret = new ApiResponse(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR.value(),
-					HttpStatus.INTERNAL_SERVER_ERROR.getReasonPhrase(), null, null, null);
+					HttpStatus.INTERNAL_SERVER_ERROR.getReasonPhrase(), null, null, null, null);
 			return new ResponseEntity<ApiResponse>(ret, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}

@@ -33,18 +33,20 @@ public class ApiResponse implements Serializable {
 	private String httpStatusMessage;
 	private Integer totalCount;
 	private Integer resultCount;
+	private String cursor;
 	private Object data;
 
 	public ApiResponse() {
 	}
 
-	public ApiResponse(String errorMessage, Integer httpStatusCode, String httpStatusMessage,
-			Integer totalCount, Integer resultCount, Object data) {
+	public ApiResponse(String errorMessage, Integer httpStatusCode, String httpStatusMessage, Integer totalCount,
+			Integer resultCount, String cursor, Object data) {
 		this.httpStatusCode = httpStatusCode;
 		this.httpStatusMessage = httpStatusMessage;
 		this.totalCount = totalCount;
 		this.resultCount = resultCount;
 		this.errorMessage = errorMessage;
+		this.cursor = cursor;
 		this.data = data;
 	}
 
@@ -94,6 +96,14 @@ public class ApiResponse implements Serializable {
 
 	public void setResultCount(Integer resultCount) {
 		this.resultCount = resultCount;
+	}
+
+	public String getCursor() {
+		return cursor;
+	}
+
+	public void setCursor(String cursor) {
+		this.cursor = cursor;
 	}
 
 }
