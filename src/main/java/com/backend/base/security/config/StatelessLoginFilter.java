@@ -40,6 +40,11 @@ class StatelessLoginFilter extends AbstractAuthenticationProcessingFilter {
 			throws AuthenticationException, IOException, ServletException {
 
 		final AccountTO to = new ObjectMapper().readValue(request.getInputStream(), AccountTO.class);
+		
+		if(to.getPassword() == null || (to.getPassword() !=null && to.getPassword().isEmpty())){
+			return getAuthenticationManager().authenticate(new UsernamePasswordAuthenticationToken("",""));
+		}
+		
 		final UsernamePasswordAuthenticationToken loginToken = new UsernamePasswordAuthenticationToken(
 				to.getEmail(), to.getPassword());
 		return getAuthenticationManager().authenticate(loginToken);

@@ -299,18 +299,15 @@ materialAdmin
 					
 					$scope.facebookLogin = function(){
 						Facebook.login(function(response) {
-							$scope.me();
-							console.log(response);
-								if(response.status === "connected"){
-									FB.api('/me', {locale: 'en-US', fields: 'name, email, gender'}, function(response) {
-										$scope.user.email = response.email;
-										$scope.user.password = "";
-										$scope.user.confirmPassword = "";
-										console.log($scope.user);
-										$scope.facebookAuthenticate();
-									});						
-								}
-							});
+							if(response.status === "connected"){
+								FB.api('/me', {locale: 'en-US', fields: 'name, email, gender'}, function(response) {
+									$scope.user.email = response.email;
+									$scope.user.password = "";
+									$scope.user.confirmPassword = "";
+									$scope.facebookAuthenticate();
+								});						
+							}
+						});
 					};
 					
 					$scope.facebookAuthenticate = function() {

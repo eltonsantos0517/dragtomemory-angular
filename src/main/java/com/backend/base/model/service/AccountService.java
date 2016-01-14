@@ -33,7 +33,7 @@ public class AccountService extends GenericService<AccountEntity> {
 		accountDAO = new AccountDAO();
 	}
 
-	public Key<AccountEntity> createAccount(AccountTO to) throws NoSuchAlgorithmException {
+	private Key<AccountEntity> createAccount(AccountTO to) throws NoSuchAlgorithmException {
 		AccountEntity entity = new AccountEntity();
 		entity.setFirstName(to.getFirstName());
 		entity.setLastName(to.getLastName());
@@ -43,7 +43,7 @@ public class AccountService extends GenericService<AccountEntity> {
 		return super.save(entity);
 	}
 
-	public Key<AccountEntity> changeAccount(AccountTO to) throws NoSuchAlgorithmException {
+	private Key<AccountEntity> changeAccount(AccountTO to) throws NoSuchAlgorithmException {
 
 		Key<AccountEntity> accountKey = Key.create(AccountEntity.class, to.getObjectId());
 		AccountEntity entity = super.get(accountKey.getId());
@@ -59,6 +59,20 @@ public class AccountService extends GenericService<AccountEntity> {
 		}
 
 		return super.save(entity);
+	}
+	
+	public Key<AccountEntity> saveAccount(final AccountTO to, final boolean isSaveForFacebook) throws NoSuchAlgorithmException, InvalidEmailException{
+		
+		AccountEntity entity = getByColumn("email", to.getEmail());
+		
+		if(entity != null && isSaveForFacebook){
+			to.setObjectId(entity.getObjectId());
+			return changeAccount(to);
+		}else if (entity != null){
+			throw new InvalidEmailException("This user has already been registered");
+		}else{
+			return createAccount(to);
+		}
 	}
 
 	public void forgotPassword(final String email) throws Exception {
@@ -141,6 +155,16 @@ public class AccountService extends GenericService<AccountEntity> {
 	@Override
 	public GenericDAO<AccountEntity> getDAO() {
 		return accountDAO;
+	}
+	
+	private AccountEntity createAccountEntity (final AccountTO to) throws NoSuchAlgorithmException{
+		AccountEntity entity = new AccountEntity();
+		entity.setObjectId(to.getObjectId());
+		entity.setFirstName(to.getFirstName());
+		entity.setLastName(to.getLastName());
+		entity.setEmail(to.getEmail());
+		entity.setPassword(SecurityUtil.encryptPassword(to.getPassword()));
+		return entity;
 	}
 
 

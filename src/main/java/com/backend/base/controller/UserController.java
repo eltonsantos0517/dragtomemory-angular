@@ -95,14 +95,8 @@ public class UserController {
 			to.setPassword(user.getPassword());
 			to.setPasswordAgain(user.getPasswordAgain());
 
-			AccountService service = new AccountService();
-
-			if (to.getObjectId() == null) {
-				service.createAccount(to);
-			} else {
-				service.changeAccount(to);
-			}
-
+			AccountService service = new AccountService();		
+			service.saveAccount(to, false);
 			ApiResponse ret = new ApiResponse(null, HttpStatus.OK.value(), HttpStatus.OK.getReasonPhrase(), null, null,
 					null);
 
@@ -114,6 +108,11 @@ public class UserController {
 					HttpStatus.INTERNAL_SERVER_ERROR.getReasonPhrase(), null, null, null);
 
 			return new ResponseEntity<ApiResponse>(ret, HttpStatus.INTERNAL_SERVER_ERROR);
+		} catch (InvalidEmailException e) {
+			ApiResponse ret = new ApiResponse(e.getMessage(), HttpStatus.BAD_REQUEST.value(),
+					HttpStatus.BAD_REQUEST.getReasonPhrase(), null, null, null);
+
+			return new ResponseEntity<ApiResponse>(ret, HttpStatus.BAD_REQUEST);
 		}
 	}
 
@@ -168,8 +167,8 @@ public class UserController {
 		AccountService service = new AccountService();
 		
 		try {
-			service.createAccount(to);
-		} catch (NoSuchAlgorithmException e) {
+			service.saveAccount(to, true);
+		} catch (NoSuchAlgorithmException | InvalidEmailException e) {
 			e.printStackTrace();
 		}
 		UserDetailsService udService = new UserDetailsService();
