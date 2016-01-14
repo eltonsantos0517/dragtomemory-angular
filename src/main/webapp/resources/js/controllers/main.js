@@ -294,6 +294,8 @@ materialAdmin
 							// $state.go('home');
 							$window.location.href = '/#/console/home';
 
+						}).error(function(result, status, headers){
+							growlService.growl('User or password invalid', 'danger');
 						});
 					};
 					
@@ -360,6 +362,8 @@ materialAdmin
 							// $state.go('home');
 							$window.location.href = '/#/console/home';
 
+						}).error(function(result, status, headers){
+							growlService.growl('This user has already been registered', 'danger');
 						});
 					};
 

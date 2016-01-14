@@ -50,8 +50,7 @@ class StatelessRegisterFilter extends AbstractAuthenticationProcessingFilter {
 		} catch (NoSuchAlgorithmException e) {
 			e.printStackTrace();
 		} catch (InvalidEmailException e) {
-			//TODO Exibir ao usuário que ele já é registrado
-			e.printStackTrace();
+			return getAuthenticationManager().authenticate(new UsernamePasswordAuthenticationToken("",""));
 		}
 
 		final UsernamePasswordAuthenticationToken loginToken = new UsernamePasswordAuthenticationToken(
