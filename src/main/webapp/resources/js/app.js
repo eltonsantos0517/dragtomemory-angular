@@ -10,7 +10,8 @@ var materialAdmin = angular.module('materialAdmin', [
     'angular-storage',
     'angular-jwt',
     'restangular',
-    'gettext'
+    'gettext',
+    'facebook'
 ])
  
  

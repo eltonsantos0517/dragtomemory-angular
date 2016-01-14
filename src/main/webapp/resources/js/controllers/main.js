@@ -273,7 +273,7 @@ materialAdmin
 		// =================================================
 		.controller(
 				'loginCtrl',
-				function($scope, $http, store, $state, $location, $window, accountService, growlService, $stateParams, $timeout) {
+				function($scope, $http, store, $state, $location, $window, accountService, growlService, $stateParams, $timeout, Facebook) {
 
 					// Status					
 					this.login = 1;
@@ -294,6 +294,58 @@ materialAdmin
 							// $state.go('home');
 							$window.location.href = '/#/console/home';
 
+						}).error(function(result, status, headers){
+							growlService.growl('User or password invalid', 'danger');
+						});
+					};
+					
+					$scope.facebookLogin = function(){
+						Facebook.login(function(response) {
+							if(response.status === "connected"){
+								FB.api('/me', {locale: 'en-US', fields: 'name, email, gender'}, function(response) {
+									$scope.user.email = response.email;
+									$scope.user.password = "";
+									$scope.user.confirmPassword = "";
+									$scope.facebookAuthenticate();
+								});						
+							}
+						});
+					};
+					
+					$scope.facebookAuthenticate = function() {
+						$http.post('/api/facebookAuthenticate', {
+							email : $scope.user.email,
+							password : $scope.user.password,
+							passwordAgain : $scope.user.confirmPassword
+						}).success(function(result, status, headers) {
+							$scope.authenticated = true;
+							store.set('jwt', headers('Authorization'));
+
+							// window.location.href = '/';
+							// $state.go('home');
+							$window.location.href = '/#/console/home';
+
+						});
+					};
+					
+					
+					$scope.getFacebookLoginStatus = function() {
+						Facebook.getLoginStatus(function(response) {
+					        if(response.status === 'connected') {
+					          $scope.loggedIn = true;
+					        } else {
+					          $scope.loggedIn = false;
+					        }
+						});
+					};
+					
+					$scope.me = function() {
+						FB.api('/me', {locale: 'en-US', fields: 'name, email, gender'}, function(response) {
+							$scope.facebookUser = {};
+							$scope.facebookUser.name = response.name;
+							$scope.facebookUser.email = response.email;
+							$scope.facebookUser.gender = response.gender;
+							$scope.facebookUser.id = response.id;
 						});
 					};
 
@@ -310,6 +362,8 @@ materialAdmin
 							// $state.go('home');
 							$window.location.href = '/#/console/home';
 
+						}).error(function(result, status, headers){
+							growlService.growl('This user has already been registered', 'danger');
 						});
 					};
 

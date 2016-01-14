@@ -2,7 +2,8 @@ materialAdmin
 		.config(
 				function($stateProvider, $urlRouterProvider,
 						jwtInterceptorProvider, $httpProvider,
-						$locationProvider, RestangularProvider) {
+						$locationProvider, RestangularProvider,
+						FacebookProvider) {
 
 					// JWT Config
 					jwtInterceptorProvider.tokenGetter = function(store) {
@@ -26,6 +27,8 @@ materialAdmin
 						}
 						return elem;
 					});
+					
+					FacebookProvider.init('174666509555605');
 					
 					// add a response interceptor
 //					RestangularProvider.addResponseInterceptor(function(data,

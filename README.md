@@ -1,21 +1,26 @@
-Grab the files, either by copying the files from the dist folder or (preferably) through bower:
+Tutorial para traduções disponivel em: https://angular-gettext.rocketeer.be/dev-guide/
 
-bower install --save angular-gettext
-Include the angular-gettext source files in your app:
+Tutorial resumido:
 
-<script src="bower_components/angular-gettext/dist/angular-gettext.min.js"></script>
-Add a dependency to angular-gettext in your Angular app:
-
-angular.module('myApp', ['gettext']);
-You can now start using the translate directive to mark strings as translatable.
-
--- 2
-
-<h1 translate>Hello!</h1>
-
-Adicionar tag translate no .html
+1) Na primeira vez que for utilizar o plugin abrir o terminal na pasta que contiver o arquivo bower.json e rodar os comandos
+bower install
+npm install grunt-angular-gettext
+Instalar tambem o programa POEDIT (http://poedit.net/)
 
 
+2) Colocar a tag translate aonde se deseja utilizar a tradução 
+	Ex: placeholder="{{'Password' | translate}}" ou 
+	<translate> Keep me signed in! </translate> ou
+	<p translate>Please, enter the email to which the new password will be sent</p>
+obs: Para mais informações sobre as tags olhar o tutorial completo.
+
+3) Rodar o comando grunt nggettext_extract, o arquivo template.pot será criado ou atualizado
+		
+4) Se for a primeira vez que for fazer a tradução abrir o arquivo template.pot no POEDIT e criar uma nova tradução com o nome da linguagem desejada (pt_BR, en, en-US por exemplo) e traduzir as palavras
+
+5) Caso seja apenas uma atualização de alguma tradução existente abrir o arquivo .po da tradução no POEDIT ir no menu Catálogo->Atualizar do arquivo POT, escolher o arquivo template.pot e traduzir as novas palavras
+
+6) Rodar o comando grunt nggettext_compile
 
 
 App Engine Java Guestbook

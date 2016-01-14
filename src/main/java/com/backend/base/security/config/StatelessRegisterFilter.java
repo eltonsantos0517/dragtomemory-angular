@@ -17,6 +17,7 @@ import org.springframework.security.web.authentication.AbstractAuthenticationPro
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 import com.backend.base.controller.to.AccountTO;
+import com.backend.base.exception.InvalidEmailException;
 import com.backend.base.model.service.AccountService;
 import com.backend.base.security.entity.User;
 import com.backend.base.security.entity.UserAuthentication;
@@ -45,9 +46,11 @@ class StatelessRegisterFilter extends AbstractAuthenticationProcessingFilter {
 
 		try {
 			AccountService service = new AccountService();
-			service.createAccount(to);
+			service.saveAccount(to, false);
 		} catch (NoSuchAlgorithmException e) {
 			e.printStackTrace();
+		} catch (InvalidEmailException e) {
+			return getAuthenticationManager().authenticate(new UsernamePasswordAuthenticationToken("",""));
 		}
 
 		final UsernamePasswordAuthenticationToken loginToken = new UsernamePasswordAuthenticationToken(
