@@ -202,37 +202,56 @@ materialAdmin.controller('tableCtrl', function($filter, $sce, ngTableParams, tab
 	};
 
 	u.removeUser = function(userId) {
-		u.user = accountService.removeUser(userId).then(
-		// success
-		function(response) {
-			growlService.growl('Usuário deletado com sucesso.', 'success', 1000)
+		//confirm 
+		swal({   
+			title: "Are you sure?",   
+			text: "You will not be able to recover this imaginary file!",   
+			type: "warning",   
+			showCancelButton: true,   
+			confirmButtonColor: "#DD6B55",   
+			confirmButtonText: "Yes, delete it!", 
+			cancelButtonText: "No, cancel plx!",   
+			closeOnConfirm: false,   
+			closeOnCancel: false
+		}, 
+			function(isConfirm){	   
+				if (isConfirm) {    
+					u.user = accountService.removeUser(userId).then(
+							// success
+							function(response) {
+								//growlService.growl('Usuário deletado com sucesso.', 'success', 1000)
+								console.log(userId);
+								accountService.list(u.totalItemsBackend, "").then(
+								// success
+								function(response) {
+									u.totalItems = 10;
+									u.totalItemsBackend = 10;
+									u.currentPage = 1;
+									u.itemsPerPage = 2;
+									u.itemsPerPage = 2;
+									u.pages = [];
 
-			accountService.list(u.totalItemsBackend, "").then(
-			// success
-			function(response) {
-
-				u.totalItems = 10;
-				u.totalItemsBackend = 10;
-				u.currentPage = 1;
-				u.itemsPerPage = 2;
-				u.itemsPerPage = 2;
-				u.pages = [];
-
-				u.allUser = response.data;
-				u.totalItems = response.resultCount;
-				u.users = u.preparePages(u.allUser, u.itemsPerPage, u.currentPage);
-				u.cursor = response.cursor;
-			},
-			// fail
-			function(response) {
-				growlService.growl('Erro ao carregar usuários.', 'danger', 1000)
-			});
-
-		},
-		// fail
-		function(response) {
-			growlService.growl('Erro ao deletar usuário.', 'danger', 1000)
-		});
+									u.allUser = response.data;
+									u.totalItems = response.resultCount;
+									u.users = u.preparePages(u.allUser, u.itemsPerPage, u.currentPage);
+									u.cursor = response.cursor;
+								},
+								// fail
+								function(response) {
+									growlService.growl('Erro ao carregar usuários.', 'danger', 1000)
+								});
+								
+								swal("Deleted!", "Your imaginary file has been deleted.", "success");
+							},
+							// fail
+							function(response) {
+								swal("ERROR", "error");
+							});  
+					} else {     
+						swal("Cancelled", "Your imaginary file is safe :)", "error");   
+					} 
+			}
+		);		
 	};
 
 });
