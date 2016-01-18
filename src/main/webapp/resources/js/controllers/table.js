@@ -225,13 +225,10 @@ materialAdmin.controller('tableCtrl', function($filter, $sce, ngTableParams, tab
 		}, function(isConfirm) {
 			if (isConfirm) {
 				u.user = accountService.removeUser(userId).then(
-				// success
+				// success remove
 				function(response) {
-					// growlService.growl('Usuário deletado com sucesso.',
-					// 'success', 1000)
-					console.log(userId);
 					accountService.list(u.totalItemsBackend, "").then(
-					// success
+					// success list
 					function(response) {
 						u.totalItems = 10;
 						u.totalItemsBackend = 10;
@@ -242,17 +239,18 @@ materialAdmin.controller('tableCtrl', function($filter, $sce, ngTableParams, tab
 
 						u.allUser = response.data;
 						u.totalItems = response.resultCount;
-						u.users = u.preparePages(u.allUser, u.itemsPerPage, u.currentPage);
-						u.cursor = response.cursor;
+						u.preparePages(u.allUser, u.itemsPerPage, u.currentPage);
+						u.users = u.getPage(u.currentPage);
+						u.cursor = response.cursor;				
 					},
-					// fail
+					// fail list
 					function(response) {
 						growlService.growl('Erro ao carregar usuários.', 'danger', 1000)
 					});
 
 					swal("Deleted!", "Your imaginary file has been deleted.", "success");
 				},
-				// fail
+				// fail remove
 				function(response) {
 					swal("ERROR", "error");
 				});
