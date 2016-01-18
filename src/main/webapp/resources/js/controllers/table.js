@@ -221,12 +221,12 @@ materialAdmin.controller('tableCtrl', function($filter, $sce, ngTableParams, tab
 		// confirm
 		swal({
 			title : "Are you sure?",
-			text : "You will not be able to recover this imaginary file!",
+			text : "You will not be able to recover this user!",
 			type : "warning",
 			showCancelButton : true,
 			confirmButtonColor : "#DD6B55",
 			confirmButtonText : "Yes, delete it!",
-			cancelButtonText : "No, cancel plx!",
+			cancelButtonText : "No, cancel!",
 			closeOnConfirm : false,
 			closeOnCancel : false
 		}, function(isConfirm) {
@@ -234,31 +234,30 @@ materialAdmin.controller('tableCtrl', function($filter, $sce, ngTableParams, tab
 				u.user = accountService.removeUser(userId).then(
 				// success
 				function(response) {
-					// growlService.growl('Usuário deletado com sucesso.',
-					// 'success', 1000)
-					console.log(userId);
 					accountService.list(u.totalItemsBackend, "").then(
 					// success
 					function(response) {
 						u.currentPage = 1;
 						u.pages = [];
-						u.totalItems = response.resultCount;
-						u.users = u.preparePages(response.data, u.itemsPerPage, u.currentPage);
 						u.cursor = response.cursor;
+						u.totalItems = response.totalCount;
+						u.preparePages(response.data, u.itemsPerPage, u.currentPage);
+						u.users = u.getPage(u.currentPage);
+						
 					},
 					// fail
 					function(response) {
 						growlService.growl('Erro ao carregar usuários.', 'danger', 1000)
 					});
 
-					swal("Deleted!", "Your imaginary file has been deleted.", "success");
+					swal("Deleted!", "The user has been deleted.", "success");
 				},
 				// fail
 				function(response) {
 					swal("ERROR", "error");
 				});
 			} else {
-				swal("Cancelled", "Your imaginary file is safe :)", "error");
+				swal("Cancelled", "The user is safe :)", "error");
 			}
 		});
 	};

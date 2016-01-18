@@ -361,7 +361,7 @@ materialAdmin
 							$window.location.href = '/#/console/home';
 
 						}).error(function(result, status, headers){
-							growlService.growl('This user has already been registered', 'danger');
+							growlService.growl(result.substring(52,89), 'danger');
 						});
 					};
 
