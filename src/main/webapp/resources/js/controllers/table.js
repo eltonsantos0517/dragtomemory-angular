@@ -100,10 +100,6 @@ materialAdmin.controller('tableCtrl', function($filter, $sce, ngTableParams, tab
 	});
 
 	u.preparePages = function(itens, itemsPerPage, currentPage) {
-		if (itens == null) {
-			return;
-		}
-
 		var i = 1;
 		var pageIndex = 0;
 		var pageList = [];
