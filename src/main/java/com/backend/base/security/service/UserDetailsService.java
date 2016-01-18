@@ -19,13 +19,30 @@ public class UserDetailsService implements org.springframework.security.core.use
 
 	@Override
 	public final User loadUserByUsername(String username) throws UsernameNotFoundException {
-
 		AccountService service = new AccountService();
-		AccountEntity entity = service.getByColumn("email", username);
-
-		if (entity == null) {
-			throw new UsernameNotFoundException("Account not found");
-		}
+		AccountEntity entity;
+		
+		int attempts = 0;
+		do {
+			
+			entity = service.getByColumn("email", username);
+			if (entity == null) {
+				if (attempts < 4) {
+					attempts++;
+				} else {
+					throw new UsernameNotFoundException("Account not found");
+				}
+			} else {
+				break;
+			}
+			
+			try {
+				Thread.sleep(500);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+			
+		} while (true);
 
 		Set<UserRole> roles = new HashSet<UserRole>();
 		roles.add(UserRole.ADMIN);
