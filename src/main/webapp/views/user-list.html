@@ -12,7 +12,7 @@
 				</div>
 
 				<ul class="lv-actions actions">
-					<li><button data-ng-click="uCtrl.list = 0;uCtrl.add = 1;" class="btn btn-danger btn-icon waves-effect waves-circle">
+					<li><button data-ng-click="uCtrl.initAdd()" class="btn btn-danger btn-icon waves-effect waves-circle">
 							<i class="zmdi zmdi-plus"></i>
 						</button>
 					</li>
@@ -88,7 +88,7 @@
 		</div>
 
 		<div class="card-body card-padding">
-			<form role="form" ng-submit="uCtrl.register()">
+			<form role="form" ng-submit="uCtrl.save()">
 
 				<input type="hidden" id="exampleInputHidden" ng-model="uCtrl.user.objectId" ng-hidden>
 				<div class="form-group fg-line">

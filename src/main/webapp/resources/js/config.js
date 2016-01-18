@@ -18,16 +18,6 @@ materialAdmin
 						'X-API-Token' : '91387c5d1bb74b1f84198f3611972b53'
 					});
 
-					RestangularProvider.setRequestInterceptor(function(elem,
-							operation, what) {
-
-						if (operation === 'put') {
-							elem.objectId = undefined;
-							return elem;
-						}
-						return elem;
-					});
-					
 					FacebookProvider.init('174666509555605');
 					
 					// add a response interceptor

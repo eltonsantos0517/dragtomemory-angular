@@ -25,6 +25,9 @@ public class AccountEntity extends GenericEntity implements Serializable {
 	
 	@Index
 	private String password;
+	
+	@Index
+	private String facebookToken;
 
 	public String getFirstName() {
 		return firstName;
@@ -56,6 +59,14 @@ public class AccountEntity extends GenericEntity implements Serializable {
 
 	public void setPassword(String password) {
 		this.password = password;
+	}
+
+	public String getFacebookToken() {
+		return facebookToken;
+	}
+
+	public void setFacebookToken(String facebookToken) {
+		this.facebookToken = facebookToken;
 	}
 
 }

@@ -33,46 +33,57 @@ public class AccountService extends GenericService<AccountEntity> {
 		accountDAO = new AccountDAO();
 	}
 
-	private Key<AccountEntity> createAccount(AccountTO to) throws NoSuchAlgorithmException {
-		AccountEntity entity = new AccountEntity();
-		entity.setFirstName(to.getFirstName());
-		entity.setLastName(to.getLastName());
-		entity.setEmail(to.getEmail());
-		entity.setPassword(SecurityUtil.encryptPassword(to.getPassword()));
-
-		return super.save(entity);
-	}
-
-	private Key<AccountEntity> changeAccount(AccountTO to) throws NoSuchAlgorithmException {
-
-		Key<AccountEntity> accountKey = Key.create(AccountEntity.class, to.getObjectId());
-		AccountEntity entity = super.get(accountKey.getId());
-
-		entity.setFirstName(to.getFirstName());
-		entity.setLastName(to.getLastName());
-
-		if (to.getPassword() != null && !to.getPassword().isEmpty()) {
-			entity.setPassword(SecurityUtil.encryptPassword(to.getPassword()));
-
-			to.setPassword(null);
-			to.setPasswordAgain(null);
-		}
-
-		return super.save(entity);
-	}
-	
-	public Key<AccountEntity> saveAccount(final AccountTO to, final boolean isSaveForFacebook) throws NoSuchAlgorithmException, InvalidEmailException{
+	public Key<AccountEntity> saveAccount(final AccountTO to) throws NoSuchAlgorithmException, InvalidEmailException, MismatchedPasswordsException{
 		
-		AccountEntity entity = getByColumn("email", to.getEmail());
-		
-		if(entity != null && isSaveForFacebook){
-			to.setObjectId(entity.getObjectId());
-			return changeAccount(to);
-		}else if (entity != null){
-			throw new InvalidEmailException("This user has already been registered");
+		if(to.getObjectId() == null){
+			
+			AccountEntity entity = getByColumn("email", to.getEmail());
+			
+			if(entity != null){
+				//Facebook
+				entity.setFacebookToken(to.getFacebookToken());
+				return super.save(entity);
+			}else{
+				entity = new AccountEntity();
+				entity.setFirstName(to.getFirstName());
+				entity.setLastName(to.getLastName());
+				entity.setEmail(to.getEmail());
+				if (validatePassword(to))  {
+					entity.setPassword(SecurityUtil.encryptPassword(to.getPassword()));
+				}else{
+					//TODO
+					throw new MismatchedPasswordsException("Invalid password");
+				}
+				
+
+				return super.save(entity);
+			}
 		}else{
-			return createAccount(to);
+			//Update
+			AccountEntity entity = getByColumn("email", to.getEmail());
+			entity.setFirstName(to.getFirstName());
+			entity.setLastName(to.getLastName());
+
+			if (validatePassword(to))  {
+				entity.setPassword(SecurityUtil.encryptPassword(to.getPassword()));
+				to.setPassword(null);
+				to.setPasswordAgain(null);
+				return super.save(entity);
+			}else{
+				throw new MismatchedPasswordsException("Invalid password");
+			}
 		}
+	}
+
+	private boolean validatePassword(AccountTO to) {
+		if(to.getPassword() != null && !to.getPassword().isEmpty()){
+			if(to.getPasswordAgain() != null && !to.getPasswordAgain().isEmpty()){
+				if(to.getPassword().equals(to.getPasswordAgain())){
+					return true;
+				}
+			}
+		}
+		return false;		
 	}
 
 	public void forgotPassword(final String email) throws Exception {
@@ -135,17 +146,8 @@ public class AccountService extends GenericService<AccountEntity> {
 			throw new Exception("Invalid user in token");
 		}
 		
-		AccountTO to = new AccountTO();
-		
-		to.setCreatedAt(user.getCreatedAt());
-		to.setEmail(user.getEmail());
-		to.setFirstName(user.getFirstName());
-		to.setLastName(user.getLastName());
-		to.setObjectId(user.getObjectId());
-		to.setPassword(recoveryToken.getNewPassword());
-		to.setUpdatedAt(user.getUpdatedAt());
-		
-		changeAccount(to);
+		user.setPassword(SecurityUtil.encryptPassword(recoveryToken.getNewPassword()));
+		save(user);
 		
 		//inativar token
 		recoveryTokenPersisted.setActive(false);
@@ -156,16 +158,4 @@ public class AccountService extends GenericService<AccountEntity> {
 	public GenericDAO<AccountEntity> getDAO() {
 		return accountDAO;
 	}
-	
-	private AccountEntity createAccountEntity (final AccountTO to) throws NoSuchAlgorithmException{
-		AccountEntity entity = new AccountEntity();
-		entity.setObjectId(to.getObjectId());
-		entity.setFirstName(to.getFirstName());
-		entity.setLastName(to.getLastName());
-		entity.setEmail(to.getEmail());
-		entity.setPassword(SecurityUtil.encryptPassword(to.getPassword()));
-		return entity;
-	}
-
-
 }

@@ -66,13 +66,11 @@ public class SecurityUtil {
 	
 	public static boolean validateNewPassword(final String newPassword, final String newPasswordAgain){
 		
-		if(newPassword != null && newPassword.equals(newPasswordAgain)){
+		if(newPassword != null && !newPassword.isEmpty() &&  newPassword.equals(newPasswordAgain)){
 			return true;
 		}
 		
 		return false;
 	}
-
-	
 
 }

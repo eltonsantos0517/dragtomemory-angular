@@ -115,7 +115,7 @@ materialAdmin.controller('tableCtrl', function($filter, $sce, ngTableParams, tab
 
 				pageList.push(itens[x]);
 				u.pages[pageIndex] = pageList;
-				
+
 				i++;
 			}
 		}
@@ -128,39 +128,48 @@ materialAdmin.controller('tableCtrl', function($filter, $sce, ngTableParams, tab
 	u.pageChanged = function() {
 		u.users = u.getPage(u.currentPage);
 	};
-	u.register = function() {
+	u.save = function() {
 		accountService.save(u.user).then(
-		// success
-		function(response) {
-			u.list = 1;
-			u.add = 0;
-			u.edit = 0;
-			u.user = {};
-
-			accountService.list(u.totalItemsBackend, "").then(
 			// success
 			function(response) {
-				u.cursor = response.cursor;
-				u.allUser = response.data;
-				u.totalItems = response.resultCount;
-				u.preparePages(u.allUser, u.itemsPerPage, u.currentPage);
-				u.users = u.getPage(u.currentPage);
+				u.list = 1;
+				u.add = 0;
+				u.edit = 0;
+				accountService.list(u.totalItemsBackend, "").then(
+					// success list
+					function(response) {
+						u.cursor = response.cursor;
+						u.allUser = response.data;
+						u.totalItems = response.resultCount;
+						u.preparePages(u.allUser, u.itemsPerPage, u.currentPage);
+						u.users = u.getPage(u.currentPage);
+					},
+					
+					// fail list
+					function(response) {
+						growlService.growl('Erro ao carregar usuários.', 'danger', 1000)
+				});
+	
+				if (!u.user.objectId) {
+					growlService.growl('Usuário criado com sucesso.', 'success', 1000);
+				} else {
+					growlService.growl('Usuário atualizado com sucesso.', 'success', 1000);
+				}
+				
+				u.user = {};
 			},
 			// fail
 			function(response) {
-				growlService.growl('Erro ao carregar usuários.', 'danger', 1000)
-			});
-
-			if (u.user.objectId == null) {
-				growlService.growl('Usuário criado com sucesso.', 'success', 1000)
-			} else {
-				growlService.growl('Usuário atualizado com sucesso.', 'success', 1000)
-			}
-		},
-		// fail
-		function(response) {
-			growlService.growl(error.data, 'danger');
+				growlService.growl(response.data.errorMessage, 'danger');
 		});
+	};
+
+	u.initAdd = function() {
+		u.list = 0;
+		u.add = 1;
+		u.edit = 0;
+
+		u.user = {};
 	};
 
 	u.initEdit = function(userId) {
@@ -202,56 +211,55 @@ materialAdmin.controller('tableCtrl', function($filter, $sce, ngTableParams, tab
 	};
 
 	u.removeUser = function(userId) {
-		//confirm 
-		swal({   
-			title: "Are you sure?",   
-			text: "You will not be able to recover this imaginary file!",   
-			type: "warning",   
-			showCancelButton: true,   
-			confirmButtonColor: "#DD6B55",   
-			confirmButtonText: "Yes, delete it!", 
-			cancelButtonText: "No, cancel plx!",   
-			closeOnConfirm: false,   
-			closeOnCancel: false
-		}, 
-			function(isConfirm){	   
-				if (isConfirm) {    
-					u.user = accountService.removeUser(userId).then(
-							// success
-							function(response) {
-								//growlService.growl('Usuário deletado com sucesso.', 'success', 1000)
-								console.log(userId);
-								accountService.list(u.totalItemsBackend, "").then(
-								// success
-								function(response) {
-									u.totalItems = 10;
-									u.totalItemsBackend = 10;
-									u.currentPage = 1;
-									u.itemsPerPage = 2;
-									u.itemsPerPage = 2;
-									u.pages = [];
+		// confirm
+		swal({
+			title : "Are you sure?",
+			text : "You will not be able to recover this imaginary file!",
+			type : "warning",
+			showCancelButton : true,
+			confirmButtonColor : "#DD6B55",
+			confirmButtonText : "Yes, delete it!",
+			cancelButtonText : "No, cancel plx!",
+			closeOnConfirm : false,
+			closeOnCancel : false
+		}, function(isConfirm) {
+			if (isConfirm) {
+				u.user = accountService.removeUser(userId).then(
+				// success
+				function(response) {
+					// growlService.growl('Usuário deletado com sucesso.',
+					// 'success', 1000)
+					console.log(userId);
+					accountService.list(u.totalItemsBackend, "").then(
+					// success
+					function(response) {
+						u.totalItems = 10;
+						u.totalItemsBackend = 10;
+						u.currentPage = 1;
+						u.itemsPerPage = 2;
+						u.itemsPerPage = 2;
+						u.pages = [];
 
-									u.allUser = response.data;
-									u.totalItems = response.resultCount;
-									u.users = u.preparePages(u.allUser, u.itemsPerPage, u.currentPage);
-									u.cursor = response.cursor;
-								},
-								// fail
-								function(response) {
-									growlService.growl('Erro ao carregar usuários.', 'danger', 1000)
-								});
-								
-								swal("Deleted!", "Your imaginary file has been deleted.", "success");
-							},
-							// fail
-							function(response) {
-								swal("ERROR", "error");
-							});  
-					} else {     
-						swal("Cancelled", "Your imaginary file is safe :)", "error");   
-					} 
+						u.allUser = response.data;
+						u.totalItems = response.resultCount;
+						u.users = u.preparePages(u.allUser, u.itemsPerPage, u.currentPage);
+						u.cursor = response.cursor;
+					},
+					// fail
+					function(response) {
+						growlService.growl('Erro ao carregar usuários.', 'danger', 1000)
+					});
+
+					swal("Deleted!", "Your imaginary file has been deleted.", "success");
+				},
+				// fail
+				function(response) {
+					swal("ERROR", "error");
+				});
+			} else {
+				swal("Cancelled", "Your imaginary file is safe :)", "error");
 			}
-		);		
+		});
 	};
 
 });

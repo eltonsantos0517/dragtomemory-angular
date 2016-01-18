@@ -304,8 +304,7 @@ materialAdmin
 							if(response.status === "connected"){
 								FB.api('/me', {locale: 'en-US', fields: 'name, email, gender'}, function(response) {
 									$scope.user.email = response.email;
-									$scope.user.password = "";
-									$scope.user.confirmPassword = "";
+									$scope.user.facebookToken = response.id;
 									$scope.facebookAuthenticate();
 								});						
 							}
@@ -315,8 +314,7 @@ materialAdmin
 					$scope.facebookAuthenticate = function() {
 						$http.post('/api/facebookAuthenticate', {
 							email : $scope.user.email,
-							password : $scope.user.password,
-							passwordAgain : $scope.user.confirmPassword
+							facebookToken : $scope.user.facebookToken
 						}).success(function(result, status, headers) {
 							$scope.authenticated = true;
 							store.set('jwt', headers('Authorization'));
@@ -392,7 +390,7 @@ materialAdmin
 					$scope.forgotPassword = function() {
 						accountService.forgotPassword($scope.user.email).then(
 								function(response){
-									growlService.growl(response.errorMessage,'success');
+									growlService.growl(response.data,'success');
 									$timeout(function(){
 										$window.location.href = '/login';
 									}, 1000);

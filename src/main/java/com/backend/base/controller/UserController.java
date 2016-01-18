@@ -1,6 +1,5 @@
 package com.backend.base.controller;
 
-import java.security.NoSuchAlgorithmException;
 import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
@@ -109,34 +108,57 @@ public class UserController {
 	}
 
 	@RequestMapping(value = "/api/1/user", method = RequestMethod.POST)
-	public ResponseEntity<ApiResponse> saveUser(@RequestBody final AccountTO user) {
+	public ResponseEntity<ApiResponse> createAccount(@RequestBody final AccountTO to) {
 
 		try {
-			AccountTO to = new AccountTO();
-			to.setObjectId(user.getObjectId());
-			to.setEmail(user.getEmail());
-			to.setFirstName(user.getFirstName());
-			to.setPassword(user.getPassword());
-			to.setPasswordAgain(user.getPasswordAgain());
-
 			AccountService service = new AccountService();
-			service.saveAccount(to, false);
+			service.saveAccount(to);
 			ApiResponse ret = new ApiResponse(null, HttpStatus.OK.value(), HttpStatus.OK.getReasonPhrase(), null, null,
 					null, null);
 
 			return new ResponseEntity<ApiResponse>(ret, HttpStatus.OK);
-		} catch (NoSuchAlgorithmException e) {
+		} catch (InvalidEmailException | MismatchedPasswordsException e) {
+			ApiResponse ret = new ApiResponse(e.getMessage(), HttpStatus.BAD_REQUEST.value(),
+					HttpStatus.BAD_REQUEST.getReasonPhrase(), null, null, null, null);
+
+			return new ResponseEntity<ApiResponse>(ret, HttpStatus.BAD_REQUEST);
+		} catch (Exception e) {
 			e.printStackTrace();
 
 			ApiResponse ret = new ApiResponse("Sorry, something bad happened", HttpStatus.INTERNAL_SERVER_ERROR.value(),
 					HttpStatus.INTERNAL_SERVER_ERROR.getReasonPhrase(), null, null, null, null);
 
 			return new ResponseEntity<ApiResponse>(ret, HttpStatus.INTERNAL_SERVER_ERROR);
-		} catch (InvalidEmailException e) {
+		}
+	}
+
+	@RequestMapping(value = "/api/1/user", method = RequestMethod.PUT)
+	public ResponseEntity<ApiResponse> editAccount(@RequestBody final AccountTO to) {
+
+		try {
+
+			if (to == null || to.getObjectId() == null) {
+				// TODO Show user already exists
+			}
+
+			AccountService service = new AccountService();
+			service.saveAccount(to);
+			ApiResponse ret = new ApiResponse(null, HttpStatus.OK.value(), HttpStatus.OK.getReasonPhrase(), null, null,
+					null, null);
+
+			return new ResponseEntity<ApiResponse>(ret, HttpStatus.OK);
+		} catch (InvalidEmailException | MismatchedPasswordsException e) {
 			ApiResponse ret = new ApiResponse(e.getMessage(), HttpStatus.BAD_REQUEST.value(),
 					HttpStatus.BAD_REQUEST.getReasonPhrase(), null, null, null, null);
 
 			return new ResponseEntity<ApiResponse>(ret, HttpStatus.BAD_REQUEST);
+		} catch (Exception e) {
+			e.printStackTrace();
+
+			ApiResponse ret = new ApiResponse("Sorry, something bad happened", HttpStatus.INTERNAL_SERVER_ERROR.value(),
+					HttpStatus.INTERNAL_SERVER_ERROR.getReasonPhrase(), null, null, null, null);
+
+			return new ResponseEntity<ApiResponse>(ret, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
 
@@ -151,8 +173,8 @@ public class UserController {
 
 		try {
 			service.forgotPassword(email);
-			ret = new ApiResponse("Email successfully sent", HttpStatus.OK.value(), HttpStatus.OK.getReasonPhrase(),
-					null, null, null, null);
+			ret = new ApiResponse(null, HttpStatus.OK.value(), HttpStatus.OK.getReasonPhrase(),
+					null, null, null, "Email successfully sent");
 			return new ResponseEntity<ApiResponse>(ret, HttpStatus.OK);
 		} catch (InvalidEmailException e) {
 			ret = new ApiResponse(e.getMessage(), HttpStatus.BAD_REQUEST.value(),
@@ -187,20 +209,29 @@ public class UserController {
 	}
 
 	@RequestMapping(value = "/api/facebookAuthenticate", method = RequestMethod.POST)
-	public void facebookAuthenticate(@RequestBody final AccountTO to, HttpServletResponse response) {
+	public ResponseEntity<ApiResponse> facebookAuthenticate(@RequestBody final AccountTO to,
+			HttpServletResponse response) {
 		AccountService service = new AccountService();
 
 		try {
-			service.saveAccount(to, true);
-		} catch (NoSuchAlgorithmException | InvalidEmailException e) {
+			service.saveAccount(to);
+			UserDetailsService udService = new UserDetailsService();
+
+			User user = udService.loadUserByUsername(to.getEmail());
+
+			TokenHandler tokenHandler = new TokenHandler("superSecreto123", udService);
+			response.addHeader(AUTH_HEADER_NAME, tokenHandler.createTokenForUser(user));
+
+			ApiResponse ret = new ApiResponse(null, HttpStatus.OK.value(), HttpStatus.OK.getReasonPhrase(), null, null,
+					null, null);
+			return new ResponseEntity<ApiResponse>(ret, HttpStatus.OK);
+		} catch (Exception e) {
 			e.printStackTrace();
+			ApiResponse ret = new ApiResponse(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR.value(),
+					HttpStatus.INTERNAL_SERVER_ERROR.getReasonPhrase(), null, null, null, null);
+			return new ResponseEntity<ApiResponse>(ret, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
-		UserDetailsService udService = new UserDetailsService();
 
-		User user = udService.loadUserByUsername(to.getEmail());
-
-		TokenHandler tokenHandler = new TokenHandler("superSecreto123", udService);
-		response.addHeader(AUTH_HEADER_NAME, tokenHandler.createTokenForUser(user));
 	}
 
 	@RequestMapping(value = "/api/users/current", method = RequestMethod.PATCH)

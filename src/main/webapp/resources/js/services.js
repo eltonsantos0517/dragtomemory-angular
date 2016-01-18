@@ -29,8 +29,11 @@ materialAdmin
 	}
 
 	this.save = function(user) {
-		//TODO Criar PUT
-		return Restangular.all("user").post(user);
+		if(user.objectId != null){
+			return Restangular.copy(user).put();
+		}else{
+			return Restangular.all("user").post(user);
+		}
 	}
 	this.removeUser = function(userId) {
 		return Restangular.one("user", userId).remove();

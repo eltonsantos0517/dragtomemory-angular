@@ -16,6 +16,7 @@ public class AccountTO extends GenericTO implements Serializable {
 	private String email;
 	private String password;
 	private String passwordAgain;
+	private String facebookToken;
 
 	public String getFirstName() {
 		return firstName;
@@ -57,4 +58,13 @@ public class AccountTO extends GenericTO implements Serializable {
 		this.passwordAgain = passwordAgain;
 	}
 
+	public String getFacebookToken() {
+		return facebookToken;
+	}
+
+	public void setFacebookToken(String facebookToken) {
+		this.facebookToken = facebookToken;
+	}
+
+	
 }
