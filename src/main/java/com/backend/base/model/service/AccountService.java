@@ -40,9 +40,14 @@ public class AccountService extends GenericService<AccountEntity> {
 			AccountEntity entity = getByColumn("email", to.getEmail());
 			
 			if(entity != null){
-				//Facebook
-				entity.setFacebookToken(to.getFacebookToken());
-				return super.save(entity);
+				
+				if(to.getFacebookToken() != null){
+					//Facebook
+					entity.setFacebookToken(to.getFacebookToken());
+					return super.save(entity);
+				}else{
+					throw new InvalidEmailException("This user has already been registered");
+				}
 			}else{
 				entity = new AccountEntity();
 				entity.setFirstName(to.getFirstName());
@@ -54,8 +59,6 @@ public class AccountService extends GenericService<AccountEntity> {
 					//TODO
 					throw new MismatchedPasswordsException("Invalid password");
 				}
-				
-
 				return super.save(entity);
 			}
 		}else{
