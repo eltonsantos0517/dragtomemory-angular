@@ -34,7 +34,7 @@ public class AccountService extends GenericService<AccountEntity> {
 		accountDAO = new AccountDAO();
 	}
 
-	public Key<AccountEntity> saveAccount(final AccountTO to)
+	public Long saveAccount(final AccountTO to)
 			throws NoSuchAlgorithmException, InvalidEmailException, MismatchedPasswordsException, AccountException {
 
 		if (to.getObjectId() == null) {
@@ -46,7 +46,7 @@ public class AccountService extends GenericService<AccountEntity> {
 				if (to.getFacebookToken() != null) {
 					// Facebook
 					entity.setFacebookToken(to.getFacebookToken());
-					return super.save(entity);
+					return super.save(entity).getId();
 				} else {
 					throw new AccountException("An account already exists with the email");
 				}
@@ -62,7 +62,7 @@ public class AccountService extends GenericService<AccountEntity> {
 					throw new MismatchedPasswordsException("Invalid password");
 				}
 
-				return super.save(entity);
+				return super.save(entity).getId();
 			}
 		} else {
 			// Update
@@ -74,7 +74,7 @@ public class AccountService extends GenericService<AccountEntity> {
 				entity.setPassword(SecurityUtil.encryptPassword(to.getPassword()));
 				to.setPassword(null);
 				to.setPasswordAgain(null);
-				return super.save(entity);
+				return super.save(entity).getId();
 			} else {
 				throw new MismatchedPasswordsException("Invalid password");
 			}

@@ -114,9 +114,10 @@ public class UserController {
 
 		try {
 			AccountService service = new AccountService();
-			service.saveAccount(to);
+			Long id = service.saveAccount(to);
+			to.setObjectId(id);
 			ApiResponse ret = new ApiResponse(null, HttpStatus.OK.value(), HttpStatus.OK.getReasonPhrase(), null, null,
-					null, null);
+					null, to);
 
 			return new ResponseEntity<ApiResponse>(ret, HttpStatus.OK);
 		} catch (InvalidEmailException | MismatchedPasswordsException | AccountException e) {
@@ -140,13 +141,17 @@ public class UserController {
 		try {
 
 			if (to == null || to.getObjectId() == null) {
-				// TODO Show user already exists
+				ApiResponse ret = new ApiResponse("Invalid user", HttpStatus.BAD_REQUEST.value(),
+						HttpStatus.BAD_REQUEST.getReasonPhrase(), null, null, null, null);
+
+				return new ResponseEntity<ApiResponse>(ret, HttpStatus.BAD_REQUEST);
 			}
 
 			AccountService service = new AccountService();
-			service.saveAccount(to);
+			Long id = service.saveAccount(to);
+			to.setObjectId(id);
 			ApiResponse ret = new ApiResponse(null, HttpStatus.OK.value(), HttpStatus.OK.getReasonPhrase(), null, null,
-					null, null);
+					null, to);
 
 			return new ResponseEntity<ApiResponse>(ret, HttpStatus.OK);
 		} catch (InvalidEmailException | MismatchedPasswordsException | AccountException e) {

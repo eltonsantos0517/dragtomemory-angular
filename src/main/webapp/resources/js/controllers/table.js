@@ -81,14 +81,16 @@ materialAdmin.controller('tableCtrl', function($filter, $sce, ngTableParams, tab
 	u.currentPage = 1;
 	u.itemsPerPage = 2;
 	u.pages = [];
+	u.allItens = [];
 
 	accountService.list(u.totalItemsBackend, "").then(
 	// success
 	function(response) {
 		u.totalItems = response.totalCount;
 		u.cursor = response.cursor;
-
-		u.preparePages(response.data, u.itemsPerPage, u.currentPage);
+		
+		u.allItens = response.data;
+		u.preparePages(u.allItens, u.itemsPerPage, u.currentPage);
 		u.users = u.getPage(u.currentPage);
 	},
 	// fail
@@ -98,8 +100,10 @@ materialAdmin.controller('tableCtrl', function($filter, $sce, ngTableParams, tab
 
 	u.preparePages = function(itens, itemsPerPage, currentPage) {
 		var i = 1;
-		var pageIndex = u.pages.length;
+		u.pages = [];
+		var pageIndex = 0;
 		var pageList = [];
+
 		for (x in itens) {
 			if (i <= itemsPerPage) {
 				pageList.push(itens[x]);
@@ -127,7 +131,9 @@ materialAdmin.controller('tableCtrl', function($filter, $sce, ngTableParams, tab
 			function(response) {
 				u.cursor = response.cursor;
 				u.totalItems = response.totalCount;
-				u.preparePages(response.data, u.itemsPerPage, u.currentPage);
+
+				Array.prototype.push.apply(u.allItens, response.data);
+				u.preparePages(u.allItens, u.itemsPerPage, u.currentPage);
 				u.users = u.getPage(u.currentPage);
 			},
 			// fail
@@ -148,28 +154,34 @@ materialAdmin.controller('tableCtrl', function($filter, $sce, ngTableParams, tab
 			u.list = 1;
 			u.add = 0;
 			u.edit = 0;
-			accountService.list(u.totalItemsBackend, "").then(
-			// success list
-			function(response) {
-				u.cursor = response.cursor;
-				u.totalItems = response.totalCount;
-				u.pages = [];
-				u.preparePages(response.data, u.itemsPerPage, u.currentPage);
-				u.users = u.getPage(u.currentPage);
-			},
-
-			// fail list
-			function(response) {
-				growlService.growl('Erro ao carregar usuários.', 'danger', 1000)
-			});
-
+			
 			if (!u.user.objectId) {
+				u.totalItems = u.totalItems + 1;
+				u.user.objectId = response.data.objectId;
+
+				var newItens = [ u.user ];
+				
+				Array.prototype.push.apply(u.allItens, newItens);
+				u.preparePages(u.allItens, u.itemsPerPage, u.currentPage);
+				u.users = u.getPage(u.currentPage);
+				u.user = {};
+				
 				growlService.growl('Usuário criado com sucesso.', 'success', 1000);
 			} else {
+				
+				for(var i = u.allItens.length - 1; i >= 0; i--) {
+				    if(u.allItens[i].objectId === u.user.objectId) {
+				    	u.allItens[i] = u.user;
+				    	break;
+				    }
+				}
+				
+				u.preparePages(u.allItens, u.itemsPerPage, u.currentPage);
+				u.users = u.getPage(u.currentPage);
+				u.user = {};
+				
 				growlService.growl('Usuário atualizado com sucesso.', 'success', 1000);
 			}
-
-			u.user = {};
 		},
 		// fail
 		function(response) {
@@ -200,8 +212,9 @@ materialAdmin.controller('tableCtrl', function($filter, $sce, ngTableParams, tab
 			u.cursor = response.cursor;
 			u.totalItems = response.totalCount;
 			u.currentPage = 1;
-			u.pages = [];
-			u.preparePages(response.data, u.itemsPerPage, u.currentPage);
+			
+			u.allItens = response.data;
+			u.preparePages(u.allItens, u.itemsPerPage, u.currentPage);
 			u.users = u.getPage(u.currentPage);
 		},
 		// fail
@@ -234,21 +247,18 @@ materialAdmin.controller('tableCtrl', function($filter, $sce, ngTableParams, tab
 				u.user = accountService.removeUser(userId).then(
 				// success
 				function(response) {
-					accountService.list(u.totalItemsBackend, "").then(
-					// success
-					function(response) {
-						u.currentPage = 1;
-						u.pages = [];
-						u.cursor = response.cursor;
-						u.totalItems = response.totalCount;
-						u.preparePages(response.data, u.itemsPerPage, u.currentPage);
-						u.users = u.getPage(u.currentPage);
-						
-					},
-					// fail
-					function(response) {
-						growlService.growl('Erro ao carregar usuários.', 'danger', 1000)
-					});
+					u.currentPage = 1;
+					
+					for(var i = u.allItens.length - 1; i >= 0; i--) {
+					    if(u.allItens[i].objectId === userId) {
+					    	u.allItens.splice(i, 1);
+					    	u.totalItems = u.totalItems -1;
+					    	break;
+					    }
+					}
+					
+					u.preparePages(u.allItens, u.itemsPerPage, u.currentPage);
+					u.users = u.getPage(u.currentPage);
 
 					swal("Deleted!", "The user has been deleted.", "success");
 				},
