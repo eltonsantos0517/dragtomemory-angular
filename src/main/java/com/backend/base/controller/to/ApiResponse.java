@@ -31,7 +31,7 @@ public class ApiResponse implements Serializable {
 	private Integer httpStatusCode;
 	private String errorMessage;
 	private String httpStatusMessage;
-	private Integer totalCount;
+	private Long totalCount;
 	private Integer resultCount;
 	private String cursor;
 	private Object data;
@@ -39,7 +39,7 @@ public class ApiResponse implements Serializable {
 	public ApiResponse() {
 	}
 
-	public ApiResponse(String errorMessage, Integer httpStatusCode, String httpStatusMessage, Integer totalCount,
+	public ApiResponse(String errorMessage, Integer httpStatusCode, String httpStatusMessage, Long totalCount,
 			Integer resultCount, String cursor, Object data) {
 		this.httpStatusCode = httpStatusCode;
 		this.httpStatusMessage = httpStatusMessage;
@@ -82,11 +82,11 @@ public class ApiResponse implements Serializable {
 		this.data = data;
 	}
 
-	public Integer getTotalCount() {
+	public Long getTotalCount() {
 		return totalCount;
 	}
 
-	public void setTotalCount(Integer totalCount) {
+	public void setTotalCount(Long totalCount) {
 		this.totalCount = totalCount;
 	}
 

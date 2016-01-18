@@ -1,8 +1,8 @@
 package com.backend.base.security.config;
 
 import java.io.IOException;
-import java.security.NoSuchAlgorithmException;
 
+import javax.security.auth.login.AccountException;
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -18,6 +18,7 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 import com.backend.base.controller.to.AccountTO;
 import com.backend.base.exception.InvalidEmailException;
+import com.backend.base.exception.MismatchedPasswordsException;
 import com.backend.base.model.service.AccountService;
 import com.backend.base.security.entity.User;
 import com.backend.base.security.entity.UserAuthentication;
@@ -46,17 +47,18 @@ class StatelessRegisterFilter extends AbstractAuthenticationProcessingFilter {
 
 		try {
 			AccountService service = new AccountService();
-			service.saveAccount(to, false);
-		} catch (NoSuchAlgorithmException e) {
+			service.saveAccount(to);
+
+			final UsernamePasswordAuthenticationToken loginToken = new UsernamePasswordAuthenticationToken(
+					to.getEmail(), to.getPassword());
+			return getAuthenticationManager().authenticate(loginToken);
+		} catch (InvalidEmailException | MismatchedPasswordsException | AccountException e) {
 			e.printStackTrace();
-		} catch (InvalidEmailException e) {
-			return getAuthenticationManager().authenticate(new UsernamePasswordAuthenticationToken("",""));
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 
-		final UsernamePasswordAuthenticationToken loginToken = new UsernamePasswordAuthenticationToken(
-				to.getEmail(), to.getPassword());
-		return getAuthenticationManager().authenticate(loginToken);
-
+		return null;
 	}
 
 	@Override

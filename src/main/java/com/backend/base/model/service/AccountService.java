@@ -5,6 +5,7 @@ import java.security.NoSuchAlgorithmException;
 import java.util.Date;
 
 import javax.mail.MessagingException;
+import javax.security.auth.login.AccountException;
 
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
@@ -33,57 +34,51 @@ public class AccountService extends GenericService<AccountEntity> {
 		accountDAO = new AccountDAO();
 	}
 
-	public Key<AccountEntity> saveAccount(final AccountTO to) throws NoSuchAlgorithmException, InvalidEmailException, MismatchedPasswordsException{
-		
-		if(to.getObjectId() == null){
-			
+	public Key<AccountEntity> saveAccount(final AccountTO to)
+			throws NoSuchAlgorithmException, InvalidEmailException, MismatchedPasswordsException, AccountException {
+
+		if (to.getObjectId() == null) {
+
 			AccountEntity entity = getByColumn("email", to.getEmail());
-			
-			if(entity != null){
-				//Facebook
-				entity.setFacebookToken(to.getFacebookToken());
-				return super.save(entity);
-			}else{
+
+			if (entity != null) {
+				// é via Facebbok?
+				if (to.getFacebookToken() != null) {
+					// Facebook
+					entity.setFacebookToken(to.getFacebookToken());
+					return super.save(entity);
+				} else {
+					throw new AccountException("An account already exists with the email");
+				}
+			} else {
 				entity = new AccountEntity();
 				entity.setFirstName(to.getFirstName());
 				entity.setLastName(to.getLastName());
 				entity.setEmail(to.getEmail());
-				if (validatePassword(to))  {
+				if (SecurityUtil.validateNewPassword(to.getPassword(), to.getPasswordAgain())) {
 					entity.setPassword(SecurityUtil.encryptPassword(to.getPassword()));
-				}else{
-					//TODO
+				} else {
+					// TODO
 					throw new MismatchedPasswordsException("Invalid password");
 				}
-				
 
 				return super.save(entity);
 			}
-		}else{
-			//Update
+		} else {
+			// Update
 			AccountEntity entity = getByColumn("email", to.getEmail());
 			entity.setFirstName(to.getFirstName());
 			entity.setLastName(to.getLastName());
 
-			if (validatePassword(to))  {
+			if (SecurityUtil.validateNewPassword(to.getPassword(), to.getPasswordAgain())) {
 				entity.setPassword(SecurityUtil.encryptPassword(to.getPassword()));
 				to.setPassword(null);
 				to.setPasswordAgain(null);
 				return super.save(entity);
-			}else{
+			} else {
 				throw new MismatchedPasswordsException("Invalid password");
 			}
 		}
-	}
-
-	private boolean validatePassword(AccountTO to) {
-		if(to.getPassword() != null && !to.getPassword().isEmpty()){
-			if(to.getPasswordAgain() != null && !to.getPasswordAgain().isEmpty()){
-				if(to.getPassword().equals(to.getPasswordAgain())){
-					return true;
-				}
-			}
-		}
-		return false;		
 	}
 
 	public void forgotPassword(final String email) throws Exception {
@@ -113,7 +108,9 @@ public class AccountService extends GenericService<AccountEntity> {
 		recoveryToken.setActive(true);
 		recoveryTokenService.save(recoveryToken);
 
-		final String http = "<html><head></head><body><p><a href=\"" + "https://gae-spring-angular.appspot.com/recovery-password/" +recoveryToken.getToken()+ "\">Clique aqui</a></p></body></html>";
+		final String http = "<html><head></head><body><p><a href=\""
+				+ "https://gae-spring-angular.appspot.com/recovery-password/" + recoveryToken.getToken()
+				+ "\">Clique aqui</a></p></body></html>";
 		System.out.println(http);
 		try {
 			EmailUtil.sendEmail(email, user.getUsername(), "Change Password Request", http);
@@ -123,33 +120,34 @@ public class AccountService extends GenericService<AccountEntity> {
 	}
 
 	public void recoveryPassword(final RecoveryTokenEntity recoveryToken) throws Exception {
-		
+
 		final RecoveryTokenService service = new RecoveryTokenService();
 		final RecoveryTokenEntity recoveryTokenPersisted = service.getByColumn("token", recoveryToken.getToken());
-		
-		if(recoveryTokenPersisted == null){
+
+		if (recoveryTokenPersisted == null) {
 			throw new InvalidTokenException("Invalid token");
 		}
-		
-		if(!recoveryTokenPersisted.isActive() || recoveryTokenPersisted.getCreatedAt().compareTo(new Date()) > recoveryTokenPersisted.getValidate()){
+
+		if (!recoveryTokenPersisted.isActive()
+				|| recoveryTokenPersisted.getCreatedAt().compareTo(new Date()) > recoveryTokenPersisted.getValidate()) {
 			throw new InvalidTokenException("Expired token");
 		}
-		
-		if(!SecurityUtil.validateNewPassword(recoveryToken.getNewPassword(), recoveryToken.getNewPasswordAgain())){
+
+		if (!SecurityUtil.validateNewPassword(recoveryToken.getNewPassword(), recoveryToken.getNewPasswordAgain())) {
 			throw new MismatchedPasswordsException("Mismatched passwords");
 		}
-		
+
 		Key<AccountEntity> accountKey = Key.create(AccountEntity.class, recoveryTokenPersisted.getUserId());
 		AccountEntity user = super.get(accountKey.getId());
-		
-		if(user==null){
+
+		if (user == null) {
 			throw new Exception("Invalid user in token");
 		}
-		
+
 		user.setPassword(SecurityUtil.encryptPassword(recoveryToken.getNewPassword()));
 		save(user);
-		
-		//inativar token
+
+		// inativar token
 		recoveryTokenPersisted.setActive(false);
 		service.save(recoveryTokenPersisted);
 	}

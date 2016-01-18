@@ -74,24 +74,21 @@ materialAdmin.controller('tableCtrl', function($filter, $sce, ngTableParams, tab
 	u.edit = 0;
 	u.user = {};
 	u.users = [];
-	u.allUsers = [];
 
 	// Pagination Config
 	u.totalItems = 10;
-	u.totalItemsBackend = 10;
+	u.totalItemsBackend = 6;
 	u.currentPage = 1;
-	u.itemsPerPage = 2;
 	u.itemsPerPage = 2;
 	u.pages = [];
 
 	accountService.list(u.totalItemsBackend, "").then(
 	// success
 	function(response) {
-		u.allUser = response.data;
-		u.totalItems = response.resultCount;
+		u.totalItems = response.totalCount;
 		u.cursor = response.cursor;
 
-		u.preparePages(u.allUser, u.itemsPerPage, u.currentPage);
+		u.preparePages(response.data, u.itemsPerPage, u.currentPage);
 		u.users = u.getPage(u.currentPage);
 	},
 	// fail
@@ -101,7 +98,7 @@ materialAdmin.controller('tableCtrl', function($filter, $sce, ngTableParams, tab
 
 	u.preparePages = function(itens, itemsPerPage, currentPage) {
 		var i = 1;
-		var pageIndex = 0;
+		var pageIndex = u.pages.length;
 		var pageList = [];
 		for (x in itens) {
 			if (i <= itemsPerPage) {
@@ -122,7 +119,23 @@ materialAdmin.controller('tableCtrl', function($filter, $sce, ngTableParams, tab
 	};
 
 	u.getPage = function(currentPage) {
-		return u.pages[currentPage - 1];
+		var pageRet = u.pages[currentPage - 1];
+
+		if (!pageRet || pageRet.length === 0) {
+			accountService.list(u.totalItemsBackend, u.cursor).then(
+			// success
+			function(response) {
+				u.cursor = response.cursor;
+				u.totalItems = response.totalCount;
+				u.preparePages(response.data, u.itemsPerPage, u.currentPage);
+				u.users = u.getPage(u.currentPage);
+			},
+			// fail
+			function(response) {
+				growlService.growl('Erro ao carregar usuários.', 'danger', 1000)
+			});
+		}
+		return pageRet;
 	};
 
 	u.pageChanged = function() {
@@ -130,37 +143,37 @@ materialAdmin.controller('tableCtrl', function($filter, $sce, ngTableParams, tab
 	};
 	u.save = function() {
 		accountService.save(u.user).then(
-			// success
+		// success
+		function(response) {
+			u.list = 1;
+			u.add = 0;
+			u.edit = 0;
+			accountService.list(u.totalItemsBackend, "").then(
+			// success list
 			function(response) {
-				u.list = 1;
-				u.add = 0;
-				u.edit = 0;
-				accountService.list(u.totalItemsBackend, "").then(
-					// success list
-					function(response) {
-						u.cursor = response.cursor;
-						u.allUser = response.data;
-						u.totalItems = response.resultCount;
-						u.preparePages(u.allUser, u.itemsPerPage, u.currentPage);
-						u.users = u.getPage(u.currentPage);
-					},
-					
-					// fail list
-					function(response) {
-						growlService.growl('Erro ao carregar usuários.', 'danger', 1000)
-				});
-	
-				if (!u.user.objectId) {
-					growlService.growl('Usuário criado com sucesso.', 'success', 1000);
-				} else {
-					growlService.growl('Usuário atualizado com sucesso.', 'success', 1000);
-				}
-				
-				u.user = {};
+				u.cursor = response.cursor;
+				u.totalItems = response.totalCount;
+				u.pages = [];
+				u.preparePages(response.data, u.itemsPerPage, u.currentPage);
+				u.users = u.getPage(u.currentPage);
 			},
-			// fail
+
+			// fail list
 			function(response) {
-				growlService.growl(response.data.errorMessage, 'danger');
+				growlService.growl('Erro ao carregar usuários.', 'danger', 1000)
+			});
+
+			if (!u.user.objectId) {
+				growlService.growl('Usuário criado com sucesso.', 'success', 1000);
+			} else {
+				growlService.growl('Usuário atualizado com sucesso.', 'success', 1000);
+			}
+
+			u.user = {};
+		},
+		// fail
+		function(response) {
+			growlService.growl(response.data.errorMessage, 'danger');
 		});
 	};
 
@@ -185,16 +198,10 @@ materialAdmin.controller('tableCtrl', function($filter, $sce, ngTableParams, tab
 		// success
 		function(response) {
 			u.cursor = response.cursor;
-			u.totalItems = 10;
-			u.totalItemsBackend = 10;
+			u.totalItems = response.totalCount;
 			u.currentPage = 1;
-			u.itemsPerPage = 2;
-			u.itemsPerPage = 2;
 			u.pages = [];
-
-			u.allUser = response.data;
-			u.totalItems = response.resultCount;
-			u.preparePages(u.allUser, u.itemsPerPage, u.currentPage);
+			u.preparePages(response.data, u.itemsPerPage, u.currentPage);
 			u.users = u.getPage(u.currentPage);
 		},
 		// fail
@@ -233,16 +240,10 @@ materialAdmin.controller('tableCtrl', function($filter, $sce, ngTableParams, tab
 					accountService.list(u.totalItemsBackend, "").then(
 					// success
 					function(response) {
-						u.totalItems = 10;
-						u.totalItemsBackend = 10;
 						u.currentPage = 1;
-						u.itemsPerPage = 2;
-						u.itemsPerPage = 2;
 						u.pages = [];
-
-						u.allUser = response.data;
 						u.totalItems = response.resultCount;
-						u.users = u.preparePages(u.allUser, u.itemsPerPage, u.currentPage);
+						u.users = u.preparePages(response.data, u.itemsPerPage, u.currentPage);
 						u.cursor = response.cursor;
 					},
 					// fail

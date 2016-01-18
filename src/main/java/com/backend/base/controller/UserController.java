@@ -2,6 +2,7 @@ package com.backend.base.controller;
 
 import java.util.List;
 
+import javax.security.auth.login.AccountException;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.http.HttpStatus;
@@ -52,11 +53,12 @@ public class UserController {
 		try {
 			AccountService service = new AccountService();
 
+			Long totalCount = service.count();
 			CollectionResponse<AccountEntity> response = service.listPage(limit, cursor);
 			if (response != null) {
 
-				ApiResponse ret = new ApiResponse(null, HttpStatus.OK.value(), HttpStatus.OK.getReasonPhrase(), null,
-						response.getItems().size(), response.getNextPageToken(), response.getItems());
+				ApiResponse ret = new ApiResponse(null, HttpStatus.OK.value(), HttpStatus.OK.getReasonPhrase(),
+						totalCount, response.getItems().size(), response.getNextPageToken(), response.getItems());
 
 				return new ResponseEntity<ApiResponse>(ret, HttpStatus.OK);
 			}
@@ -117,7 +119,7 @@ public class UserController {
 					null, null);
 
 			return new ResponseEntity<ApiResponse>(ret, HttpStatus.OK);
-		} catch (InvalidEmailException | MismatchedPasswordsException e) {
+		} catch (InvalidEmailException | MismatchedPasswordsException | AccountException e) {
 			ApiResponse ret = new ApiResponse(e.getMessage(), HttpStatus.BAD_REQUEST.value(),
 					HttpStatus.BAD_REQUEST.getReasonPhrase(), null, null, null, null);
 
@@ -147,7 +149,7 @@ public class UserController {
 					null, null);
 
 			return new ResponseEntity<ApiResponse>(ret, HttpStatus.OK);
-		} catch (InvalidEmailException | MismatchedPasswordsException e) {
+		} catch (InvalidEmailException | MismatchedPasswordsException | AccountException e) {
 			ApiResponse ret = new ApiResponse(e.getMessage(), HttpStatus.BAD_REQUEST.value(),
 					HttpStatus.BAD_REQUEST.getReasonPhrase(), null, null, null, null);
 
@@ -173,8 +175,8 @@ public class UserController {
 
 		try {
 			service.forgotPassword(email);
-			ret = new ApiResponse(null, HttpStatus.OK.value(), HttpStatus.OK.getReasonPhrase(),
-					null, null, null, "Email successfully sent");
+			ret = new ApiResponse(null, HttpStatus.OK.value(), HttpStatus.OK.getReasonPhrase(), null, null, null,
+					"Email successfully sent");
 			return new ResponseEntity<ApiResponse>(ret, HttpStatus.OK);
 		} catch (InvalidEmailException e) {
 			ret = new ApiResponse(e.getMessage(), HttpStatus.BAD_REQUEST.value(),

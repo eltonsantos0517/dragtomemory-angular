@@ -20,13 +20,6 @@ materialAdmin
 
 					FacebookProvider.init('174666509555605');
 					
-					// add a response interceptor
-//					RestangularProvider.addResponseInterceptor(function(data,
-//							operation, what, url, response, deferred) {
-//						return data.data;
-//					});
-
-					
 					// Default Route
 					$urlRouterProvider.otherwise("login");
 					

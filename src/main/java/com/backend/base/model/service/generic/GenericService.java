@@ -126,6 +126,10 @@ public abstract class GenericService<T extends GenericEntity> {
 			return null;
 		}
 	}
+	
+	public long count() {
+		return getDAO().count();
+	}
 
 	public abstract GenericDAO<T> getDAO();
 

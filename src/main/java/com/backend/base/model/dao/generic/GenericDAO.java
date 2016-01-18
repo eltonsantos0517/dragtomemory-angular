@@ -57,7 +57,11 @@ public class GenericDAO<T extends GenericEntity> {
 	public List<T> listAll() throws EntityNotFoundException {
 		return ofy().load().type(clazz).list();
 	}
-	
+
+	public long count() {
+		return ofy().load().type(clazz).count();
+	}
+
 	public CollectionResponse<T> listPage(int limit, String cursor) throws EntityNotFoundException {
 		Query<T> query = ofy().load().type(clazz).limit(limit);
 
@@ -81,24 +85,26 @@ public class GenericDAO<T extends GenericEntity> {
 		}
 		return null;
 	}
-	
+
 	public List<T> listPage(int limit, int offset) throws EntityNotFoundException {
 		return ofy().load().type(clazz).orderKey(true).limit(limit).offset(offset).list();
 	}
-	
+
 	public List<T> listByColumn(String columnName, Object value) throws EntityNotFoundException {
 		return ofy().load().type(clazz).filter(columnName, value).list();
 	}
 
-	public List<T> listByColumnWithLimitAndOrder(String columnName, Object value, int limit, String order) throws EntityNotFoundException {
+	public List<T> listByColumnWithLimitAndOrder(String columnName, Object value, int limit, String order)
+			throws EntityNotFoundException {
 		return ofy().load().type(clazz).limit(limit).filter(columnName, value).order(order).list();
 	}
-	
+
 	public List<T> listByColumnWithOrder(String columnName, Object value, String order) throws EntityNotFoundException {
 		return ofy().load().type(clazz).filter(columnName, value).order(order).list();
 	}
-	
-	public List<T> listByFilterAndColumn(Filter filter, String columnName, Object value) throws EntityNotFoundException {
+
+	public List<T> listByFilterAndColumn(Filter filter, String columnName, Object value)
+			throws EntityNotFoundException {
 		return ofy().load().type(clazz).filter(filter).filter(columnName, value).list();
 	}
 }
