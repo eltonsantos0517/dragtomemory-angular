@@ -5,43 +5,45 @@ import java.util.Collection;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 
+import com.backend.base.controller.to.AccountTO;
+
 public class UserAuthentication implements Authentication {
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	
-	private final User user;
+
+	private final AccountTO account;
 	private boolean authenticated = true;
 
-	public UserAuthentication(User user) {
-		this.user = user;
+	public UserAuthentication(AccountTO account) {
+		this.account = account;
 	}
 
 	@Override
 	public String getName() {
-		return user.getUsername();
+		return account.getUsername();
 	}
 
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
-		return user.getAuthorities();
+		return account.getAuthorities();
 	}
 
 	@Override
 	public Object getCredentials() {
-		return user.getPassword();
+		return account.getPassword();
 	}
 
 	@Override
-	public User getDetails() {
-		return user;
+	public AccountTO getDetails() {
+		return account;
 	}
 
 	@Override
 	public Object getPrincipal() {
-		return user.getUsername();
+		return account.getUsername();
 	}
 
 	@Override

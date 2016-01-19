@@ -2,21 +2,27 @@ package com.backend.base.security.entity;
 
 import org.springframework.security.core.GrantedAuthority;
 
+import com.backend.base.controller.to.AccountTO;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 public class UserAuthority implements GrantedAuthority {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	@JsonIgnore
-	private User user;
+	private AccountTO account;
 
 	private String authority;
 
-	public User getUser() {
-		return user;
+	public AccountTO getAccount() {
+		return account;
 	}
 
-	public void setUser(User user) {
-		this.user = user;
+	public void setAccount(AccountTO account) {
+		this.account = account;
 	}
 
 	@Override

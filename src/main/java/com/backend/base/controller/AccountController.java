@@ -1,7 +1,5 @@
 package com.backend.base.controller;
 
-import java.util.List;
-
 import javax.security.auth.login.AccountException;
 import javax.servlet.http.HttpServletResponse;
 
@@ -9,7 +7,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,25 +22,33 @@ import com.backend.base.exception.MismatchedPasswordsException;
 import com.backend.base.model.entity.AccountEntity;
 import com.backend.base.model.entity.RecoveryTokenEntity;
 import com.backend.base.model.service.AccountService;
-import com.backend.base.security.entity.User;
 import com.backend.base.security.entity.UserAuthentication;
-import com.backend.base.security.entity.UserRole;
 import com.backend.base.security.jwt.TokenHandler;
 import com.backend.base.security.service.UserDetailsService;
 import com.google.api.server.spi.response.CollectionResponse;
 
 @RestController
-public class UserController {
+public class AccountController {
 
 	private static final String AUTH_HEADER_NAME = "Authorization";
 
 	@RequestMapping(value = "/api/users/current", method = RequestMethod.GET)
-	public User getCurrent() {
+	public ResponseEntity<ApiResponse> getCurrent() {
 		final Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		if (authentication instanceof UserAuthentication) {
-			return ((UserAuthentication) authentication).getDetails();
+			
+			ApiResponse ret = new ApiResponse(null, HttpStatus.OK.value(), HttpStatus.OK.getReasonPhrase(),
+					1l, 1, null, ((UserAuthentication) authentication).getDetails());
+
+			return new ResponseEntity<ApiResponse>(ret, HttpStatus.OK);
 		}
-		return new User(authentication.getName()); // anonymous user support
+		
+		
+		// anonymous user support
+		ApiResponse ret = new ApiResponse(null, HttpStatus.OK.value(), HttpStatus.OK.getReasonPhrase(),
+				1l, 1, null, new AccountTO(authentication.getName()));
+
+		return new ResponseEntity<ApiResponse>(ret, HttpStatus.OK);
 	}
 
 	@RequestMapping(value = "/api/1/user", method = RequestMethod.GET)
@@ -224,10 +229,10 @@ public class UserController {
 			service.saveAccount(to);
 			UserDetailsService udService = new UserDetailsService();
 
-			User user = udService.loadUserByUsername(to.getEmail());
+			AccountTO account = udService.loadUserByUsername(to.getEmail());
 
 			TokenHandler tokenHandler = new TokenHandler("superSecreto123", udService);
-			response.addHeader(AUTH_HEADER_NAME, tokenHandler.createTokenForUser(user));
+			response.addHeader(AUTH_HEADER_NAME, tokenHandler.createTokenForUser(account));
 
 			ApiResponse ret = new ApiResponse(null, HttpStatus.OK.value(), HttpStatus.OK.getReasonPhrase(), null, null,
 					null, null);
@@ -239,52 +244,5 @@ public class UserController {
 			return new ResponseEntity<ApiResponse>(ret, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 
-	}
-
-	@RequestMapping(value = "/api/users/current", method = RequestMethod.PATCH)
-	public ResponseEntity<String> changePassword(@RequestBody final User user) {
-		// final Authentication authentication =
-		// SecurityContextHolder.getContext().getAuthentication();
-		final User currentUser = null;// userRepository.findByUsername(authentication.getName());
-
-		if (user.getNewPassword() == null || user.getNewPassword().length() < 4) {
-			return new ResponseEntity<String>("new password to short", HttpStatus.UNPROCESSABLE_ENTITY);
-		}
-
-		final BCryptPasswordEncoder pwEncoder = new BCryptPasswordEncoder();
-		if (!pwEncoder.matches(user.getPassword(), currentUser.getPassword())) {
-			return new ResponseEntity<String>("old password mismatch", HttpStatus.UNPROCESSABLE_ENTITY);
-		}
-
-		currentUser.setPassword(pwEncoder.encode(user.getNewPassword()));
-		// userRepository.saveAndFlush(currentUser);
-		return new ResponseEntity<String>("password changed", HttpStatus.OK);
-	}
-
-	@RequestMapping(value = "/admin/api/users/{user}/grant/role/{role}", method = RequestMethod.POST)
-	public ResponseEntity<String> grantRole(@PathVariable User user, @PathVariable UserRole role) {
-		if (user == null) {
-			return new ResponseEntity<String>("invalid user id", HttpStatus.UNPROCESSABLE_ENTITY);
-		}
-
-		user.grantRole(role);
-		// userRepository.saveAndFlush(user);
-		return new ResponseEntity<String>("role granted", HttpStatus.OK);
-	}
-
-	@RequestMapping(value = "/admin/api/users/{user}/revoke/role/{role}", method = RequestMethod.POST)
-	public ResponseEntity<String> revokeRole(@PathVariable User user, @PathVariable UserRole role) {
-		if (user == null) {
-			return new ResponseEntity<String>("invalid user id", HttpStatus.UNPROCESSABLE_ENTITY);
-		}
-
-		user.revokeRole(role);
-		// userRepository.saveAndFlush(user);
-		return new ResponseEntity<String>("role revoked", HttpStatus.OK);
-	}
-
-	@RequestMapping(value = "/admin/api/users", method = RequestMethod.GET)
-	public List<User> list() {
-		return null;// userRepository.findAll();
 	}
 }

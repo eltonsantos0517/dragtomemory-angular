@@ -7,9 +7,9 @@ import org.springframework.security.authentication.AccountStatusUserDetailsCheck
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import com.backend.base.controller.to.AccountTO;
 import com.backend.base.model.entity.AccountEntity;
 import com.backend.base.model.service.AccountService;
-import com.backend.base.security.entity.User;
 import com.backend.base.security.entity.UserRole;
 
 @Service
@@ -18,14 +18,14 @@ public class UserDetailsService implements org.springframework.security.core.use
 	private final AccountStatusUserDetailsChecker detailsChecker = new AccountStatusUserDetailsChecker();
 
 	@Override
-	public final User loadUserByUsername(String username) throws UsernameNotFoundException {
+	public final AccountTO loadUserByUsername(String email) throws UsernameNotFoundException {
 		AccountService service = new AccountService();
 		AccountEntity entity;
-		
+
 		int attempts = 0;
 		do {
-			
-			entity = service.getByColumn("email", username);
+
+			entity = service.getByColumn("email", email);
 			if (entity == null) {
 				if (attempts < 4) {
 					attempts++;
@@ -35,26 +35,26 @@ public class UserDetailsService implements org.springframework.security.core.use
 			} else {
 				break;
 			}
-			
+
 			try {
 				Thread.sleep(500);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
-			
+
 		} while (true);
 
 		Set<UserRole> roles = new HashSet<UserRole>();
 		roles.add(UserRole.ADMIN);
 		roles.add(UserRole.USER);
 
-		final User user = new User();
-		user.setUsername(entity.getEmail());
-		user.setObjectId(entity.getObjectId());
-		user.setPassword(entity.getPassword());
-		user.setRoles(roles);
+		final AccountTO account = new AccountTO();
+		account.setUsername(entity.getEmail());
+		account.setObjectId(entity.getObjectId());
+		account.setPassword(entity.getPassword());
+		account.setRoles(roles);
 
-		detailsChecker.check(user);
-		return user;
+		detailsChecker.check(account);
+		return account;
 	}
 }

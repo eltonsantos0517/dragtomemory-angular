@@ -9,45 +9,43 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 @Controller
 @RequestMapping("/")
-public class IndexController {//Serves main index.html
+public class IndexController {// Serves main index.html
 
-	  	@RequestMapping(method = RequestMethod.GET)
-	    public String getIndexPage() {
-	        return "index";
-	    }
-	  	
-	  	@RequestMapping(method = RequestMethod.GET, value="/login")
-	     public String getLogin() {
-	     	return "login";	
-	     }
-	  	
-	  	@RequestMapping(method = RequestMethod.GET, value="/console/home")
-	     public String getHome() {
-	     	return "index";	
-	     }
-	  	
-	  	@RequestMapping(method = RequestMethod.GET, value="/recovery-password/{token}")
-	     public String getRecoveryPassword(@PathVariable("token") String token) {
-	     	return "recovery-password";	
-	     }
-	  	
-	  	@RequestMapping(method = RequestMethod.GET, value="/**")
-	     public String getAny() {
-	     	return "404";	
-	     }
-	  	 
-	  	 
-		private String getPrincipal(){
-			String userName = null;
-			Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+	@RequestMapping(method = RequestMethod.GET)
+	public String getIndexPage() {
+		return "index";
+	}
 
-			if (principal instanceof UserDetails) {
-				userName = ((UserDetails)principal).getUsername();
-			} else {
-				userName = principal.toString();
-			}
-			return userName;
+	@RequestMapping(method = RequestMethod.GET, value = "/login")
+	public String getLogin() {
+		return "login";
+	}
+
+	@RequestMapping(method = RequestMethod.GET, value = "/console/home")
+	public String getHome() {
+		return "index";
+	}
+
+	@RequestMapping(method = RequestMethod.GET, value = "/recovery-password/{token}")
+	public String getRecoveryPassword(@PathVariable("token") String token) {
+		return "recovery-password";
+	}
+
+	@RequestMapping(method = RequestMethod.GET, value = "/**")
+	public String getAny() {
+		return "404";
+	}
+
+	private String getPrincipal() {
+		String userName = null;
+		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+		if (principal instanceof UserDetails) {
+			userName = ((UserDetails) principal).getUsername();
+		} else {
+			userName = principal.toString();
 		}
-	  
-	  	
+		return userName;
+	}
+
 }

@@ -8,7 +8,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.security.core.Authentication;
 
-import com.backend.base.security.entity.User;
+import com.backend.base.controller.to.AccountTO;
 import com.backend.base.security.entity.UserAuthentication;
 import com.backend.base.security.service.UserDetailsService;
 
@@ -32,9 +32,9 @@ public class TokenAuthenticationService {
 	}
 
 	public void addAuthentication(HttpServletResponse response, UserAuthentication authentication) {
-		final User user = authentication.getDetails();
-		user.setExpires(System.currentTimeMillis() + ONE_DAY);
-		response.addHeader(AUTH_HEADER_NAME, tokenHandler.createTokenForUser(user));
+		final AccountTO account = authentication.getDetails();
+		account.setExpires(System.currentTimeMillis() + ONE_DAY);
+		response.addHeader(AUTH_HEADER_NAME, tokenHandler.createTokenForUser(account));
 	}
 
 	public Authentication getAuthentication(HttpServletRequest request) {
@@ -47,9 +47,9 @@ public class TokenAuthenticationService {
 		}
 
 		if (token != null) {
-			final User user = tokenHandler.parseUserFromToken(token);
-			if (user != null) {
-				return new UserAuthentication(user);
+			final AccountTO account = tokenHandler.parseUserFromToken(token);
+			if (account != null) {
+				return new UserAuthentication(account);
 			}
 		}
 		return null;

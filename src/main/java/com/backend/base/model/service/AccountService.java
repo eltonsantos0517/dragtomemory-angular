@@ -18,7 +18,6 @@ import com.backend.base.model.dao.generic.GenericDAO;
 import com.backend.base.model.entity.AccountEntity;
 import com.backend.base.model.entity.RecoveryTokenEntity;
 import com.backend.base.model.service.generic.GenericService;
-import com.backend.base.security.entity.User;
 import com.backend.base.security.service.UserDetailsService;
 import com.backend.base.security.util.SecurityUtil;
 import com.backend.base.util.EmailUtil;
@@ -55,7 +54,8 @@ public class AccountService extends GenericService<AccountEntity> {
 				entity.setFirstName(to.getFirstName());
 				entity.setLastName(to.getLastName());
 				entity.setEmail(to.getEmail());
-				if (SecurityUtil.validateNewPassword(to.getPassword(), to.getPasswordAgain()) || to.getFacebookToken()!=null) {
+				if (SecurityUtil.validateNewPassword(to.getPassword(), to.getPasswordAgain())
+						|| to.getFacebookToken() != null) {
 					entity.setPassword(SecurityUtil.encryptPassword(to.getPassword()));
 				} else {
 					// TODO
@@ -88,21 +88,21 @@ public class AccountService extends GenericService<AccountEntity> {
 		}
 
 		final UserDetailsService service = new UserDetailsService();
-		User user = null;
+		AccountTO account = null;
 
 		try {
-			user = service.loadUserByUsername(email);
+			account = service.loadUserByUsername(email);
 		} catch (UsernameNotFoundException e) {
 			System.out.println("User not found");
 			return;
 		}
 
 		RecoveryTokenService recoveryTokenService = new RecoveryTokenService();
-		recoveryTokenService.inactivateTokensByUser(user);
+		recoveryTokenService.inactivateTokensByUser(account);
 
 		final RecoveryTokenEntity recoveryToken = new RecoveryTokenEntity();
 		recoveryToken.setToken(SecurityUtil.newToken().replace("-", ""));
-		recoveryToken.setUserId(user.getObjectId());
+		recoveryToken.setUserId(account.getObjectId());
 		recoveryToken.setValidate(SecurityUtil.getValidateOfTokenInDays());
 		recoveryToken.setCreatedAt(new Date());
 		recoveryToken.setActive(true);
@@ -113,7 +113,7 @@ public class AccountService extends GenericService<AccountEntity> {
 				+ "\">Clique aqui</a></p></body></html>";
 		System.out.println(http);
 		try {
-			EmailUtil.sendEmail(email, user.getUsername(), "Change Password Request", http);
+			EmailUtil.sendEmail(email, account.getUsername(), "Change Password Request", http);
 		} catch (UnsupportedEncodingException | MessagingException e) {
 			System.out.println("Error sending email");
 		}

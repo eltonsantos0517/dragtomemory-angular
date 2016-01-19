@@ -1,8 +1,10 @@
 package com.backend.base.model.entity;
 
 import java.io.Serializable;
+import java.util.Set;
 
 import com.backend.base.model.entity.generic.GenericEntity;
+import com.backend.base.security.entity.UserAuthority;
 import com.googlecode.objectify.annotation.Entity;
 import com.googlecode.objectify.annotation.Index;
 
@@ -28,6 +30,26 @@ public class AccountEntity extends GenericEntity implements Serializable {
 	
 	@Index
 	private String facebookToken;
+	
+	@Index
+	private long expires;
+	
+	@Index
+	private boolean accountExpired;
+	
+	@Index
+	private boolean accountLocked;
+	
+	@Index
+	private boolean credentialsExpired;
+	
+	@Index
+	private boolean accountEnabled;
+	
+	@Index
+	private Set<UserAuthority> authorities;
+	
+	
 
 	public String getFirstName() {
 		return firstName;
@@ -67,6 +89,54 @@ public class AccountEntity extends GenericEntity implements Serializable {
 
 	public void setFacebookToken(String facebookToken) {
 		this.facebookToken = facebookToken;
+	}
+
+	public long getExpires() {
+		return expires;
+	}
+
+	public void setExpires(long expires) {
+		this.expires = expires;
+	}
+
+	public boolean isAccountExpired() {
+		return accountExpired;
+	}
+
+	public void setAccountExpired(boolean accountExpired) {
+		this.accountExpired = accountExpired;
+	}
+
+	public boolean isAccountLocked() {
+		return accountLocked;
+	}
+
+	public void setAccountLocked(boolean accountLocked) {
+		this.accountLocked = accountLocked;
+	}
+
+	public boolean isCredentialsExpired() {
+		return credentialsExpired;
+	}
+
+	public void setCredentialsExpired(boolean credentialsExpired) {
+		this.credentialsExpired = credentialsExpired;
+	}
+
+	public boolean isAccountEnabled() {
+		return accountEnabled;
+	}
+
+	public void setAccountEnabled(boolean accountEnabled) {
+		this.accountEnabled = accountEnabled;
+	}
+
+	public Set<UserAuthority> getAuthorities() {
+		return authorities;
+	}
+
+	public void setAuthorities(Set<UserAuthority> authorities) {
+		this.authorities = authorities;
 	}
 
 }

@@ -21,7 +21,6 @@ import com.backend.base.exception.InvalidEmailException;
 import com.backend.base.exception.MismatchedPasswordsException;
 import com.backend.base.exception.RegisterException;
 import com.backend.base.model.service.AccountService;
-import com.backend.base.security.entity.User;
 import com.backend.base.security.entity.UserAuthentication;
 import com.backend.base.security.jwt.TokenAuthenticationService;
 import com.backend.base.security.service.UserDetailsService;
@@ -68,7 +67,7 @@ class StatelessRegisterFilter extends AbstractAuthenticationProcessingFilter {
 
 		// Lookup the complete User object from the database and create an
 		// Authentication for it
-		final User authenticatedUser = userDetailsService.loadUserByUsername(authentication.getName());
+		final AccountTO authenticatedUser = userDetailsService.loadUserByUsername(authentication.getName());
 		final UserAuthentication userAuthentication = new UserAuthentication(authenticatedUser);
 
 		// Add the custom token as HTTP header to the response
