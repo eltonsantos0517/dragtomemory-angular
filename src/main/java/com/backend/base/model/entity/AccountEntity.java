@@ -6,6 +6,7 @@ import java.util.Set;
 import com.backend.base.model.entity.generic.GenericEntity;
 import com.backend.base.security.entity.UserAuthority;
 import com.googlecode.objectify.annotation.Entity;
+import com.googlecode.objectify.annotation.Ignore;
 import com.googlecode.objectify.annotation.Index;
 
 @Entity
@@ -46,10 +47,8 @@ public class AccountEntity extends GenericEntity implements Serializable {
 	@Index
 	private boolean accountEnabled;
 	
-	@Index
+	@Ignore
 	private Set<UserAuthority> authorities;
-	
-	
 
 	public String getFirstName() {
 		return firstName;
