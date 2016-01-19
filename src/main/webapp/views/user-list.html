@@ -74,7 +74,7 @@
 		</div>
 
 		<div class="lv-pagination">
-			<pagination total-items="uCtrl.totalItems" ng-model="uCtrl.currentPage" items-per-page="uCtrl.itemsPerPage" ng-change="uCtrl.pageChanged()"></pagination>
+			<pagination total-items="uCtrl.totalItems" ng-model="uCtrl.currentPage" items-per-page="uCtrl.itemsPerPage" ng-change="uCtrl.pageChanged()" boundary-links="false" num-pages="uCtrl.numPages" max-size="uCtrl.maxSize"></pagination>
 		</div>
 	</div>
 

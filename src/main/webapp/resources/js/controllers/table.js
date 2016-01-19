@@ -82,6 +82,8 @@ materialAdmin.controller('tableCtrl', function($filter, $sce, ngTableParams, tab
 	u.itemsPerPage = 2;
 	u.pages = [];
 	u.allItens = [];
+	u.numPages = 10;
+	u.maxSize = 10;
 
 	accountService.list(u.totalItemsBackend, "").then(
 	// success
