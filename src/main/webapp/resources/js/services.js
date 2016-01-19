@@ -4,7 +4,7 @@ materialAdmin
 // Header Messages and Notifications list Data
 // =========================================================================
 
-.service('accountService', [ 'Restangular', 'growlService', function(Restangular, growlService) {
+.service('accountService', [ 'Restangular' , 'LoginRestangular', function(Restangular, LoginRestangular) {
 
 	this.list = function(limit, cursor, order){
 		return Restangular.one("user").get({'limit': limit, 'cursor':cursor, 'order':order});
@@ -15,7 +15,6 @@ materialAdmin
 	}
 
 	this.forgotPassword = function(email) {
-
 		return Restangular.all("forgotPassword").post(email);
 	}
 	
@@ -24,7 +23,6 @@ materialAdmin
 		data.token = token;
 		data.newPassword = newPassword;
 		data.newPasswordAgain = newPasswordAgain;
-				
 		return Restangular.all("recoveryPassword").post(data)
 	}
 
@@ -35,11 +33,33 @@ materialAdmin
 			return Restangular.all("user").post(user);
 		}
 	}
+	
 	this.removeUser = function(userId) {
 		return Restangular.one("user", userId).remove();
 	}
+	
+	this.login = function(user){
+		return LoginRestangular.all("login").post(user);
+	}
+	
+	this.register = function(user){
+		return LoginRestangular.all('register').post(user);
+	}
+	
+	this.facebookAuthenticate = function(user){
+		return LoginRestangular.all('facebookAuthenticate').post(user);
+	}
 } ])
 
+.factory('LoginRestangular',function(Restangular) {
+  return Restangular.withConfig(function(RestangularConfigurer) {
+    RestangularConfigurer.setBaseUrl('api/');
+    RestangularConfigurer.setDefaultHeaders({
+		'X-API-Token' : '91387c5d1bb74b1f84198f3611972b53'
+	});
+    RestangularConfigurer.setFullResponse(true);
+  });
+})
 // =========================================================================
 // Header Messages and Notifications list Data
 // =========================================================================

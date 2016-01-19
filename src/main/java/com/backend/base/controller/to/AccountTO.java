@@ -65,12 +65,10 @@ public class AccountTO extends GenericTO implements UserDetails, Serializable {
 		this.email = email;
 	}
 
-	@JsonIgnore
 	public String getPasswordAgain() {
 		return passwordAgain;
 	}
 
-	@JsonIgnore
 	public void setPasswordAgain(String passwordAgain) {
 		this.passwordAgain = passwordAgain;
 	}

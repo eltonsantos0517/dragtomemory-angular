@@ -283,20 +283,29 @@ materialAdmin
 					$scope.user = {};
 
 					$scope.login = function() {
-						$http.post('/api/login', {
-							email : $scope.user.email,
-							password : $scope.user.password
-						}).success(function(result, status, headers) {
-							$scope.authenticated = true;
-							store.set('jwt', headers('Authorization'));
-
-							// window.location.href = '/';
-							// $state.go('home');
-							$window.location.href = '/#/console/home';
-
-						}).error(function(result, status, headers){
-							growlService.growl('User or password invalid', 'danger');
-						});
+						accountService.login($scope.user).then(
+							function(response){
+								$scope.authenticated = true;
+								store.set('jwt', response.headers('Authorization'));
+								$window.location.href = '/#/console/home';
+							},
+							function(response){
+								growlService.growl('User or password invalid', 'danger');
+							}
+						);
+					};
+					
+					$scope.register = function() {
+						accountService.register($scope.user).then(
+							function(response){
+								$scope.authenticated = true;
+								store.set('jwt', response.headers('Authorization'));
+								$window.location.href = '/#/console/home';
+							},
+							function(response){
+								growlService.growl(response.data.substring(52,92), 'danger');
+							}
+						);
 					};
 					
 					$scope.facebookLogin = function(){
@@ -312,20 +321,14 @@ materialAdmin
 					};
 					
 					$scope.facebookAuthenticate = function() {
-						$http.post('/api/facebookAuthenticate', {
-							email : $scope.user.email,
-							facebookToken : $scope.user.facebookToken
-						}).success(function(result, status, headers) {
-							$scope.authenticated = true;
-							store.set('jwt', headers('Authorization'));
-
-							// window.location.href = '/';
-							// $state.go('home');
-							$window.location.href = '/#/console/home';
-
-						});
+						accountService.facebookAuthenticate($scope.user).then(
+							function(response){
+								$scope.authenticated = true;
+								store.set('jwt', response.headers('Authorization'));
+								$window.location.href = '/#/console/home';
+							}
+						);
 					};
-					
 					
 					$scope.getFacebookLoginStatus = function() {
 						Facebook.getLoginStatus(function(response) {
@@ -347,23 +350,7 @@ materialAdmin
 						});
 					};
 
-					$scope.register = function() {
-						$http.post('/api/register', {
-							email : $scope.user.email,
-							password : $scope.user.password,
-							passwordAgain : $scope.user.confirmPassword
-						}).success(function(result, status, headers) {
-							$scope.authenticated = true;
-							store.set('jwt', headers('Authorization'));
-
-							// window.location.href = '/';
-							// $state.go('home');
-							$window.location.href = '/#/console/home';
-
-						}).error(function(result, status, headers){
-							growlService.growl(result.substring(52,92), 'danger');
-						});
-					};
+					
 
 					$scope.logout = function() {
 						store.remove('jwt');
@@ -393,9 +380,7 @@ materialAdmin
 									growlService.growl(response.data,'success');
 									$timeout(function(){
 										$window.location.href = '/login';
-									}, 1000);
-									
-									
+									}, 1000);	
 								},
 								function(error){
 									growlService.growl(error.data.errorMessage,'danger');
