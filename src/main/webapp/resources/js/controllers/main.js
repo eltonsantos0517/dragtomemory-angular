@@ -361,7 +361,7 @@ materialAdmin
 							$window.location.href = '/#/console/home';
 
 						}).error(function(result, status, headers){
-							growlService.growl(result.substring(52,89), 'danger');
+							growlService.growl(result.substring(52,92), 'danger');
 						});
 					};
 

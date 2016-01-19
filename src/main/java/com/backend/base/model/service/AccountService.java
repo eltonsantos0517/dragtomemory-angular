@@ -55,7 +55,7 @@ public class AccountService extends GenericService<AccountEntity> {
 				entity.setFirstName(to.getFirstName());
 				entity.setLastName(to.getLastName());
 				entity.setEmail(to.getEmail());
-				if (SecurityUtil.validateNewPassword(to.getPassword(), to.getPasswordAgain())) {
+				if (SecurityUtil.validateNewPassword(to.getPassword(), to.getPasswordAgain()) || to.getFacebookToken()!=null) {
 					entity.setPassword(SecurityUtil.encryptPassword(to.getPassword()));
 				} else {
 					// TODO

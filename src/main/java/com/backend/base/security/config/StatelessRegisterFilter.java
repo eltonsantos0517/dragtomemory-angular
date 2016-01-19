@@ -19,6 +19,7 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import com.backend.base.controller.to.AccountTO;
 import com.backend.base.exception.InvalidEmailException;
 import com.backend.base.exception.MismatchedPasswordsException;
+import com.backend.base.exception.RegisterException;
 import com.backend.base.model.service.AccountService;
 import com.backend.base.security.entity.User;
 import com.backend.base.security.entity.UserAuthentication;
@@ -53,7 +54,7 @@ class StatelessRegisterFilter extends AbstractAuthenticationProcessingFilter {
 					to.getEmail(), to.getPassword());
 			return getAuthenticationManager().authenticate(loginToken);
 		} catch (InvalidEmailException | MismatchedPasswordsException | AccountException e) {
-			e.printStackTrace();
+			throw new RegisterException(e.getMessage());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
