@@ -53,13 +53,13 @@ public class AccountController {
 
 	@RequestMapping(value = "/api/1/user", method = RequestMethod.GET)
 	public ResponseEntity<ApiResponse> getCurrenUser(@RequestParam(name = "limit", required = false) int limit,
-			@RequestParam("cursor") String cursor) {
+			@RequestParam("cursor") String cursor, @RequestParam(name = "order") String order) {
 
 		try {
 			AccountService service = new AccountService();
 
 			Long totalCount = service.count();
-			CollectionResponse<AccountEntity> response = service.listPage(limit, cursor);
+			CollectionResponse<AccountEntity> response = service.listPage(limit, cursor, order);
 			if (response != null) {
 
 				ApiResponse ret = new ApiResponse(null, HttpStatus.OK.value(), HttpStatus.OK.getReasonPhrase(),

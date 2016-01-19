@@ -6,8 +6,8 @@ materialAdmin
 
 .service('accountService', [ 'Restangular', 'growlService', function(Restangular, growlService) {
 
-	this.list = function(limit, cursor){
-		return Restangular.one("user").get({'limit': limit, 'cursor':cursor});
+	this.list = function(limit, cursor, order){
+		return Restangular.one("user").get({'limit': limit, 'cursor':cursor, 'order':order});
 	}
 
 	this.getById = function(userId) {

@@ -62,8 +62,14 @@ public class GenericDAO<T extends GenericEntity> {
 		return ofy().load().type(clazz).count();
 	}
 
-	public CollectionResponse<T> listPage(int limit, String cursor) throws EntityNotFoundException {
-		Query<T> query = ofy().load().type(clazz).limit(limit);
+	public CollectionResponse<T> listPage(int limit, String cursor, String order) throws EntityNotFoundException {
+		
+		Query<T> query = null;
+		if(order != null && !order.isEmpty()){
+			query = ofy().load().type(clazz).limit(limit).order(order);
+		}else{
+			query = ofy().load().type(clazz).limit(limit);
+		}
 
 		if (cursor != null && !cursor.isEmpty()) {
 			query = query.startAt(Cursor.fromWebSafeString(cursor));

@@ -29,22 +29,22 @@
 					<li><a href=""> <i class="zmdi zmdi-time"></i>
 					</a></li>
 					<li class="dropdown" dropdown><a href="" dropdown-toggle aria-expanded="true"> <i class="zmdi zmdi-sort"></i>
-					</a>
-
-						<ul class="dropdown-menu dropdown-menu-right">
-							<li><a href="">Last Modified</a></li>
-							<li><a href="">Last Edited</a></li>
-							<li><a href="">Name</a></li>
-							<li><a href="">Date</a></li>
-						</ul></li>
-					<li><a href=""> <i class="zmdi zmdi-info"></i>
-					</a></li>
+						</a>
+							<ul class="dropdown-menu dropdown-menu-right">
+								<li><a href="" data-ng-click="uCtrl.changeOrder('createdAt')">Created at</a></li>
+								<li><a href="" data-ng-click="uCtrl.changeOrder('updatedAt')">Updated at</a></li>
+								<li><a href="" data-ng-click="uCtrl.changeOrder('email')">Email</a></li>
+								<li><a href="" data-ng-click="uCtrl.changeOrder('firstName')">Name</a></li>
+							</ul></li>
+						<li><a href=""> <i class="zmdi zmdi-info"></i>
+						</a>
+					</li>
 				</ul>
 			</div>
 
 			<div class="lv-body">
 
-				<div class="lv-item media" ng-repeat="user in uCtrl.users | filter:search | orderBy:'email' track by $index">
+				<div class="lv-item media" ng-repeat="user in uCtrl.users | filter:search | orderBy: uCtrl.order track by $index">
 					<div class="checkbox pull-left">
 						<label> <input type="checkbox" value=""> <i class="input-helper"></i>
 						</label>

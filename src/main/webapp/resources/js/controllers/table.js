@@ -84,8 +84,10 @@ materialAdmin.controller('tableCtrl', function($filter, $sce, ngTableParams, tab
 	u.allItens = [];
 	u.numPages = 10;
 	u.maxSize = 10;
+	
+	u.order = "";
 
-	accountService.list(u.totalItemsBackend, "").then(
+	accountService.list(u.totalItemsBackend, "", u.order).then(
 	// success
 	function(response) {
 		u.totalItems = response.totalCount;
@@ -128,7 +130,7 @@ materialAdmin.controller('tableCtrl', function($filter, $sce, ngTableParams, tab
 		var pageRet = u.pages[currentPage - 1];
 
 		if (!pageRet || pageRet.length === 0) {
-			accountService.list(u.totalItemsBackend, u.cursor).then(
+			accountService.list(u.totalItemsBackend, u.cursor, u.order).then(
 			// success
 			function(response) {
 				u.cursor = response.cursor;
@@ -208,7 +210,7 @@ materialAdmin.controller('tableCtrl', function($filter, $sce, ngTableParams, tab
 	};
 
 	u.refresh = function() {
-		accountService.list(u.totalItemsBackend, "").then(
+		accountService.list(u.totalItemsBackend, "", u.order).then(
 		// success
 		function(response) {
 			u.cursor = response.cursor;
@@ -273,5 +275,10 @@ materialAdmin.controller('tableCtrl', function($filter, $sce, ngTableParams, tab
 			}
 		});
 	};
+	
+	u.changeOrder = function(order){
+		u.order = order;
+		u.refresh();
+	}
 
 });
