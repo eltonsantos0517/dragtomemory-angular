@@ -76,23 +76,24 @@ materialAdmin.controller('tableCtrl', function($filter, $sce, ngTableParams, tab
 	u.users = [];
 
 	// Pagination Config
-	u.totalItems = 10;
-	u.totalItemsBackend = 6;
+	u.totalItems = 500;
+	u.limitBackendDefault = 500;
+	u.limitBackend = u.limitBackendDefault;
 	u.currentPage = 1;
 	u.itemsPerPage = 2;
 	u.pages = [];
 	u.allItens = [];
-	u.numPages = 10;
-	u.maxSize = 10;
-	
+	u.numPages = 5;
+	u.maxSize = 5;
+
 	u.order = "";
 
-	accountService.list(u.totalItemsBackend, "", u.order).then(
+	accountService.list(u.limitBackend, "", u.order).then(
 	// success
 	function(response) {
 		u.totalItems = response.totalCount;
 		u.cursor = response.cursor;
-		
+
 		u.allItens = response.data;
 		u.preparePages(u.allItens, u.itemsPerPage, u.currentPage);
 		u.users = u.getPage(u.currentPage);
@@ -130,7 +131,7 @@ materialAdmin.controller('tableCtrl', function($filter, $sce, ngTableParams, tab
 		var pageRet = u.pages[currentPage - 1];
 
 		if (!pageRet || pageRet.length === 0) {
-			accountService.list(u.totalItemsBackend, u.cursor, u.order).then(
+			accountService.list(u.limitBackend, u.cursor, u.order).then(
 			// success
 			function(response) {
 				u.cursor = response.cursor;
@@ -158,32 +159,32 @@ materialAdmin.controller('tableCtrl', function($filter, $sce, ngTableParams, tab
 			u.list = 1;
 			u.add = 0;
 			u.edit = 0;
-			
+
 			if (!u.user.objectId) {
 				u.totalItems = u.totalItems + 1;
 				u.user.objectId = response.data.objectId;
 
 				var newItens = [ u.user ];
-				
+
 				Array.prototype.push.apply(u.allItens, newItens);
 				u.preparePages(u.allItens, u.itemsPerPage, u.currentPage);
 				u.users = u.getPage(u.currentPage);
 				u.user = {};
-				
+
 				growlService.growl('Usuário criado com sucesso.', 'success', 1000);
 			} else {
-				
-				for(var i = u.allItens.length - 1; i >= 0; i--) {
-				    if(u.allItens[i].objectId === u.user.objectId) {
-				    	u.allItens[i] = u.user;
-				    	break;
-				    }
+
+				for (var i = u.allItens.length - 1; i >= 0; i--) {
+					if (u.allItens[i].objectId === u.user.objectId) {
+						u.allItens[i] = u.user;
+						break;
+					}
 				}
-				
+
 				u.preparePages(u.allItens, u.itemsPerPage, u.currentPage);
 				u.users = u.getPage(u.currentPage);
 				u.user = {};
-				
+
 				growlService.growl('Usuário atualizado com sucesso.', 'success', 1000);
 			}
 		},
@@ -210,19 +211,21 @@ materialAdmin.controller('tableCtrl', function($filter, $sce, ngTableParams, tab
 	};
 
 	u.refresh = function() {
-		accountService.list(u.totalItemsBackend, "", u.order).then(
+		u.limitBackend = u.allItens.length;
+		accountService.list(u.limitBackend, "", u.order).then(
 		// success
 		function(response) {
 			u.cursor = response.cursor;
 			u.totalItems = response.totalCount;
-			u.currentPage = 1;
-			
+			u.limitBackend = u.limitBackendDefault;
+
 			u.allItens = response.data;
 			u.preparePages(u.allItens, u.itemsPerPage, u.currentPage);
 			u.users = u.getPage(u.currentPage);
 		},
 		// fail
 		function(response) {
+			u.limitBackend = u.limitBackendDefault;
 			growlService.growl('Erro ao carregar usuários.', 'danger', 1000)
 		});
 
@@ -251,18 +254,22 @@ materialAdmin.controller('tableCtrl', function($filter, $sce, ngTableParams, tab
 				u.user = accountService.removeUser(userId).then(
 				// success
 				function(response) {
-					u.currentPage = 1;
-					
-					for(var i = u.allItens.length - 1; i >= 0; i--) {
-					    if(u.allItens[i].objectId === userId) {
-					    	u.allItens.splice(i, 1);
-					    	u.totalItems = u.totalItems -1;
-					    	break;
-					    }
+					// u.currentPage = 1;
+
+					for (var i = u.allItens.length - 1; i >= 0; i--) {
+						if (u.allItens[i].objectId === userId) {
+							u.allItens.splice(i, 1);
+							u.totalItems = u.totalItems - 1;
+							break;
+						}
 					}
-					
+
 					u.preparePages(u.allItens, u.itemsPerPage, u.currentPage);
-					u.users = u.getPage(u.currentPage);
+
+					var pageRet = u.pages[u.currentPage - 1];
+					if ((pageRet && pageRet.length > 0) || u.allItens.length === 0) {
+						u.users = u.getPage(u.currentPage);
+					}
 
 					swal("Deleted!", "The user has been deleted.", "success");
 				},
@@ -275,8 +282,8 @@ materialAdmin.controller('tableCtrl', function($filter, $sce, ngTableParams, tab
 			}
 		});
 	};
-	
-	u.changeOrder = function(order){
+
+	u.changeOrder = function(order) {
 		u.order = order;
 		u.refresh();
 	}
