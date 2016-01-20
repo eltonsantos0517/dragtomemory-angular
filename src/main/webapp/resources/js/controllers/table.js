@@ -74,6 +74,7 @@ materialAdmin.controller('tableCtrl', function($filter, $sce, ngTableParams, tab
 	u.edit = 0;
 	u.user = {};
 	u.users = [];
+	u.search = '';
 
 	// Pagination Config
 	u.totalItems = 500;
@@ -102,6 +103,18 @@ materialAdmin.controller('tableCtrl', function($filter, $sce, ngTableParams, tab
 	function(response) {
 		growlService.growl('Erro ao carregar usuários.', 'danger', 1000)
 	});
+	
+	u.getInteratorList = function(){
+		
+		if(u.allItens.length > 0){
+			if(u.search === ''){
+				u.users = u.getPage(u.currentPage);
+				return u.users;
+			}else{
+				return u.allItens;
+			}
+		}
+	}
 
 	u.preparePages = function(itens, itemsPerPage, currentPage) {
 		var i = 1;
