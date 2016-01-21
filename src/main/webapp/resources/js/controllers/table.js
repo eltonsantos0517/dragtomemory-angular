@@ -75,6 +75,9 @@ materialAdmin.controller('tableCtrl', function($filter, $sce, ngTableParams, tab
 	u.user = {};
 	u.users = [];
 	u.search = '';
+	u.filter = '';
+	u.order = "";
+	u.showPagination = true;
 
 	// Pagination Config
 	u.totalItems = 500;
@@ -87,7 +90,7 @@ materialAdmin.controller('tableCtrl', function($filter, $sce, ngTableParams, tab
 	u.numPages = 5;
 	u.maxSize = 5;
 
-	u.order = "";
+	
 
 	accountService.list(u.limitBackend, "", u.order).then(
 	// success
@@ -103,18 +106,6 @@ materialAdmin.controller('tableCtrl', function($filter, $sce, ngTableParams, tab
 	function(response) {
 		growlService.growl('Erro ao carregar usuários.', 'danger', 1000)
 	});
-	
-	u.getInteratorList = function(){
-		
-		if(u.allItens.length > 0){
-			if(u.search === ''){
-				u.users = u.getPage(u.currentPage);
-				return u.users;
-			}else{
-				return u.allItens;
-			}
-		}
-	}
 
 	u.preparePages = function(itens, itemsPerPage, currentPage) {
 		var i = 1;
@@ -295,10 +286,37 @@ materialAdmin.controller('tableCtrl', function($filter, $sce, ngTableParams, tab
 			}
 		});
 	};
+	
+	//FOR FILTER
 
 	u.changeOrder = function(order) {
 		u.order = order;
 		u.refresh();
+	};
+	
+	u.emptySearch = function(){
+		u.filter = '';
+		u.search = '';
+	};
+	
+	u.changeModel = function(){
+		u.search = {};
+		//Adicionar no objeto search sobre quais campos da entidade será aplicado o filtro
+		u.search.firstName = u.filter;
+		u.search.lastName = u.filter;
+		u.search.email = u.filter;
 	}
-
+	
+	u.getInteratorList = function(){
+		
+		if(u.allItens.length > 0){
+			if(u.search === ''){
+				u.users = u.getPage(u.currentPage);
+				return u.users;
+			}else{
+				return u.allItens;
+			}
+		}
+	}
+	
 });
