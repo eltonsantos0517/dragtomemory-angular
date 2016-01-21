@@ -1,9 +1,7 @@
 materialAdmin
 		.config(
-				function($stateProvider, $urlRouterProvider,
-						jwtInterceptorProvider, $httpProvider,
-						$locationProvider, RestangularProvider,
-						FacebookProvider) {
+				function($stateProvider, $urlRouterProvider, jwtInterceptorProvider, $httpProvider, $locationProvider,
+						RestangularProvider, FacebookProvider) {
 
 					// JWT Config
 					jwtInterceptorProvider.tokenGetter = function(store) {
@@ -19,15 +17,22 @@ materialAdmin
 					});
 
 					FacebookProvider.init('174666509555605');
-					
+
 					// Default Route
 					$urlRouterProvider.otherwise("login");
-					
+
 					$stateProvider
 
 							.state('404', {
 								url : '/404',
 								templateUrl : '404.html',
+								data : {
+									requiresLogin : false
+								}
+							})
+							.state('unauthorized', {
+								url : '/unauthorized',
+								templateUrl : 'unauthorized.html',
 								data : {
 									requiresLogin : false
 								}
@@ -220,24 +225,21 @@ materialAdmin
 								}
 							})
 
-							.state(
-									'form.basic-form-elements',
-									{
-										url : '/basic-form-elements',
-										templateUrl : 'views/form-elements.html',
-										data : {
-											requiresLogin : true
-										},
-										resolve : {
-											loadPlugin : function($ocLazyLoad) {
-												return $ocLazyLoad
-														.load([ {
-															name : 'vendors',
-															files : [ 'vendors/bower_components/autosize/dist/autosize.min.js' ]
-														} ])
-											}
-										}
-									})
+							.state('form.basic-form-elements', {
+								url : '/basic-form-elements',
+								templateUrl : 'views/form-elements.html',
+								data : {
+									requiresLogin : true
+								},
+								resolve : {
+									loadPlugin : function($ocLazyLoad) {
+										return $ocLazyLoad.load([ {
+											name : 'vendors',
+											files : [ 'vendors/bower_components/autosize/dist/autosize.min.js' ]
+										} ])
+									}
+								}
+							})
 
 							.state(
 									'form.form-components',
@@ -303,6 +305,7 @@ materialAdmin
 								templateUrl : 'views/user-list.html',
 								data : {
 									requiresLogin : true,
+									permission : 'USER'
 								}
 							})
 							.state('user-interface', {
@@ -727,45 +730,52 @@ materialAdmin
 							})
 					// use the HTML5 History API
 					$locationProvider.html5Mode(true);
-				}).run(
-				function($rootScope, $state, store, jwtHelper, $window, gettextCatalog) {
-					
-					var lang = $window.navigator.language || $window.navigator.userLanguage;				
-					gettextCatalog.setCurrentLanguage(lang.replace("-","_"));
-					
-					$rootScope.$on('$stateChangeStart', function(e, to) {
+				}).run(function($rootScope, $state, store, jwtHelper, $window, gettextCatalog, permissions) {
 
-						if (to.data) {
-							if (to.data.requiresLogin) {
-								if (!store.get('jwt')
-										|| jwtHelper.isTokenExpired(store
-												.get('jwt'))) {
-									e.preventDefault();
+			var lang = $window.navigator.language || $window.navigator.userLanguage;
+			gettextCatalog.setCurrentLanguage(lang.replace("-", "_"));
 
-									if (to.name === "login") {
-										return; // no need to redirect
-									}
+			var token = store.get('jwt');
+			if (token && jwtHelper) {
+				permissions.setPermissions(jwtHelper.decodeToken(token).role);
+			}
 
-									// $state.go('login');
-									// $window.location.href = '/login';
-									window.location.href = '/login';
-								} else if (to.name === "login") {
-									$window.location.href = '/#/console/home';
-								}
-							} else if (to.name === "login") {
-								// Não requer login mas esta indo para a tela de
-								// login
+			$rootScope.$on('$stateChangeStart', function(e, to) {
 
-								if (store.get('jwt')
-										&& !jwtHelper.isTokenExpired(store
-												.get('jwt'))) {
-									e.preventDefault();
+				if (to.data) {
 
-									$window.location.href = '/#/console/home';
-								} else {
-									return;
-								}
+					var permission = to.data.permission;
+					if (permission && _.isString(permission) && !permissions.hasPermission(permission)) {
+						$window.location.href = '/unauthorized';
+						return;
+					}
+
+					if (to.data.requiresLogin) {
+						if (!store.get('jwt') || jwtHelper.isTokenExpired(store.get('jwt'))) {
+							e.preventDefault();
+
+							if (to.name === "login") {
+								return; // no need to redirect
 							}
+
+							// $state.go('login');
+							// $window.location.href = '/login';
+							window.location.href = '/login';
+						} else if (to.name === "login") {
+							$window.location.href = '/#/console/home';
 						}
-					});
-				});
+					} else if (to.name === "login") {
+						// Não requer login mas esta indo para a tela de
+						// login
+
+						if (store.get('jwt') && !jwtHelper.isTokenExpired(store.get('jwt'))) {
+							e.preventDefault();
+
+							$window.location.href = '/#/console/home';
+						} else {
+							return;
+						}
+					}
+				}
+			});
+		});

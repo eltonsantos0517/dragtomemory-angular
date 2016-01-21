@@ -20,6 +20,11 @@ public class IndexController {// Serves main index.html
 	public String getLogin() {
 		return "login";
 	}
+	
+	@RequestMapping(method = RequestMethod.GET, value = "/unauthorized")
+	public String getUnauthorized() {
+		return "unauthorized";
+	}
 
 	@RequestMapping(method = RequestMethod.GET, value = "/console/home")
 	public String getHome() {

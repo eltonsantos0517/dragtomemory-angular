@@ -42,6 +42,12 @@ public class TokenHandler {
 
 		HashMap<String, Object> claims = new HashMap<String, Object>();
 		claims.put("username", account.getUsername());
+		claims.put("firstName", account.getFirstName());
+		
+		//TODO Setar roles
+		claims.put("role", account.getRoles());
+		
+		
 		String token = signer.sign(claims, op);
 
 		return token;

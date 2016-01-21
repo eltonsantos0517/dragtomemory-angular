@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<!--[if IE 9 ]><html class="ie9"><![endif]-->
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Material Admin</title>
+	
+<!-- Vendor CSS -->
+<link href="vendors/bower_components/animate.css/animate.min.css" rel="stylesheet">
+<link href="vendors/bower_components/material-design-iconic-font/dist/css/material-design-iconic-font.min.css"
+	rel="stylesheet">
+<link href="vendors/bower_components/bootstrap-sweetalert/lib/sweet-alert.css" rel="stylesheet">
+<link href="vendors/bower_components/angular-loading-bar/src/loading-bar.css" rel="stylesheet">
+
+
+<!-- CSS -->
+<link href="resources/css/app.min.1.css" rel="stylesheet" id="app-level">
+<link href="resources/css/app.min.2.css" rel="stylesheet">
+<link href="resources/css/custom.css" rel="stylesheet">
+</head>
+
+<body class="four-zero-content">
+	<div class="four-zero">
+		<h2>Sorry</h2>
+		<small translate>You don`t have permission to access this page</small>
+
+		<footer>
+			<a href="/console/home"><i class="zmdi zmdi-home"></i></a>
+		</footer>
+	</div>
+
+	<!-- Older IE warning message -->
+	<!--[if lt IE 9]>
+            <div class="ie-warning">
+                <h1 class="c-white">Warning!!</h1>
+                <p>You are using an outdated version of Internet Explorer, please upgrade <br/>to any of the following web browsers to access this website.</p>
+                <div class="iew-container">
+                    <ul class="iew-download">
+                        <li>
+                            <a href="http://www.google.com/chrome/">
+                                <img src="resources/img/browsers/chrome.png" alt="">
+                                <div>Chrome</div>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://www.mozilla.org/en-US/firefox/new/">
+                                <img src="resources/img/browsers/firefox.png" alt="">
+                                <div>Firefox</div>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="http://www.opera.com">
+                                <img src="resources/img/browsers/opera.png" alt="">
+                                <div>Opera</div>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://www.apple.com/safari/">
+                                <img src="resources/img/browsers/safari.png" alt="">
+                                <div>Safari</div>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="http://windows.microsoft.com/en-us/internet-explorer/download-ie">
+                                <img src="resources/img/browsers/ie.png" alt="">
+                                <div>IE (New)</div>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                <p>Sorry for the inconvenience!</p>
+            </div>
+        <![endif]-->
+        
+        <!-- Core -->
+        <script charset="utf-8" src="vendors/bower_components/jquery/dist/jquery.min.js"></script>
+
+        <!-- Angular -->
+        <script charset="utf-8" src="vendors/bower_components/angular/angular.min.js"></script>
+        <script charset="utf-8" src="vendors/bower_components/angular-animate/angular-animate.min.js"></script>
+        <script charset="utf-8" src="vendors/bower_components/angular-resource/angular-resource.min.js"></script>
+        
+        <!-- Angular Modules -->
+        <script charset="utf-8" src="vendors/bower_components/angular-ui-router/release/angular-ui-router.min.js"></script>
+        <script charset="utf-8" src="vendors/bower_components/angular-loading-bar/src/loading-bar.js"></script>
+        <script charset="utf-8" src="vendors/bower_components/oclazyload/dist/ocLazyLoad.min.js"></script>
+        <script charset="utf-8" src="vendors/bower_components/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>
+        <script charset="utf-8" src="vendors/bower_components/angular-gettext/dist/angular-gettext.min.js"></script>
+        <script charset="utf-8" src="vendors/bower_components/angular-facebook/lib/angular-facebook.js"></script>
+
+        <!-- Common Vendors -->
+        <script charset="utf-8" src="vendors/bower_components/jquery.nicescroll/jquery.nicescroll.min.js"></script>
+        <script charset="utf-8" src="vendors/bower_components/bootstrap-sweetalert/lib/sweet-alert.min.js"></script>
+        <script charset="utf-8" src="vendors/bower_components/Waves/dist/waves.min.js"></script>
+        <script charset="utf-8" src="vendors/bootstrap-growl/bootstrap-growl.min.js"></script>
+        <script charset="utf-8" src="vendors/bower_components/ng-table/dist/ng-table.min.js"></script>
+       
+
+        <!-- Placeholder for IE9 -->
+        <!--[if IE 9 ]>
+            <script charset="utf-8" src="vendors/bower_components/jquery-placeholder/jquery.placeholder.min.js"></script>
+        <![endif]-->
+
+        <!-- Using below vendors in order to avoid misloading on resolve -->
+        <script charset="utf-8" src="vendors/bower_components/flot/jquery.flot.js"></script>
+        <script charset="utf-8" src="vendors/bower_components/flot.curvedlines/curvedLines.js"></script>
+        <script charset="utf-8" src="vendors/bower_components/flot/jquery.flot.resize.js"></script>
+        <script charset="utf-8" src="vendors/bower_components/moment/min/moment.min.js"></script>
+        <script charset="utf-8" src="vendors/bower_components/fullcalendar/dist/fullcalendar.min.js"></script>
+        <script charset="utf-8" src="vendors/bower_components/flot-orderBars/js/jquery.flot.orderBars.js"></script>
+        <script charset="utf-8" src="vendors/bower_components/flot/jquery.flot.pie.js"></script>
+        <script charset="utf-8" src="vendors/bower_components/flot.tooltip/js/jquery.flot.tooltip.min.js"></script>
+        <script charset="utf-8" src="vendors/bower_components/angular-nouislider/src/nouislider.min.js"></script>
+        
+        <!-- TODO Configurar no bower -->
+        <script charset="utf-8" src="resources/js/angular-jwt.js"></script>
+        <script charset="utf-8" src="resources/js/angular-storage.js"></script>
+        <script charset="utf-8" src="vendors/bower_components/underscore/underscore.js"></script>
+        <script charset="utf-8" src="resources/js/restangular.js"></script>
+        
+        <!-- App level -->
+        <script charset="utf-8" src="resources/js/app.js"></script>
+        <script charset="utf-8" src="resources/js/config.js"></script>
+        <script charset="utf-8" src="resources/js/controllers/main.js"></script>
+        <script charset="utf-8" src="resources/js/services.js"></script>
+        <script charset="utf-8" src="resources/js/templates.js"></script>
+        <script charset="utf-8" src="resources/js/controllers/ui-bootstrap.js"></script>
+        <script charset="utf-8" src="resources/js/controllers/table.js"></script>
+        <script charset="utf-8" src="resources/js/translations.js"></script>
+        
+        <!-- Template Modules -->
+        <script charset="utf-8" src="resources/js/modules/template.js"></script>
+        <script charset="utf-8" src="resources/js/modules/ui.js"></script>
+        <script charset="utf-8" src="resources/js/modules/charts/flot.js"></script>
+        <script charset="utf-8" src="resources/js/modules/charts/other-charts.js"></script>
+        <script charset="utf-8" src="resources/js/modules/form.js"></script>
+        <script charset="utf-8" src="resources/js/modules/media.js"></script>
+        <script charset="utf-8" src="resources/js/modules/components.js"></script>
+        <script charset="utf-8" src="resources/js/modules/calendar.js"></script>
+        <script charset="utf-8" src="resources/js/modules/demo.js"></script>
+</body>
+</html>

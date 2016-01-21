@@ -4,10 +4,14 @@ materialAdmin
 // Header Messages and Notifications list Data
 // =========================================================================
 
-.service('accountService', [ 'Restangular' , 'LoginRestangular', function(Restangular, LoginRestangular) {
+.service('accountService', [ 'Restangular', 'LoginRestangular', function(Restangular, LoginRestangular) {
 
-	this.list = function(limit, cursor, order){
-		return Restangular.one("user").get({'limit': limit, 'cursor':cursor, 'order':order});
+	this.list = function(limit, cursor, order) {
+		return Restangular.one("user").get({
+			'limit' : limit,
+			'cursor' : cursor,
+			'order' : order
+		});
 	}
 
 	this.getById = function(userId) {
@@ -17,8 +21,8 @@ materialAdmin
 	this.forgotPassword = function(email) {
 		return Restangular.all("forgotPassword").post(email);
 	}
-	
-	this.recoveryPassword = function(token, newPassword, newPasswordAgain){		
+
+	this.recoveryPassword = function(token, newPassword, newPasswordAgain) {
 		var data = {}
 		data.token = token;
 		data.newPassword = newPassword;
@@ -27,39 +31,81 @@ materialAdmin
 	}
 
 	this.save = function(user) {
-		if(user.objectId != null){
+		if (user.objectId != null) {
 			return Restangular.copy(user).put();
-		}else{
+		} else {
 			return Restangular.all("user").post(user);
 		}
 	}
-	
+
 	this.removeUser = function(userId) {
 		return Restangular.one("user", userId).remove();
 	}
-	
-	this.login = function(user){
+
+	this.login = function(user) {
 		return LoginRestangular.all("login").post(user);
 	}
-	
-	this.register = function(user){
+
+	this.register = function(user) {
 		return LoginRestangular.all('register').post(user);
 	}
-	
-	this.facebookAuthenticate = function(user){
+
+	this.facebookAuthenticate = function(user) {
 		return LoginRestangular.all('facebookAuthenticate').post(user);
 	}
 } ])
 
-.factory('LoginRestangular',function(Restangular) {
-  return Restangular.withConfig(function(RestangularConfigurer) {
-    RestangularConfigurer.setBaseUrl('api/');
-    RestangularConfigurer.setDefaultHeaders({
-		'X-API-Token' : '91387c5d1bb74b1f84198f3611972b53'
+.factory('LoginRestangular', function(Restangular) {
+	return Restangular.withConfig(function(RestangularConfigurer) {
+		RestangularConfigurer.setBaseUrl('api/');
+		RestangularConfigurer.setDefaultHeaders({
+			'X-API-Token' : '91387c5d1bb74b1f84198f3611972b53'
+		});
+		RestangularConfigurer.setFullResponse(true);
 	});
-    RestangularConfigurer.setFullResponse(true);
-  });
+}).factory('permissions', function($rootScope) {
+	var permissionList;
+	return {
+		setPermissions : function(permissions) {
+			permissionList = permissions;
+			$rootScope.$broadcast('permissionsChanged');
+		},
+		hasPermission : function(permission) {
+			permission = permission.trim();
+			return _.some(permissionList, function(item) {
+				if (_.isString(item)) {
+					return item.trim() === permission
+				}
+			});
+		}
+	};
+}).directive('hasPermission', function(permissions) {
+	return {
+		link : function(scope, element, attrs) {
+			if (!_.isString(attrs.hasPermission)) {
+				throw 'hasPermission value must be a string'
+			}
+			var value = attrs.hasPermission.trim();
+			var notPermissionFlag = value[0] === '!';
+			if (notPermissionFlag) {
+				value = value.slice(1).trim();
+			}
+
+			function toggleVisibilityBasedOnPermission() {
+				var hasPermission = permissions.hasPermission(value);
+				if (hasPermission && !notPermissionFlag || !hasPermission && notPermissionFlag) {
+					element.show();
+				} else {
+					element.hide();
+				}
+			}
+
+			toggleVisibilityBasedOnPermission();
+			scope.$on('permissionsChanged', toggleVisibilityBasedOnPermission);
+		}
+	};
 })
+
 // =========================================================================
 // Header Messages and Notifications list Data
 // =========================================================================
