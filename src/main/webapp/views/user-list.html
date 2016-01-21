@@ -6,9 +6,9 @@
 			<div class="lv-header-alt clearfix">
 				<h2 class="lvh-label hidden-xs">Some text here</h2>
 
-				<div class="lvh-search" data-ng-if="mactrl.listviewSearchStat" data-ng-click="mactrl.listviewSearchStat">
-					<input type="text" placeholder="Start typing..." class="lvhs-input" ng-model="uCtrl.search"> <i class="lvh-search-close"
-						data-ng-click="mactrl.listviewSearchStat = false">&times;</i>
+				<div class="lvh-search" data-ng-if="mactrl.listviewSearchStat" data-ng-click="mactrl.listviewSearchStat;">
+					<input type="text" placeholder="Start typing..." class="lvhs-input" ng-model="uCtrl.filter" ng-change="uCtrl.changeModel()"> <i class="lvh-search-close"
+						data-ng-click="mactrl.listviewSearchStat = false; uCtrl.showPagination = true; uCtrl.emptySearch();">&times;</i>
 				</div>
 
 				<ul class="lv-actions actions">
@@ -22,7 +22,7 @@
 						</button>
 					</li>
 					<li>
-						<button class="btn btn-info btn-icon" data-ng-click="mactrl.listviewSearchStat = true">
+						<button class="btn btn-info btn-icon" data-ng-click="mactrl.listviewSearchStat = true; uCtrl.showPagination = false;">
 							<i class="zmdi zmdi-search"></i>
 						</button>
 					</li>
@@ -44,7 +44,7 @@
 
 			<div class="lv-body">
 
-				<div class="lv-item media" ng-repeat="user in uCtrl.users = (uCtrl.getInteratorList() | filter:{ email: uCtrl.search }) | orderBy: uCtrl.order track by $index">
+				<div class="lv-item media" ng-repeat="user in uCtrl.users = (uCtrl.getInteratorList() | filter:uCtrl.search) | orderBy: uCtrl.order track by $index">
 					<div class="checkbox pull-left">
 						<label> <input type="checkbox" value=""> <i class="input-helper"></i>
 						</label>
@@ -73,7 +73,7 @@
 			</div>
 		</div>
 
-		<div class="lv-pagination">
+		<div class="lv-pagination" ng-show="uCtrl.showPagination">
 			<pagination total-items="uCtrl.totalItems" ng-model="uCtrl.currentPage" items-per-page="uCtrl.itemsPerPage" ng-change="uCtrl.pageChanged()" boundary-links="false" num-pages="uCtrl.numPages" max-size="uCtrl.maxSize"></pagination>
 		</div>
 	</div>
