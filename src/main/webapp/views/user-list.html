@@ -44,7 +44,7 @@
 
 			<div class="lv-body">
 
-				<div class="lv-item media" ng-repeat="user in uCtrl.users = (uCtrl.getInteratorList() | filter:uCtrl.search) | orderBy: uCtrl.order track by $index">
+				<div class="lv-item media repeater" ng-repeat="user in uCtrl.users = (uCtrl.getInteratorList() | filter:uCtrl.search) | orderBy: uCtrl.order track by $index">
 					<div class="checkbox pull-left">
 						<label> <input type="checkbox" value=""> <i class="input-helper"></i>
 						</label>
