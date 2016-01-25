@@ -305,7 +305,14 @@ materialAdmin
 								templateUrl : 'views/user-list.html',
 								data : {
 									requiresLogin : true,
-									permission : 'USER'
+									//permission : 'USER'
+								}
+							})
+							.state('console.cards-list', {
+								url : '/cards-list',
+								templateUrl : 'views/cards-list.html',
+								data : {
+									requiresLogin : true,
 								}
 							})
 							.state('user-interface', {

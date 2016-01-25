@@ -1,0 +1,136 @@
+<div class="container" data-ng-controller="userCtrl as uCtrl">
+
+
+	<div class="card" data-ng-if="uCtrl.list === 1">
+		<div class="listview lv-bordered lv-lg">
+			<div class="lv-header-alt clearfix">
+				<h2 class="lvh-label hidden-xs">Some text here</h2>
+
+				<div class="lvh-search" data-ng-if="mactrl.listviewSearchStat" data-ng-click="mactrl.listviewSearchStat;">
+					<input type="text" placeholder="Start typing..." class="lvhs-input" ng-model="uCtrl.filter" ng-change="uCtrl.changeModel()"> <i class="lvh-search-close"
+						data-ng-click="mactrl.listviewSearchStat = false; uCtrl.showPagination = true; uCtrl.emptySearch();">&times;</i>
+				</div>
+
+				<ul class="lv-actions actions">
+					<li><button data-ng-click="uCtrl.initAdd()" class="btn btn-danger btn-icon waves-effect waves-circle">
+							<i class="zmdi zmdi-plus"></i>
+						</button>
+					</li>
+					<li>
+						<button class="btn bgm-teal btn-icon" data-ng-click="uCtrl.refresh()" >
+							<i class="zmdi zmdi-refresh"></i>
+						</button>
+					</li>
+					<li>
+						<button class="btn btn-info btn-icon" data-ng-click="mactrl.listviewSearchStat = true; uCtrl.showPagination = false;">
+							<i class="zmdi zmdi-search"></i>
+						</button>
+					</li>
+					<li><a href=""> <i class="zmdi zmdi-time"></i>
+					</a></li>
+					<li class="dropdown" dropdown><a href="" dropdown-toggle aria-expanded="true"> <i class="zmdi zmdi-sort"></i>
+						</a>
+							<ul class="dropdown-menu dropdown-menu-right">
+								<li><a href="" data-ng-click="uCtrl.changeOrder('createdAt')">Created at</a></li>
+								<li><a href="" data-ng-click="uCtrl.changeOrder('updatedAt')">Updated at</a></li>
+								<li><a href="" data-ng-click="uCtrl.changeOrder('email')">Email</a></li>
+								<li><a href="" data-ng-click="uCtrl.changeOrder('firstName')">Name</a></li>
+							</ul></li>
+						<li><a href=""> <i class="zmdi zmdi-info"></i>
+						</a>
+					</li>
+				</ul>
+			</div>
+
+			<div class="lv-body">
+				<div class="repeater" style="display: block" ng-repeat="user in uCtrl.users = (uCtrl.getInteratorList() | filter:uCtrl.search) | orderBy: uCtrl.order track by $index">
+				    <div class="col-sm-4">
+				    	<div class="media-body">
+					    <!-- Custom header -->
+						<div class="card">
+				            <div class="card-header bgm-teal">
+				                <h2>Name: <small>Cras leo sem, egestas a accumsan eget, euismod at nunc.</small></h2>
+				            </div>
+				
+				            <div class="card-body card-padding">
+				            	 <div class="form-group fg-float m-b-30">
+				                    <div class="fg-line fg-toggled">
+				                        <input type="text" class="form-control input-sm" disabled="true" value="1">
+				                        <label class="fg-label">Stage</label>
+				                    </div>
+				                </div>
+				                
+				                <div class="form-group fg-float m-b-30">
+				            		<div class="fg-line fg-toggled">
+				                        <input type="text" class="form-control input-sm" disabled="true" value="17/05/2016">
+				                        <label class="fg-label">Next Revision</label>
+				                    </div>		
+				                </div>
+				                <div class="card-body card-padding">
+                					Pellentesque lacinia sagittis libero. Praesent vitae justo purus. In hendrerit lorem nisl, ac lacinia urna aliquet non. Quisque nisi tellus, rhoncus quis est sit amete in nisl molestie fringilla. Nunc vitae ante id magna feugiat condimentum. Maecenas sit amet urna massa.
+            						<a class="lv-footer" href="">View All</a>	
+            					</div>		
+				                <button class="btn btn-info bgm-teal">Done</button>
+				                <button class="btn btn-link">Edit</button>
+				            </div>
+				        </div>
+				        </div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="lv-pagination pagination-cards-list">
+			<pagination ng-show="uCtrl.showPagination" total-items="uCtrl.totalItems" ng-model="uCtrl.currentPage" items-per-page="uCtrl.itemsPerPage" ng-change="uCtrl.pageChanged()" boundary-links="false" num-pages="uCtrl.numPages" max-size="uCtrl.maxSize"></pagination>
+		</div>
+	</div>
+
+	<div class="card" data-ng-if="uCtrl.add === 1 || uCtrl.edit === 1">
+		<div class="card-header">
+			<h2>
+				Basic Example <small>Individual form controls automatically receive some global styling. All textual 'input',
+					'textarea', and 'select' elements with .form-control are set to width: 100%; by default. Wrap labels and controls in
+					.form-group for optimum spacing. </small>
+			</h2>
+		</div>
+
+		<div class="card-body card-padding">
+			<form role="form" ng-submit="uCtrl.save()">
+
+				<input type="hidden" id="exampleInputHidden" ng-model="uCtrl.user.objectId" ng-hidden>
+				<div class="form-group fg-line">
+
+					<label for="exampleInputEmail1">Email address</label> <input type="email" class="form-control input-sm"
+						id="exampleInputEmail1" placeholder="Email" ng-model="uCtrl.user.email" readonly="readonly" disabled="disabled"
+						data-ng-if="uCtrl.edit === 1"> <input type="email" class="form-control input-sm" id="exampleInputEmail1_2"
+						placeholder="Enter email" ng-model="uCtrl.user.email" data-ng-if="uCtrl.add === 1">
+
+				</div>
+				<div class="form-group fg-line">
+					<label for="exampleInputEmail1">Name</label> <input type="text" class="form-control input-sm" id="exampleInputName"
+						placeholder="Enter name" ng-model="uCtrl.user.firstName">
+				</div>
+				<div class="form-group fg-line">
+					<label for="exampleInputPassword1">Password</label> <input type="password" class="form-control input-sm"
+						id="exampleInputPassword1" placeholder="Password" ng-model="uCtrl.user.password">
+				</div>
+				<div class="form-group fg-line">
+					<label for="exampleInputPassword1">Password Again</label> <input type="password" class="form-control input-sm"
+						id="exampleInputPassword2" placeholder="Password Again" ng-model="uCtrl.user.passwordAgain">
+				</div>
+
+				<div class="checkbox">
+					<label> <input type="checkbox" value=""> <i class="input-helper"></i> Eu aceito dar minha alma por esse
+						sistema
+					</label>
+				</div>
+
+				<button type="submit" class="btn btn-primary btn-sm m-t-10">Save</button>
+				<button type="button" class="btn btn-primary btn-sm m-t-10" data-ng-click="uCtrl.back()">Cancel</button>
+			</form>
+		</div>
+	</div>
+
+</div>
+
+

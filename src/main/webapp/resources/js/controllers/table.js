@@ -84,7 +84,7 @@ materialAdmin.controller('tableCtrl', function($filter, $sce, ngTableParams, tab
 	u.limitBackendDefault = 500;
 	u.limitBackend = u.limitBackendDefault;
 	u.currentPage = 1;
-	u.itemsPerPage = 2;
+	u.itemsPerPage = 3;
 	u.pages = [];
 	u.allItens = [];
 	u.numPages = 5;
