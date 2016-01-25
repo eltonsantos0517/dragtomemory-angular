@@ -379,4 +379,31 @@ materialAdmin
 			}
 
 			return gs;
-		})
+}).service('cardsService', [ 'Restangular', function(Restangular, LoginRestangular) {
+	
+	this.list = function(limit, cursor, order) {
+		return Restangular.one("user").get({
+			'limit' : limit,
+			'cursor' : cursor,
+			'order' : order
+		});
+	}
+	
+	this.save = function(user) {
+		if (user.objectId != null) {
+			return Restangular.copy(user).put();
+		} else {
+			return Restangular.all("user").post(user);
+		}
+	}
+	
+	this.getById = function(userId) {
+		return Restangular.one('user', userId).get().$object;
+	}
+	
+	this.removeUser = function(userId) {
+		return Restangular.one("user", userId).remove();
+	}
+	
+}])
+

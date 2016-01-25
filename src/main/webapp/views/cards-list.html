@@ -1,28 +1,28 @@
-<div class="container" data-ng-controller="userCtrl as uCtrl">
+<div class="container" data-ng-controller="cardsCtrl as cCtrl">
 
 
-	<div class="card" data-ng-if="uCtrl.list === 1">
+	<div class="card" data-ng-if="cCtrl.list === 1">
 		<div class="listview lv-bordered lv-lg">
 			<div class="lv-header-alt clearfix">
 				<h2 class="lvh-label hidden-xs">Some text here</h2>
 
 				<div class="lvh-search" data-ng-if="mactrl.listviewSearchStat" data-ng-click="mactrl.listviewSearchStat;">
-					<input type="text" placeholder="Start typing..." class="lvhs-input" ng-model="uCtrl.filter" ng-change="uCtrl.changeModel()"> <i class="lvh-search-close"
-						data-ng-click="mactrl.listviewSearchStat = false; uCtrl.showPagination = true; uCtrl.emptySearch();">&times;</i>
+					<input type="text" placeholder="Start typing..." class="lvhs-input" ng-model="cCtrl.filter" ng-change="cCtrl.changeModel()"> <i class="lvh-search-close"
+						data-ng-click="mactrl.listviewSearchStat = false; cCtrl.showPagination = true; cCtrl.emptySearch();">&times;</i>
 				</div>
 
 				<ul class="lv-actions actions">
-					<li><button data-ng-click="uCtrl.initAdd()" class="btn btn-danger btn-icon waves-effect waves-circle">
+					<li><button data-ng-click="cCtrl.initAdd()" class="btn btn-danger btn-icon waves-effect waves-circle">
 							<i class="zmdi zmdi-plus"></i>
 						</button>
 					</li>
 					<li>
-						<button class="btn bgm-teal btn-icon" data-ng-click="uCtrl.refresh()" >
+						<button class="btn bgm-teal btn-icon" data-ng-click="cCtrl.refresh()" >
 							<i class="zmdi zmdi-refresh"></i>
 						</button>
 					</li>
 					<li>
-						<button class="btn btn-info btn-icon" data-ng-click="mactrl.listviewSearchStat = true; uCtrl.showPagination = false;">
+						<button class="btn btn-info btn-icon" data-ng-click="mactrl.listviewSearchStat = true; cCtrl.showPagination = false;">
 							<i class="zmdi zmdi-search"></i>
 						</button>
 					</li>
@@ -31,10 +31,10 @@
 					<li class="dropdown" dropdown><a href="" dropdown-toggle aria-expanded="true"> <i class="zmdi zmdi-sort"></i>
 						</a>
 							<ul class="dropdown-menu dropdown-menu-right">
-								<li><a href="" data-ng-click="uCtrl.changeOrder('createdAt')">Created at</a></li>
-								<li><a href="" data-ng-click="uCtrl.changeOrder('updatedAt')">Updated at</a></li>
-								<li><a href="" data-ng-click="uCtrl.changeOrder('email')">Email</a></li>
-								<li><a href="" data-ng-click="uCtrl.changeOrder('firstName')">Name</a></li>
+								<li><a href="" data-ng-click="cCtrl.changeOrder('createdAt')">Created at</a></li>
+								<li><a href="" data-ng-click="cCtrl.changeOrder('updatedAt')">Updated at</a></li>
+								<li><a href="" data-ng-click="cCtrl.changeOrder('email')">Email</a></li>
+								<li><a href="" data-ng-click="cCtrl.changeOrder('firstName')">Name</a></li>
 							</ul></li>
 						<li><a href=""> <i class="zmdi zmdi-info"></i>
 						</a>
@@ -43,7 +43,7 @@
 			</div>
 
 			<div class="lv-body">
-				<div class="repeater" style="display: block" ng-repeat="user in uCtrl.users = (uCtrl.getInteratorList() | filter:uCtrl.search) | orderBy: uCtrl.order track by $index">
+				<div class="repeater" style="display: block" ng-repeat="user in cCtrl.users = (cCtrl.getInteratorList() | filter:cCtrl.search) | orderBy: cCtrl.order track by $index">
 				    <div class="col-sm-4">
 				    	<div class="media-body">
 					    <!-- Custom header -->
@@ -81,11 +81,11 @@
 		</div>
 
 		<div class="lv-pagination pagination-cards-list">
-			<pagination ng-show="uCtrl.showPagination" total-items="uCtrl.totalItems" ng-model="uCtrl.currentPage" items-per-page="uCtrl.itemsPerPage" ng-change="uCtrl.pageChanged()" boundary-links="false" num-pages="uCtrl.numPages" max-size="uCtrl.maxSize"></pagination>
+			<pagination ng-show="cCtrl.showPagination" total-items="cCtrl.totalItems" ng-model="cCtrl.currentPage" items-per-page="cCtrl.itemsPerPage" ng-change="cCtrl.pageChanged()" boundary-links="false" num-pages="cCtrl.numPages" max-size="cCtrl.maxSize"></pagination>
 		</div>
 	</div>
 
-	<div class="card" data-ng-if="uCtrl.add === 1 || uCtrl.edit === 1">
+	<div class="card" data-ng-if="cCtrl.add === 1 || cCtrl.edit === 1">
 		<div class="card-header">
 			<h2>
 				Basic Example <small>Individual form controls automatically receive some global styling. All textual 'input',
@@ -95,28 +95,28 @@
 		</div>
 
 		<div class="card-body card-padding">
-			<form role="form" ng-submit="uCtrl.save()">
+			<form role="form" ng-submit="cCtrl.save()">
 
-				<input type="hidden" id="exampleInputHidden" ng-model="uCtrl.user.objectId" ng-hidden>
+				<input type="hidden" id="exampleInputHidden" ng-model="cCtrl.user.objectId" ng-hidden>
 				<div class="form-group fg-line">
 
 					<label for="exampleInputEmail1">Email address</label> <input type="email" class="form-control input-sm"
-						id="exampleInputEmail1" placeholder="Email" ng-model="uCtrl.user.email" readonly="readonly" disabled="disabled"
-						data-ng-if="uCtrl.edit === 1"> <input type="email" class="form-control input-sm" id="exampleInputEmail1_2"
-						placeholder="Enter email" ng-model="uCtrl.user.email" data-ng-if="uCtrl.add === 1">
+						id="exampleInputEmail1" placeholder="Email" ng-model="cCtrl.user.email" readonly="readonly" disabled="disabled"
+						data-ng-if="cCtrl.edit === 1"> <input type="email" class="form-control input-sm" id="exampleInputEmail1_2"
+						placeholder="Enter email" ng-model="cCtrl.user.email" data-ng-if="cCtrl.add === 1">
 
 				</div>
 				<div class="form-group fg-line">
 					<label for="exampleInputEmail1">Name</label> <input type="text" class="form-control input-sm" id="exampleInputName"
-						placeholder="Enter name" ng-model="uCtrl.user.firstName">
+						placeholder="Enter name" ng-model="cCtrl.user.firstName">
 				</div>
 				<div class="form-group fg-line">
 					<label for="exampleInputPassword1">Password</label> <input type="password" class="form-control input-sm"
-						id="exampleInputPassword1" placeholder="Password" ng-model="uCtrl.user.password">
+						id="exampleInputPassword1" placeholder="Password" ng-model="cCtrl.user.password">
 				</div>
 				<div class="form-group fg-line">
 					<label for="exampleInputPassword1">Password Again</label> <input type="password" class="form-control input-sm"
-						id="exampleInputPassword2" placeholder="Password Again" ng-model="uCtrl.user.passwordAgain">
+						id="exampleInputPassword2" placeholder="Password Again" ng-model="cCtrl.user.passwordAgain">
 				</div>
 
 				<div class="checkbox">
@@ -126,7 +126,7 @@
 				</div>
 
 				<button type="submit" class="btn btn-primary btn-sm m-t-10">Save</button>
-				<button type="button" class="btn btn-primary btn-sm m-t-10" data-ng-click="uCtrl.back()">Cancel</button>
+				<button type="button" class="btn btn-primary btn-sm m-t-10" data-ng-click="cCtrl.back()">Cancel</button>
 			</form>
 		</div>
 	</div>
