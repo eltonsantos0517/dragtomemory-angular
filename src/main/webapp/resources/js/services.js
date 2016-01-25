@@ -53,33 +53,7 @@ materialAdmin
 	this.facebookAuthenticate = function(user) {
 		return LoginRestangular.all('facebookAuthenticate').post(user);
 	}
-} ])
-
-.factory('LoginRestangular', function(Restangular) {
-	return Restangular.withConfig(function(RestangularConfigurer) {
-		RestangularConfigurer.setBaseUrl('api/');
-		RestangularConfigurer.setDefaultHeaders({
-			'X-API-Token' : '91387c5d1bb74b1f84198f3611972b53'
-		});
-		RestangularConfigurer.setFullResponse(true);
-	});
-}).factory('permissions', function($rootScope) {
-	var permissionList;
-	return {
-		setPermissions : function(permissions) {
-			permissionList = permissions;
-			$rootScope.$broadcast('permissionsChanged');
-		},
-		hasPermission : function(permission) {
-			permission = permission.trim();
-			return _.some(permissionList, function(item) {
-				if (_.isString(item)) {
-					return item.trim() === permission
-				}
-			});
-		}
-	};
-}).directive('hasPermission', function(permissions) {
+} ]).directive('hasPermission', function(permissions) {
 	return {
 		link : function(scope, element, attrs) {
 			if (!_.isString(attrs.hasPermission)) {
@@ -379,31 +353,4 @@ materialAdmin
 			}
 
 			return gs;
-}).service('cardsService', [ 'Restangular', function(Restangular, LoginRestangular) {
-	
-	this.list = function(limit, cursor, order) {
-		return Restangular.one("user").get({
-			'limit' : limit,
-			'cursor' : cursor,
-			'order' : order
-		});
-	}
-	
-	this.save = function(user) {
-		if (user.objectId != null) {
-			return Restangular.copy(user).put();
-		} else {
-			return Restangular.all("user").post(user);
-		}
-	}
-	
-	this.getById = function(userId) {
-		return Restangular.one('user', userId).get().$object;
-	}
-	
-	this.removeUser = function(userId) {
-		return Restangular.one("user", userId).remove();
-	}
-	
-}])
-
+		})
