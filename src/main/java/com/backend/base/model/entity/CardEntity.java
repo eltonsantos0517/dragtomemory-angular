@@ -16,7 +16,7 @@ public class CardEntity extends GenericEntity {
 	@Index
 	private String title;
 	@Index
-	private String stage;
+	private Integer stage;
 	@Index
 	private String text;
 	@Index
@@ -28,7 +28,7 @@ public class CardEntity extends GenericEntity {
 		super();
 	}
 
-	public CardEntity(final Long objectId, final String title, final String stage, final String text,
+	public CardEntity(final Long objectId, final String title, final Integer stage, final String text,
 			final Date nextRevision) {
 		super(objectId);
 		this.title = title;
@@ -56,11 +56,11 @@ public class CardEntity extends GenericEntity {
 		this.title = title;
 	}
 
-	public String getStage() {
+	public Integer getStage() {
 		return stage;
 	}
 
-	public void setStage(String stage) {
+	public void setStage(Integer stage) {
 		this.stage = stage;
 	}
 

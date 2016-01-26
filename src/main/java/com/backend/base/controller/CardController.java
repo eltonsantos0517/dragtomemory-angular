@@ -85,10 +85,9 @@ public class CardController {
 
 		try {
 			final CardService service = new CardService();
-			service.saveCard(new CardEntity(to));
-			
+			CardTO persistedTO = new CardTO(service.saveCard(new CardEntity(to)));
 			ApiResponse ret = new ApiResponse(null, HttpStatus.OK.value(), HttpStatus.OK.getReasonPhrase(), null, null,
-					null, null);
+					null, persistedTO);
 
 			return new ResponseEntity<ApiResponse>(ret, HttpStatus.OK);
 		} catch (Exception e) {
@@ -106,10 +105,28 @@ public class CardController {
 		try {
 			
 			final CardService service = new CardService();
-			service.editCard(new CardEntity(to));
-			
+			CardTO persistedTO = new CardTO(service.editCard(new CardEntity(to)));
 			ApiResponse ret = new ApiResponse(null, HttpStatus.OK.value(), HttpStatus.OK.getReasonPhrase(), null, null,
-					null, null);
+					null, persistedTO);
+
+			return new ResponseEntity<ApiResponse>(ret, HttpStatus.OK);
+		} catch (Exception e) {
+			e.printStackTrace();
+
+			ApiResponse ret = new ApiResponse("Sorry, something bad happened", HttpStatus.INTERNAL_SERVER_ERROR.value(),
+					HttpStatus.INTERNAL_SERVER_ERROR.getReasonPhrase(), null, null, null, null);
+
+			return new ResponseEntity<ApiResponse>(ret, HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
+	
+	@RequestMapping(value = "/api/1/card/done", method = RequestMethod.PUT)
+	public ResponseEntity<ApiResponse> done(@RequestBody final Long objectId) {
+		try {			
+			final CardService service = new CardService();
+			final CardTO persitedTO = new CardTO(service.done(getCardById(objectId)));			
+			ApiResponse ret = new ApiResponse(null, HttpStatus.OK.value(), HttpStatus.OK.getReasonPhrase(), null, null,
+					null, persitedTO);
 
 			return new ResponseEntity<ApiResponse>(ret, HttpStatus.OK);
 		} catch (Exception e) {

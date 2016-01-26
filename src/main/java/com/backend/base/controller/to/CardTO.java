@@ -1,6 +1,6 @@
 package com.backend.base.controller.to;
 
-import org.joda.time.DateTime;
+import java.util.Date;
 
 import com.backend.base.controller.to.generic.GenericTO;
 import com.backend.base.model.entity.CardEntity;
@@ -8,16 +8,16 @@ import com.backend.base.model.entity.CardEntity;
 public class CardTO extends GenericTO {
 
 	private String title;
-	private String stage;
+	private Integer stage;
 	private String text;
-	private DateTime nextRevision;
+	private Date nextRevision;
 	private boolean changeStage;
 
 	public CardTO() {
 		super();
 	}
 
-	public CardTO(final Long objectId, final String title, final String stage, final String text, final DateTime nextRevision) {
+	public CardTO(final Long objectId, final String title, final Integer stage, final String text, final Date nextRevision) {
 		super(objectId);
 		this.title = title;
 		this.stage = stage;
@@ -28,7 +28,7 @@ public class CardTO extends GenericTO {
 	
 	public CardTO(final CardEntity entity){
 		this.title = entity.getTitle();
-		this.nextRevision = new DateTime(entity.getNextRevision());
+		this.nextRevision = entity.getNextRevision();
 		this.stage = entity.getStage();
 		this.text = entity.getText();
 		this.changeStage = entity.isChangeStage();
@@ -46,11 +46,11 @@ public class CardTO extends GenericTO {
 		this.title = title;
 	}
 
-	public String getStage() {
+	public Integer getStage() {
 		return stage;
 	}
 
-	public void setStage(String stage) {
+	public void setStage(Integer stage) {
 		this.stage = stage;
 	}
 
@@ -62,11 +62,11 @@ public class CardTO extends GenericTO {
 		this.text = text;
 	}
 
-	public DateTime getNextRevision() {
+	public Date getNextRevision() {
 		return nextRevision;
 	}
 
-	public void setNextRevision(DateTime nextRevision) {
+	public void setNextRevision(Date nextRevision) {
 		this.nextRevision = nextRevision;
 	}
 

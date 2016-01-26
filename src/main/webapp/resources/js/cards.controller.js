@@ -131,7 +131,7 @@ materialAdmin.controller('cardsCtrl', function($filter, $sce, ngTableParams, tab
 
 					if (!c.card.objectId) {
 						c.totalItems = c.totalItems + 1;
-						c.card.objectId = response.data.objectId;
+						c.card = response.data;
 
 						var newItens = [ c.card ];
 
@@ -172,7 +172,15 @@ materialAdmin.controller('cardsCtrl', function($filter, $sce, ngTableParams, tab
 	};
 	
 	c.done = function(cardId){
-		//logica do done
+		cardsService.done(cardId).then(
+				function(response){
+					c.refresh();
+					growlService.growl('Card relembrado com sucesso', 'success', 1000)
+				},
+				function(error){
+					growlService.growl(error.data.errorMessage, 'danger', 1000);
+				}
+		);		
 	}
 
 	c.initEdit = function(cardId) {
@@ -276,7 +284,6 @@ materialAdmin.controller('cardsCtrl', function($filter, $sce, ngTableParams, tab
 	}
 	
 	c.getInteratorList = function(){
-		
 		if(!c.allItens || c.allItens == null){
 			return c.cards;
 		}
@@ -292,7 +299,6 @@ materialAdmin.controller('cardsCtrl', function($filter, $sce, ngTableParams, tab
 	}
 	
 	c.viewAll = function(){
-		
 		if(c.numLimit < 9999){
 			c.numLimit = 9999;
 			c.expand = "Show less";
@@ -301,4 +307,5 @@ materialAdmin.controller('cardsCtrl', function($filter, $sce, ngTableParams, tab
 			c.expand = "View all";
 		}
 	}
+	
 });

@@ -6,6 +6,7 @@ import com.backend.base.model.dao.CardDAO;
 import com.backend.base.model.dao.generic.GenericDAO;
 import com.backend.base.model.entity.CardEntity;
 import com.backend.base.model.service.generic.GenericService;
+import com.backend.base.util.Util;
 import com.googlecode.objectify.Key;
 
 public class CardService extends GenericService<CardEntity>{
@@ -22,19 +23,28 @@ public class CardService extends GenericService<CardEntity>{
 		return cardDAO;
 	}
 	
-	public Key<CardEntity> saveCard(final CardEntity entity){
-		entity.setStage("1");
+	public CardEntity saveCard(final CardEntity entity){
+		entity.setStage(1);
 		entity.setNextRevision(new DateTime().plusDays(1).toDate());
-		return save(entity);
+		save(entity);
+		return entity;
 	}
 
-	public Key<CardEntity> editCard(final CardEntity entity) {
+	public CardEntity editCard(final CardEntity entity) {
 		if(entity.isChangeStage()){
-			entity.setStage("1");
+			entity.setStage(1);
 			entity.setNextRevision(new DateTime().plusDays(1).toDate());
 		}
+		save(entity);
+		return entity;
+	}
+	
+	public CardEntity done(final CardEntity entity) throws Exception{
 		
-		return save(entity);
+		entity.setStage(entity.getStage() + 1);
+		entity.setNextRevision(Util.getDateOfNextRevision(entity.getStage()));
+		super.save(entity);
+		return entity;
 	}
 
 }

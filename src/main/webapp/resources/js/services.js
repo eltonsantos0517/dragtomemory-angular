@@ -370,23 +370,25 @@ materialAdmin
 		});
 	}
 	
-	this.save = function(user) {
-		console.log("save");
-		if (user.objectId != null) {
-			return Restangular.copy(user).put();
+	this.save = function(card) {
+		if (card.objectId != null) {
+			return Restangular.copy(card).put();
 		} else {
-			return Restangular.all("card").post(user);
+			return Restangular.all("card").post(card);
 		}
 	}
 	
-	this.getById = function(userId) {
-		return Restangular.one('card', userId).get().$object;
+	this.getById = function(cardId) {
+		return Restangular.one('card', cardId).get().$object;
 	}
 	
-	this.removeUser = function(userId) {
-		return Restangular.one("card", userId).remove();
+	this.removeUser = function(cardId) {
+		return Restangular.one("card", cardId).remove();
 	}
 	
+	this.done = function(cardId){
+		return Restangular.all("card/done").customPUT(cardId);
+	}
 }])
 
 
