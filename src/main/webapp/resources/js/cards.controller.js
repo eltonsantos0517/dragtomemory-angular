@@ -24,8 +24,7 @@ materialAdmin.controller('cardsCtrl', function($filter, $sce, ngTableParams, tab
 	c.numPages = 5;
 	c.maxSize = 5;
 	
-	c.numLimit = 50;
-	c.expand = "View all";
+	c.showMore = [];
 
 	cardsService.list(c.limitBackend, "", c.order, "oi").then(
 	// success
@@ -298,13 +297,20 @@ materialAdmin.controller('cardsCtrl', function($filter, $sce, ngTableParams, tab
 		}
 	}
 	
-	c.viewAll = function(){
-		if(c.numLimit < 9999){
-			c.numLimit = 9999;
-			c.expand = "Show less";
+	c.viewAll = function(index){
+		
+		if(c.showMore[index] && c.showMore[index] != null){
+			if(c.showMore[index].numLimit < 9999){
+				c.showMore[index].numLimit = 9999;
+				c.showMore[index].expand = "Show Less";
+			}else{
+				c.showMore[index].numLimit = 50;
+				c.showMore[index].expand = "View All";
+			}
 		}else{
-			c.numLimit = 50;
-			c.expand = "View all";
+			c.showMore[index] = {};
+			c.showMore[index].numLimit = 9999;
+			c.showMore[index].expand = "Show Less";
 		}
 	}
 	
