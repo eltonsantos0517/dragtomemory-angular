@@ -43,35 +43,35 @@
 			</div>
 
 			<div class="lv-body">
-				<div class="repeater" style="display: block" ng-repeat="user in cCtrl.users = (cCtrl.getInteratorList() | filter:cCtrl.search) | orderBy: cCtrl.order track by $index">
+				<div class="repeater" style="display: block" ng-repeat="card in cCtrl.cards = (cCtrl.getInteratorList() | filter:cCtrl.search) | orderBy: cCtrl.order track by $index">
 				    <div class="col-sm-4">
 				    	<div class="media-body">
 					    <!-- Custom header -->
 						<div class="card">
 				            <div class="card-header bgm-teal">
-				                <h2>Name: <small>Cras leo sem, egestas a accumsan eget, euismod at nunc.</small></h2>
+				                <h2>Title: <small>{{card.title}}</small></h2>
 				            </div>
 				
 				            <div class="card-body card-padding">
-				            	 <div class="form-group fg-float m-b-30">
+				            	<div class="form-group fg-float m-b-30">
 				                    <div class="fg-line fg-toggled">
-				                        <input type="text" class="form-control input-sm" disabled="true" value="1">
+				                        <input type="text" class="form-control input-sm" disabled="true" value="{{card.stage}}">
 				                        <label class="fg-label">Stage</label>
 				                    </div>
 				                </div>
 				                
 				                <div class="form-group fg-float m-b-30">
 				            		<div class="fg-line fg-toggled">
-				                        <input type="text" class="form-control input-sm" disabled="true" value="17/05/2016">
+				                        <input type="text" class="form-control input-sm" disabled="true" value="{{card.nextRevision | date:'dd/MM/yyyy'}}">
 				                        <label class="fg-label">Next Revision</label>
 				                    </div>		
 				                </div>
 				                <div class="card-body card-padding">
-                					Pellentesque lacinia sagittis libero. Praesent vitae justo purus. In hendrerit lorem nisl, ac lacinia urna aliquet non. Quisque nisi tellus, rhoncus quis est sit amete in nisl molestie fringilla. Nunc vitae ante id magna feugiat condimentum. Maecenas sit amet urna massa.
-            						<a class="lv-footer" href="">View All</a>	
+                					<p>{{card.text | limitTo:cCtrl.numLimit}}</p>
+            						<a class="lv-footer" href="" data-ng-click="cCtrl.viewAll()">{{cCtrl.expand}}</a>	
             					</div>		
-				                <button class="btn btn-info bgm-teal">Done</button>
-				                <button class="btn btn-link">Edit</button>
+				                <button class="btn btn-info bgm-teal" ng-click="cCtrl.done(card.objectId)">Done</button>
+				                <button class="btn btn-link" ng-click="cCtrl.initEdit(card.objectId)">Edit</button>
 				            </div>
 				        </div>
 				        </div>
@@ -97,34 +97,16 @@
 		<div class="card-body card-padding">
 			<form role="form" ng-submit="cCtrl.save()">
 
-				<input type="hidden" id="exampleInputHidden" ng-model="cCtrl.user.objectId" ng-hidden>
+				<input type="hidden" id="exampleInputHidden" ng-model="cCtrl.card.objectId" ng-hidden>
 				<div class="form-group fg-line">
-
-					<label for="exampleInputEmail1">Email address</label> <input type="email" class="form-control input-sm"
-						id="exampleInputEmail1" placeholder="Email" ng-model="cCtrl.user.email" readonly="readonly" disabled="disabled"
-						data-ng-if="cCtrl.edit === 1"> <input type="email" class="form-control input-sm" id="exampleInputEmail1_2"
-						placeholder="Enter email" ng-model="cCtrl.user.email" data-ng-if="cCtrl.add === 1">
-
+					<label for="exampleInputEmail1">Title</label> 
+					<input type="text" class="form-control input-sm"
+						id="inputText" placeholder="Enter title" ng-model="cCtrl.card.title" data-ng-if="cCtrl.edit === 1 || cCtrl.add === 1"> 
 				</div>
 				<div class="form-group fg-line">
-					<label for="exampleInputEmail1">Name</label> <input type="text" class="form-control input-sm" id="exampleInputName"
-						placeholder="Enter name" ng-model="cCtrl.user.firstName">
+					<label for="exampleInputEmail1">Text</label> <input type="text" class="form-control input-sm" id="inputText"
+						placeholder="Enter text" ng-model="cCtrl.card.text">
 				</div>
-				<div class="form-group fg-line">
-					<label for="exampleInputPassword1">Password</label> <input type="password" class="form-control input-sm"
-						id="exampleInputPassword1" placeholder="Password" ng-model="cCtrl.user.password">
-				</div>
-				<div class="form-group fg-line">
-					<label for="exampleInputPassword1">Password Again</label> <input type="password" class="form-control input-sm"
-						id="exampleInputPassword2" placeholder="Password Again" ng-model="cCtrl.user.passwordAgain">
-				</div>
-
-				<div class="checkbox">
-					<label> <input type="checkbox" value=""> <i class="input-helper"></i> Eu aceito dar minha alma por esse
-						sistema
-					</label>
-				</div>
-
 				<button type="submit" class="btn btn-primary btn-sm m-t-10">Save</button>
 				<button type="button" class="btn btn-primary btn-sm m-t-10" data-ng-click="cCtrl.back()">Cancel</button>
 			</form>

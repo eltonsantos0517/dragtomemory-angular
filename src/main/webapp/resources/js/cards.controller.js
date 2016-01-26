@@ -1,54 +1,57 @@
 materialAdmin.controller('cardsCtrl', function($filter, $sce, ngTableParams, tableService, $scope, cardsService, $http, growlService) {
 
 	/* jshint validthis: true */
-	var u = this;
+	var c = this;
 
-	u.list = 1;
-	u.add = 0;
-	u.edit = 0;
-	u.user = {};
-	u.users = [];
-	u.search = '';
-	u.filter = '';
-	u.order = "";
-	u.showPagination = true;
+	c.list = 1;
+	c.add = 0;
+	c.edit = 0;
+	c.card = {};
+	c.cards = [];
+	c.search = '';
+	c.filter = '';
+	c.order = "";
+	c.showPagination = true;
 
 	// Pagination Config
-	u.totalItems = 500;
-	u.limitBackendDefault = 500;
-	u.limitBackend = u.limitBackendDefault;
-	u.currentPage = 1;
-	u.itemsPerPage = 3;
-	u.pages = [];
-	u.allItens = [];
-	u.numPages = 5;
-	u.maxSize = 5;
+	c.totalItems = 500;
+	c.limitBackendDefault = 500;
+	c.limitBackend = c.limitBackendDefault;
+	c.currentPage = 1;
+	c.itemsPerPage = 3;
+	c.pages = [];
+	c.allItens = [];
+	c.numPages = 5;
+	c.maxSize = 5;
+	
+	c.numLimit = 50;
+	c.expand = "View all";
 
-	cardsService.list(u.limitBackend, "", u.order).then(
+	cardsService.list(c.limitBackend, "", c.order, "oi").then(
 	// success
 	function(response) {
-		u.totalItems = response.totalCount;
-		u.cursor = response.cursor;
+		c.totalItems = response.totalCount;
+		c.cursor = response.cursor;
 
-		u.allItens = response.data;
-		u.preparePages(u.allItens, u.itemsPerPage, u.currentPage);
-		u.users = u.getPage(u.currentPage);
+		c.allItens = response.data;
+		c.preparePages(c.allItens, c.itemsPerPage, c.currentPage);
+		c.cards = c.getPage(c.currentPage);
 	},
 	// fail
 	function(response) {
 		growlService.growl('Erro ao carregar cards.', 'danger', 1000)
 	});
 
-	u.preparePages = function(itens, itemsPerPage, currentPage) {
+	c.preparePages = function(itens, itemsPerPage, currentPage) {
 		var i = 1;
-		u.pages = [];
+		c.pages = [];
 		var pageIndex = 0;
 		var pageList = [];
 
 		for (x in itens) {
 			if (i <= itemsPerPage) {
 				pageList.push(itens[x]);
-				u.pages[pageIndex] = pageList;
+				c.pages[pageIndex] = pageList;
 				i++;
 			} else {
 				i = 1;
@@ -56,26 +59,26 @@ materialAdmin.controller('cardsCtrl', function($filter, $sce, ngTableParams, tab
 				pageIndex++;
 
 				pageList.push(itens[x]);
-				u.pages[pageIndex] = pageList;
+				c.pages[pageIndex] = pageList;
 
 				i++;
 			}
 		}
 	};
 
-	u.getPage = function(currentPage) {
-		var pageRet = u.pages[currentPage - 1];
+	c.getPage = function(currentPage) {
+		var pageRet = c.pages[currentPage - 1];
 
 		if (!pageRet || pageRet.length === 0) {
-			cardsService.list(u.limitBackend, u.cursor, u.order).then(
+			cardsService.list(c.limitBackend, c.cursor, c.order, "oi").then(
 			// success
 			function(response) {
-				u.cursor = response.cursor;
-				u.totalItems = response.totalCount;
+				c.cursor = response.cursor;
+				c.totalItems = response.totalCount;
 
-				Array.prototype.push.apply(u.allItens, response.data);
-				u.preparePages(u.allItens, u.itemsPerPage, u.currentPage);
-				u.users = u.getPage(u.currentPage);
+				Array.prototype.push.apply(c.allItens, response.data);
+				c.preparePages(c.allItens, c.itemsPerPage, c.currentPage);
+				c.cards = c.getPage(c.currentPage);
 			},
 			// fail
 			function(response) {
@@ -85,99 +88,133 @@ materialAdmin.controller('cardsCtrl', function($filter, $sce, ngTableParams, tab
 		return pageRet;
 	};
 
-	u.pageChanged = function() {
-		u.users = u.getPage(u.currentPage);
+	c.pageChanged = function() {
+		c.cards = c.getPage(c.currentPage);
 	};
-	u.save = function() {
-		cardsService.save(u.user).then(
-		// success
-		function(response) {
-			u.list = 1;
-			u.add = 0;
-			u.edit = 0;
-
-			if (!u.user.objectId) {
-				u.totalItems = u.totalItems + 1;
-				u.user.objectId = response.data.objectId;
-
-				var newItens = [ u.user ];
-
-				Array.prototype.push.apply(u.allItens, newItens);
-				u.preparePages(u.allItens, u.itemsPerPage, u.currentPage);
-				u.users = u.getPage(u.currentPage);
-				u.user = {};
-
-				growlService.growl('Card criado com sucesso.', 'success', 1000);
-			} else {
-
-				for (var i = u.allItens.length - 1; i >= 0; i--) {
-					if (u.allItens[i].objectId === u.user.objectId) {
-						u.allItens[i] = u.user;
-						break;
-					}
+	
+	c.save = function() {
+		
+		//if c.edit == 1 mostrar dialog perguntando se quer voltar para estagio 1 ou não
+		if(c.edit === 1){
+			swal({
+				title : "Deseja voltar para o primeiro estágio?",
+				text : "Caso não volte o aprendizado poderá não ser completo",
+				type : "warning",
+				showCancelButton : true,
+				confirmButtonColor : "#DD6B55",
+				confirmButtonText : "Sim, volte!",
+				cancelButtonText : "Não, não volte!",
+				closeOnConfirm : false,
+				closeOnCancel : false
+			},function(isConfirm){
+				if(isConfirm){
+					swal("Confirmado!", "Card irá para o primeiro estágio", "success");
+					c.saveCard(true);
+				}else{
+					swal("Não confirmado!", "Card ficara no seu estágio atual", "error");
+					c.saveCard(false);
 				}
+			});
+		}else{
+			c.saveCard(false);
+		}
+	};
+	
+	c.saveCard = function(isChangeStage){
+		c.card.changeStage = isChangeStage;
+		cardsService.save(c.card).then(
+				// success
+				function(response) {
+					c.list = 1;
+					c.add = 0;
+					c.edit = 0;
 
-				u.preparePages(u.allItens, u.itemsPerPage, u.currentPage);
-				u.users = u.getPage(u.currentPage);
-				u.user = {};
+					if (!c.card.objectId) {
+						c.totalItems = c.totalItems + 1;
+						c.card.objectId = response.data.objectId;
 
-				growlService.growl('Card atualizado com sucesso.', 'success', 1000);
-			}
-		},
-		// fail
-		function(response) {
-			growlService.growl(response.data.errorMessage, 'danger');
-		});
+						var newItens = [ c.card ];
+
+						Array.prototype.push.apply(c.allItens, newItens);
+						c.preparePages(c.allItens, c.itemsPerPage, c.currentPage);
+						c.cards = c.getPage(c.currentPage);
+						c.card = {};
+
+						growlService.growl('Card criado com sucesso, ficará visivel na aba de todos os cards.', 'success', 1000);
+					} else {
+
+						for (var i = c.allItens.length - 1; i >= 0; i--) {
+							if (c.allItens[i].objectId === c.card.objectId) {
+								c.allItens[i] = c.card;
+								break;
+							}
+						}
+
+						c.preparePages(c.allItens, c.itemsPerPage, c.currentPage);
+						c.cards = c.getPage(c.currentPage);
+						c.card = {};
+
+						growlService.growl('Card atualizado com sucesso.', 'success', 1000);
+					}
+				},
+				// fail
+				function(response) {
+					growlService.growl(response.data.errorMessage, 'danger');
+				});
+	}
+
+	c.initAdd = function() {
+		c.list = 0;
+		c.add = 1;
+		c.edit = 0;
+
+		c.card = {};
+	};
+	
+	c.done = function(cardId){
+		//logica do done
+	}
+
+	c.initEdit = function(cardId) {
+		c.list = 0;
+		c.add = 0;
+		c.edit = 1;
+
+		c.card = cardsService.getById(cardId);
 	};
 
-	u.initAdd = function() {
-		u.list = 0;
-		u.add = 1;
-		u.edit = 0;
-
-		u.user = {};
-	};
-
-	u.initEdit = function(userId) {
-		u.list = 0;
-		u.add = 0;
-		u.edit = 1;
-
-		u.user = cardsService.getById(userId);
-	};
-
-	u.refresh = function() {
-		u.limitBackend = u.allItens.length;
-		cardsService.list(u.limitBackend, "", u.order).then(
+	c.refresh = function() {
+		c.limitBackend = c.allItens.length;
+		cardsService.list(c.limitBackend, "", c.order, "oi").then(
 		// success
 		function(response) {
-			u.cursor = response.cursor;
-			u.totalItems = response.totalCount;
-			u.limitBackend = u.limitBackendDefault;
+			c.cursor = response.cursor;
+			c.totalItems = response.totalCount;
+			c.limitBackend = c.limitBackendDefault;
 
-			u.allItens = response.data;
-			u.preparePages(u.allItens, u.itemsPerPage, u.currentPage);
-			u.users = u.getPage(u.currentPage);
+			c.allItens = response.data;
+			c.preparePages(c.allItens, c.itemsPerPage, c.currentPage);
+			c.cards = c.getPage(c.currentPage);
 		},
 		// fail
 		function(response) {
-			u.limitBackend = u.limitBackendDefault;
+			c.limitBackend = c.limitBackendDefault;
 			growlService.growl('Erro ao carregar card.', 'danger', 1000)
 		});
 
 	};
 
-	u.back = function() {
-		u.list = 1;
-		u.add = 0;
-		u.edit = 0;
+	c.back = function() {
+		c.list = 1;
+		c.add = 0;
+		c.edit = 0;
 	};
 
-	u.removeUser = function(userId) {
+	c.removeCard = function(cardId) {
 		// confirm
 		swal({
 			title : "Are you sure?",
-			text : "You will not be able to recover this user!",
+			text : "You will not be able to recover this card!",
 			type : "warning",
 			showCancelButton : true,
 			confirmButtonColor : "#DD6B55",
@@ -187,68 +224,81 @@ materialAdmin.controller('cardsCtrl', function($filter, $sce, ngTableParams, tab
 			closeOnCancel : false
 		}, function(isConfirm) {
 			if (isConfirm) {
-				u.user = cardsService.removeUser(userId).then(
+				c.card = cardsService.removeCard(cardId).then(
 				// success
 				function(response) {
-					// u.currentPage = 1;
+					// c.currentPage = 1;
 
-					for (var i = u.allItens.length - 1; i >= 0; i--) {
-						if (u.allItens[i].objectId === userId) {
-							u.allItens.splice(i, 1);
-							u.totalItems = u.totalItems - 1;
+					for (var i = c.allItens.length - 1; i >= 0; i--) {
+						if (c.allItens[i].objectId === cardId) {
+							c.allItens.splice(i, 1);
+							c.totalItems = c.totalItems - 1;
 							break;
 						}
 					}
 
-					u.preparePages(u.allItens, u.itemsPerPage, u.currentPage);
+					c.preparePages(c.allItens, c.itemsPerPage, c.currentPage);
 
-					var pageRet = u.pages[u.currentPage - 1];
-					if ((pageRet && pageRet.length > 0) || u.allItens.length === 0) {
-						u.users = u.getPage(u.currentPage);
+					var pageRet = c.pages[c.currentPage - 1];
+					if ((pageRet && pageRet.length > 0) || c.allItens.length === 0) {
+						c.cards = c.getPage(c.currentPage);
 					}
 
-					swal("Deleted!", "The user has been deleted.", "success");
+					swal("Deleted!", "The card has been deleted.", "success");
 				},
 				// fail
 				function(response) {
 					swal("ERROR", "error");
 				});
 			} else {
-				swal("Cancelled", "The user is safe :)", "error");
+				swal("Cancelled", "The card is safe :)", "error");
 			}
 		});
 	};
 	
 	//FOR FILTER
 
-	u.changeOrder = function(order) {
-		u.order = order;
-		u.refresh();
+	c.changeOrder = function(order) {
+		c.order = order;
+		c.refresh();
 	};
 	
-	u.emptySearch = function(){
-		u.filter = '';
-		u.search = '';
+	c.emptySearch = function(){
+		c.filter = '';
+		c.search = '';
 	};
 	
-	u.changeModel = function(){
-		u.search = {};
+	c.changeModel = function(){
+		c.search = {};
 		//Adicionar no objeto search sobre quais campos da entidade será aplicado o filtro
-		u.search.firstName = u.filter;
-		u.search.lastName = u.filter;
-		u.search.email = u.filter;
+		c.search.title = c.filter;
+		c.search.text = c.filter;
 	}
 	
-	u.getInteratorList = function(){
+	c.getInteratorList = function(){
 		
-		if(u.allItens.length > 0){
-			if(u.search === ''){
-				u.users = u.getPage(u.currentPage);
-				return u.users;
+		if(!c.allItens || c.allItens == null){
+			return c.cards;
+		}
+		
+		if(c.allItens.length > 0){
+			if(c.search === ''){
+				c.cards = c.getPage(c.currentPage);
+				return c.cards;
 			}else{
-				return u.allItens;
+				return c.allItens;
 			}
 		}
 	}
 	
+	c.viewAll = function(){
+		
+		if(c.numLimit < 9999){
+			c.numLimit = 9999;
+			c.expand = "Show less";
+		}else{
+			c.numLimit = 50;
+			c.expand = "View all";
+		}
+	}
 });

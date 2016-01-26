@@ -381,28 +381,35 @@ materialAdmin
 			return gs;
 }).service('cardsService', [ 'Restangular', function(Restangular, LoginRestangular) {
 	
-	this.list = function(limit, cursor, order) {
-		return Restangular.one("user").get({
+	this.list = function(limit, cursor, order, filter) {
+		
+		if(cursor == null){
+			cursor = "";
+		}
+		
+		return Restangular.one("card").get({
 			'limit' : limit,
 			'cursor' : cursor,
-			'order' : order
+			'order' : order,
+			'filter' : filter
 		});
 	}
 	
 	this.save = function(user) {
+		console.log("save");
 		if (user.objectId != null) {
 			return Restangular.copy(user).put();
 		} else {
-			return Restangular.all("user").post(user);
+			return Restangular.all("card").post(user);
 		}
 	}
 	
 	this.getById = function(userId) {
-		return Restangular.one('user', userId).get().$object;
+		return Restangular.one('card', userId).get().$object;
 	}
 	
 	this.removeUser = function(userId) {
-		return Restangular.one("user", userId).remove();
+		return Restangular.one("card", userId).remove();
 	}
 	
 }])

@@ -4,7 +4,6 @@ import java.util.logging.Logger;
 
 import com.backend.base.model.dao.generic.GenericDAO;
 import com.backend.base.model.entity.AccountEntity;
-import com.google.appengine.api.datastore.EntityNotFoundException;
 import com.googlecode.objectify.ObjectifyService;
 
 public class AccountDAO extends GenericDAO<AccountEntity> {
