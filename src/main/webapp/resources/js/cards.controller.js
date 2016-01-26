@@ -308,4 +308,11 @@ materialAdmin.controller('cardsCtrl', function($filter, $sce, ngTableParams, tab
 		}
 	}
 	
+	c.getDiffInHours = function(date){
+		var today = new Date();
+		var cardDate = new Date(date);
+		var hours = moment.duration(moment(cardDate).diff(moment(today))).asHours();
+		return hours;
+	}
+	
 });

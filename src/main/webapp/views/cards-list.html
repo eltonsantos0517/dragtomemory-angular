@@ -33,8 +33,8 @@
 							<ul class="dropdown-menu dropdown-menu-right">
 								<li><a href="" data-ng-click="cCtrl.changeOrder('createdAt')">Created at</a></li>
 								<li><a href="" data-ng-click="cCtrl.changeOrder('updatedAt')">Updated at</a></li>
-								<li><a href="" data-ng-click="cCtrl.changeOrder('email')">Email</a></li>
-								<li><a href="" data-ng-click="cCtrl.changeOrder('firstName')">Name</a></li>
+								<li><a href="" data-ng-click="cCtrl.changeOrder('title')">Title</a></li>
+								<li><a href="" data-ng-click="cCtrl.changeOrder('stage')">Stage</a></li>
 							</ul></li>
 						<li><a href=""> <i class="zmdi zmdi-info"></i>
 						</a>
@@ -46,34 +46,32 @@
 				<div class="repeater" style="display: block" ng-repeat="card in cCtrl.cards = (cCtrl.getInteratorList() | filter:cCtrl.search) | orderBy: cCtrl.order track by $index">
 				    <div class="col-sm-4">
 				    	<div class="media-body">
-					    <!-- Custom header -->
-						<div class="card">
-				            <div class="card-header bgm-teal">
-				                <h2>Title: <small>{{card.title}}</small></h2>
-				            </div>
-				
-				            <div class="card-body card-padding">
-				            	<div class="form-group fg-float m-b-30">
-				                    <div class="fg-line fg-toggled">
-				                        <input type="text" class="form-control input-sm" disabled="true" value="{{card.stage}}">
-				                        <label class="fg-label">Stage</label>
-				                    </div>
-				                </div>
-				                
-				                <div class="form-group fg-float m-b-30">
-				            		<div class="fg-line fg-toggled">
-				                        <input type="text" class="form-control input-sm" disabled="true" value="{{card.nextRevision | date:'dd/MM/yyyy'}}">
-				                        <label class="fg-label">Next Revision</label>
-				                    </div>		
-				                </div>
-				                <div class="card-body card-padding">
-                					<p>{{card.text | limitTo:cCtrl.numLimit}}</p>
-            						<a class="lv-footer" href="" data-ng-click="cCtrl.viewAll()">{{cCtrl.expand}}</a>	
-            					</div>		
-				                <button class="btn btn-info bgm-teal" ng-click="cCtrl.done(card.objectId)">Done</button>
-				                <button class="btn btn-link" ng-click="cCtrl.initEdit(card.objectId)">Edit</button>
-				            </div>
-				        </div>
+							<div class="card">
+					            <div ng-class="cCtrl.getDiffInHours(card.nextRevision) < 24  ? 'card-header bgm-teal' : 'card-header bgm-bluegray'">
+					                <h2>Title: <small>{{card.title}}</small></h2>
+					            </div>
+					
+					            <div class="card-body card-padding">
+					            	<div class="form-group fg-float m-b-30">
+					                    <div class="fg-line fg-toggled">
+					                        <input type="text" class="form-control input-sm" disabled="true" value="{{card.stage}}">
+					                        <label class="fg-label">Stage</label>
+					                    </div>
+					                </div>
+					                <div class="form-group fg-float m-b-30">
+					            		<div class="fg-line fg-toggled">
+					                        <input type="text" class="form-control input-sm" disabled="true" value="{{card.nextRevision | date:'dd/MM/yyyy'}}">
+					                        <label class="fg-label">Next Revision</label>
+					                    </div>		
+					                </div>
+					                <div class="card-body card-padding">
+	                					<p>{{card.text | limitTo:cCtrl.numLimit}}</p>
+	            						<a class="lv-footer" href="" data-ng-click="cCtrl.viewAll()">{{cCtrl.expand}}</a>	
+	            					</div>		
+					                <button ng-class="cCtrl.getDiffInHours(card.nextRevision) < 24  ? 'btn btn-info bgm-teal' : 'btn btn-info bgm-bluegray'" ng-click="cCtrl.done(card.objectId)" ng-disabled="card.stage>=5 || !(cCtrl.getDiffInHours(card.nextRevision) < 24) ">Done</button>
+					                <button class="btn btn-link" ng-click="cCtrl.initEdit(card.objectId)">Edit</button>
+					            </div>
+				        	</div>
 				        </div>
 					</div>
 				</div>
