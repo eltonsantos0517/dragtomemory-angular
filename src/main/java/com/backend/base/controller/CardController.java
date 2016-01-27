@@ -31,7 +31,7 @@ public class CardController {
 
 			CardService service = new CardService();
 
-			Long totalCount = service.count();
+			Long totalCount = service.count(filter);
 			CollectionResponse<CardEntity> response = service.listCards(limit, cursor, order, filter);
 
 			if (response != null) {

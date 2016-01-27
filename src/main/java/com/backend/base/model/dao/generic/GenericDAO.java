@@ -62,6 +62,10 @@ public class GenericDAO<T extends GenericEntity> {
 		return ofy().load().type(clazz).count();
 	}
 	
+	public long countWithFilter(Filter filter) {
+		return ofy().load().type(clazz).filter(filter).count();
+	}
+	
 public CollectionResponse<T> listPage(int limit, String cursor, String order, Filter filter) throws EntityNotFoundException {
 		
 		Query<T> query = null;
@@ -84,10 +88,18 @@ public CollectionResponse<T> listPage(int limit, String cursor, String order, Fi
 		}
 
 		if (continu) {
+		
 			Cursor cursorRet = iterator.getCursor();
-			CollectionResponse<T> response = CollectionResponse.<T> builder().setItems(resultList)
-					.setNextPageToken(cursorRet.toWebSafeString()).build();
-			return response;
+			if(cursorRet!= null){
+				CollectionResponse<T> response = CollectionResponse.<T> builder().setItems(resultList)
+						.setNextPageToken(cursorRet.toWebSafeString()).build();
+				return response;
+			}else{
+				CollectionResponse<T> response = CollectionResponse.<T> builder().setItems(resultList)
+						.build();
+				return response;
+			}
+			
 		}
 		return null;
 	}

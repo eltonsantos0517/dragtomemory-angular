@@ -1,5 +1,9 @@
 package com.backend.base.model.service;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 import org.joda.time.DateTime;
 
 import com.backend.base.model.dao.CardDAO;
@@ -9,9 +13,11 @@ import com.backend.base.model.service.generic.GenericService;
 import com.backend.base.util.Util;
 import com.google.api.server.spi.response.CollectionResponse;
 import com.google.appengine.api.datastore.EntityNotFoundException;
+import com.google.appengine.api.datastore.Query.CompositeFilter;
 import com.google.appengine.api.datastore.Query.Filter;
 import com.google.appengine.api.datastore.Query.FilterOperator;
 import com.google.appengine.api.datastore.Query.FilterPredicate;
+import com.google.appengine.api.datastore.Query.CompositeFilterOperator;
 import com.googlecode.objectify.Key;
 
 public class CardService extends GenericService<CardEntity> {
@@ -53,15 +59,29 @@ public class CardService extends GenericService<CardEntity> {
 		super.save(entity);
 		return entity;
 	}
+	
+	public long count(String filter){
+		if (FILTER_CARD.equalsIgnoreCase(filter)) {
+			return countWithFilter(getFilter());
+		}else{
+			return count();
+		}
+	}
 
 	public CollectionResponse<CardEntity> listCards(int limit, String cursor, String order, String filter)
 			throws EntityNotFoundException {
+		
 		if (FILTER_CARD.equalsIgnoreCase(filter)) {
-			Filter f = new FilterPredicate("nextRevision", FilterOperator.LESS_THAN_OR_EQUAL,
-					new DateTime().plusDays(1).toDate());
-			return listPage(limit, cursor, order, f);
+			return listPage(limit, cursor, order, getFilter());
 		} else {
 			return listPage(limit, cursor, order);
 		}
+	}
+	
+	private Filter getFilter(){
+		return  CompositeFilterOperator.and(
+				new FilterPredicate("nextRevision", FilterOperator.LESS_THAN_OR_EQUAL, new DateTime().plusDays(1).toDate()), 
+				new FilterPredicate("stage", FilterOperator.IN, Arrays.asList(1,2,3,4))
+			);
 	}
 }

@@ -139,6 +139,10 @@ public abstract class GenericService<T extends GenericEntity> {
 	public long count() {
 		return getDAO().count();
 	}
+	
+	public long countWithFilter(Filter filter) {
+		return getDAO().countWithFilter(filter);
+	}
 
 	public abstract GenericDAO<T> getDAO();
 
