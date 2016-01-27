@@ -309,7 +309,7 @@ materialAdmin
 								}
 							})
 							.state('console.cards-list', {
-								url : '/cards-list',
+								url : '/cards-list/:filter',
 								templateUrl : 'views/cards-list.html',
 								data : {
 									requiresLogin : true,

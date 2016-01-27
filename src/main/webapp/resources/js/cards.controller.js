@@ -1,4 +1,4 @@
-materialAdmin.controller('cardsCtrl', function($filter, $sce, ngTableParams, tableService, $scope, cardsService, $http, growlService) {
+materialAdmin.controller('cardsCtrl', function($filter, $sce, ngTableParams, tableService, $scope, cardsService, $http, growlService, $stateParams) {
 
 	/* jshint validthis: true */
 	var c = this;
@@ -24,9 +24,11 @@ materialAdmin.controller('cardsCtrl', function($filter, $sce, ngTableParams, tab
 	c.numPages = 5;
 	c.maxSize = 5;
 	
-	c.showMore = [];
+	c.filterBackend = $stateParams.filter;
+	
+	c.showMore = [];	
 
-	cardsService.list(c.limitBackend, "", c.order, "oi").then(
+	cardsService.list(c.limitBackend, "", c.order, c.filterBackend).then(
 	// success
 	function(response) {
 		c.totalItems = response.totalCount;
@@ -69,7 +71,7 @@ materialAdmin.controller('cardsCtrl', function($filter, $sce, ngTableParams, tab
 		var pageRet = c.pages[currentPage - 1];
 
 		if (!pageRet || pageRet.length === 0) {
-			cardsService.list(c.limitBackend, c.cursor, c.order, "oi").then(
+			cardsService.list(c.limitBackend, c.cursor, c.order, c.filterBackend).then(
 			// success
 			function(response) {
 				c.cursor = response.cursor;
@@ -192,7 +194,7 @@ materialAdmin.controller('cardsCtrl', function($filter, $sce, ngTableParams, tab
 
 	c.refresh = function() {
 		c.limitBackend = c.allItens.length;
-		cardsService.list(c.limitBackend, "", c.order, "oi").then(
+		cardsService.list(c.limitBackend, "", c.order, c.filterBackend).then(
 		// success
 		function(response) {
 			c.cursor = response.cursor;

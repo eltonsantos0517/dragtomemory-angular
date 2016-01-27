@@ -38,7 +38,8 @@
             <a href="" toggle-submenu><i class="zmdi zmdi-collection-item"></i> Custom Pages</a>
             <ul>
                 <li><a data-ui-sref-active="active" data-ui-sref="console.user-list" data-ng-click="mactrl.sidebarStat($event)">CRUD</a></li>
-                <li><a data-ui-sref-active="active" data-ui-sref="console.cards-list" data-ng-click="mactrl.sidebarStat($event)">CARDS</a></li>
+                <li><a data-ui-sref-active="active" data-ui-sref="console.cards-list({filter: 'today-cards'})" data-ng-click="mactrl.sidebarStat($event)">TODAY CARDS</a></li>
+                <li><a data-ui-sref-active="active" data-ui-sref="console.cards-list({filter: 'all-cards'})" data-ng-click="mactrl.sidebarStat($event)">ALL CARDS</a></li>
             </ul>
         </li>
         

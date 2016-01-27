@@ -1,5 +1,6 @@
 package com.backend.base.controller;
 
+import org.joda.time.DateTime;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -14,6 +15,9 @@ import com.backend.base.controller.to.CardTO;
 import com.backend.base.model.entity.CardEntity;
 import com.backend.base.model.service.CardService;
 import com.google.api.server.spi.response.CollectionResponse;
+import com.google.appengine.api.datastore.Query.Filter;
+import com.google.appengine.api.datastore.Query.FilterOperator;
+import com.google.appengine.api.datastore.Query.FilterPredicate;
 
 @RestController
 public class CardController {
@@ -24,11 +28,12 @@ public class CardController {
 			@RequestParam(name = "filter") String filter) {
 
 		try {
-			
+
 			CardService service = new CardService();
 
 			Long totalCount = service.count();
-			CollectionResponse<CardEntity> response = service.listPage(limit, cursor, order);
+			CollectionResponse<CardEntity> response = service.listCards(limit, cursor, order, filter);
+
 			if (response != null) {
 
 				ApiResponse ret = new ApiResponse(null, HttpStatus.OK.value(), HttpStatus.OK.getReasonPhrase(),
@@ -36,11 +41,11 @@ public class CardController {
 
 				return new ResponseEntity<ApiResponse>(ret, HttpStatus.OK);
 			}
-			
+
 			ApiResponse ret = new ApiResponse(null, HttpStatus.OK.value(), HttpStatus.OK.getReasonPhrase(), null, 0,
 					null, null);
 			return new ResponseEntity<ApiResponse>(ret, HttpStatus.OK);
-			
+
 		} catch (Exception e) {
 			e.printStackTrace();
 
@@ -103,7 +108,7 @@ public class CardController {
 	@RequestMapping(value = "/api/1/card", method = RequestMethod.PUT)
 	public ResponseEntity<ApiResponse> editCard(@RequestBody final CardTO to) {
 		try {
-			
+
 			final CardService service = new CardService();
 			CardTO persistedTO = new CardTO(service.editCard(new CardEntity(to)));
 			ApiResponse ret = new ApiResponse(null, HttpStatus.OK.value(), HttpStatus.OK.getReasonPhrase(), null, null,
@@ -119,12 +124,12 @@ public class CardController {
 			return new ResponseEntity<ApiResponse>(ret, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
-	
+
 	@RequestMapping(value = "/api/1/card/done", method = RequestMethod.PUT)
 	public ResponseEntity<ApiResponse> done(@RequestBody final Long objectId) {
-		try {			
+		try {
 			final CardService service = new CardService();
-			final CardTO persitedTO = new CardTO(service.done(getCardById(objectId)));			
+			final CardTO persitedTO = new CardTO(service.done(getCardById(objectId)));
 			ApiResponse ret = new ApiResponse(null, HttpStatus.OK.value(), HttpStatus.OK.getReasonPhrase(), null, null,
 					null, persitedTO);
 

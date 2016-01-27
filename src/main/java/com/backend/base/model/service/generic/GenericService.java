@@ -86,6 +86,15 @@ public abstract class GenericService<T extends GenericEntity> {
 			return null;
 		}
 	}
+	
+	public CollectionResponse<T> listPage(int limit, String cursor, String order, Filter filter) throws EntityNotFoundException {
+		try {
+			return getDAO().listPage(limit, cursor, order, filter);
+		} catch (EntityNotFoundException e) {
+			return null;
+		}
+	}
+	
 
 	public CollectionResponse<T> listPage(int limit, String cursor, String order) throws EntityNotFoundException {
 		try {
