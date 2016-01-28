@@ -3,7 +3,6 @@ package com.backend.base.controller;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import org.apache.tools.ant.types.LogLevel;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -143,7 +142,7 @@ public class CardController {
 		}
 	}
 	
-	@RequestMapping(value = "/api/1/job", method = RequestMethod.PUT)
+	@RequestMapping(value = "/api/1/job", method = RequestMethod.GET)
 	public ResponseEntity<ApiResponse> processExpiretedCards() {
 		Logger logger = Logger.getLogger(CardController.class.getName());
 		try {

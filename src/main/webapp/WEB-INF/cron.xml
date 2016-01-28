@@ -3,6 +3,6 @@
   <cron>
     <url>/api/1/job</url>
     <description>process expireted dards</description>
-    <schedule>every 5 minutes</schedule>
+    <schedule>every 1 minutes</schedule>
   </cron>
 </cronentries>
