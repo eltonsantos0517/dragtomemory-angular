@@ -1,11 +1,13 @@
 package com.backend.base.model.service;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import org.joda.time.DateTime;
 
+import com.backend.base.controller.CardController;
 import com.backend.base.model.dao.CardDAO;
 import com.backend.base.model.dao.generic.GenericDAO;
 import com.backend.base.model.entity.CardEntity;
@@ -13,12 +15,10 @@ import com.backend.base.model.service.generic.GenericService;
 import com.backend.base.util.Util;
 import com.google.api.server.spi.response.CollectionResponse;
 import com.google.appengine.api.datastore.EntityNotFoundException;
-import com.google.appengine.api.datastore.Query.CompositeFilter;
+import com.google.appengine.api.datastore.Query.CompositeFilterOperator;
 import com.google.appengine.api.datastore.Query.Filter;
 import com.google.appengine.api.datastore.Query.FilterOperator;
 import com.google.appengine.api.datastore.Query.FilterPredicate;
-import com.google.appengine.api.datastore.Query.CompositeFilterOperator;
-import com.googlecode.objectify.Key;
 
 public class CardService extends GenericService<CardEntity> {
 
@@ -76,6 +76,26 @@ public class CardService extends GenericService<CardEntity> {
 		} else {
 			return listPage(limit, cursor, order);
 		}
+	}
+	
+	public void processExpiretedCards(){
+		
+		Logger logger = Logger.getLogger(CardService.class.getName());
+		logger.log(Level.INFO, "processExpiretedCards");
+		final List<CardEntity> expiretedCards = listExpiretedCards();
+		
+		for (CardEntity cardEntity : expiretedCards) {
+			cardEntity.setNextRevision(new DateTime().plusDays(1).toDate());
+			cardEntity.setStage(1);
+			save(cardEntity);
+		}
+		
+	}
+	
+	private List<CardEntity> listExpiretedCards(){		
+		return listByFilter(CompositeFilterOperator.and(
+				new FilterPredicate("nextRevision", FilterOperator.LESS_THAN_OR_EQUAL, new DateTime().toDate()), 
+				new FilterPredicate("stage", FilterOperator.IN, Arrays.asList(1,2,3,4))));
 	}
 	
 	private Filter getFilter(){

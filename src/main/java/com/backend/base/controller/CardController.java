@@ -1,6 +1,9 @@
 package com.backend.base.controller;
 
-import org.joda.time.DateTime;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+import org.apache.tools.ant.types.LogLevel;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -15,9 +18,6 @@ import com.backend.base.controller.to.CardTO;
 import com.backend.base.model.entity.CardEntity;
 import com.backend.base.model.service.CardService;
 import com.google.api.server.spi.response.CollectionResponse;
-import com.google.appengine.api.datastore.Query.Filter;
-import com.google.appengine.api.datastore.Query.FilterOperator;
-import com.google.appengine.api.datastore.Query.FilterPredicate;
 
 @RestController
 public class CardController {
@@ -27,8 +27,7 @@ public class CardController {
 			@RequestParam("cursor") String cursor, @RequestParam(name = "order") String order,
 			@RequestParam(name = "filter") String filter) {
 
-		try {
-
+		try {			
 			CardService service = new CardService();
 
 			Long totalCount = service.count(filter);
@@ -143,4 +142,25 @@ public class CardController {
 			return new ResponseEntity<ApiResponse>(ret, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
+	
+	@RequestMapping(value = "/api/1/job", method = RequestMethod.PUT)
+	public ResponseEntity<ApiResponse> processExpiretedCards() {
+		Logger logger = Logger.getLogger(CardController.class.getName());
+		try {
+			logger.log(Level.INFO, "Job");
+			
+			new CardService().processExpiretedCards();
+			ApiResponse ret = new ApiResponse(null, HttpStatus.OK.value(), HttpStatus.OK.getReasonPhrase(), null, null,
+					null, null);
+			return new ResponseEntity<ApiResponse>(ret, HttpStatus.OK);
+		} catch (Exception e) {
+			e.printStackTrace();
+			logger.log(Level.INFO, "JobError");
+			ApiResponse ret = new ApiResponse("Sorry, something bad happened", HttpStatus.INTERNAL_SERVER_ERROR.value(),
+					HttpStatus.INTERNAL_SERVER_ERROR.getReasonPhrase(), null, null, null, null);
+
+			return new ResponseEntity<ApiResponse>(ret, HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
+	
 }

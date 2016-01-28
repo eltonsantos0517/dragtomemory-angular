@@ -57,6 +57,10 @@ public class GenericDAO<T extends GenericEntity> {
 	public List<T> listAll() throws EntityNotFoundException {
 		return ofy().load().type(clazz).list();
 	}
+	
+	public List<T> listByFilter(final Filter filter) throws EntityNotFoundException {
+		return ofy().load().type(clazz).filter(filter).list();
+	}
 
 	public long count() {
 		return ofy().load().type(clazz).count();

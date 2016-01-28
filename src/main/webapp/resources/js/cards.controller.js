@@ -323,4 +323,17 @@ materialAdmin.controller('cardsCtrl', function($filter, $sce, ngTableParams, tab
 		return hours;
 	}
 	
+	c.executeJob = function(){
+		cardsService.executeJob().then(
+				// success
+				function(response) {
+					growlService.growl('Job processado com sucesso', 'success', 1000);
+				},
+				// fail
+				function(response) {
+					growlService.growl('Erro ao executar job', 'danger', 1000);
+				});
+		
+	}
+	
 });

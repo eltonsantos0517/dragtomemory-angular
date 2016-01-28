@@ -389,6 +389,10 @@ materialAdmin
 	this.done = function(cardId){
 		return Restangular.all("card/done").customPUT(cardId);
 	}
+	
+	this.executeJob = function(){
+		Restangular.all("job").customPUT();
+	}
 }])
 
 
