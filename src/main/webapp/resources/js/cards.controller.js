@@ -1,8 +1,12 @@
-materialAdmin.controller('cardsCtrl', function($filter, $sce, ngTableParams, tableService, $scope, cardsService, $http, growlService, $stateParams) {
+materialAdmin.controller('cardsCtrl', function($filter, $sce, ngTableParams, tableService, $scope, cardsService, $http, growlService, $stateParams, CardsConstants) {
 
 	/* jshint validthis: true */
 	var c = this;
 
+	$scope.CardsConstants = CardsConstants;
+	
+	c.today = new Date();
+	
 	c.list = 1;
 	c.add = 0;
 	c.edit = 0;
@@ -321,10 +325,7 @@ materialAdmin.controller('cardsCtrl', function($filter, $sce, ngTableParams, tab
 	}
 	
 	c.getDiffInHours = function(date){
-		var today = new Date();
-		var cardDate = new Date(date);
-		var hours = moment.duration(moment(cardDate).diff(moment(today))).asHours();
-		return hours;
+		return  moment.duration(moment(new Date(date)).diff(moment(c.today))).asHours();
 	}
 	
 	c.executeJob = function(){
@@ -340,4 +341,7 @@ materialAdmin.controller('cardsCtrl', function($filter, $sce, ngTableParams, tab
 		
 	}
 	
+})
+.constant('CardsConstants',{
+	"LAST_STAGE": 5
 });

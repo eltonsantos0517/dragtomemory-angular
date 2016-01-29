@@ -43,9 +43,6 @@ public class Util {
 			case 4:
 				plusDays = 13;
 				break;
-			case 5:
-				plusDays = 27;
-				break;
 			default:
 				throw new Exception("O lembrete já foi concluido");
 		}
