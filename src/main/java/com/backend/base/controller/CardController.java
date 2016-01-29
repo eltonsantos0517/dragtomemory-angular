@@ -1,8 +1,5 @@
 package com.backend.base.controller;
 
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -144,17 +141,13 @@ public class CardController {
 	
 	@RequestMapping(value = "/api/1/job", method = RequestMethod.GET)
 	public ResponseEntity<ApiResponse> processExpiretedCards() {
-		Logger logger = Logger.getLogger(CardController.class.getName());
-		try {
-			logger.log(Level.INFO, "Job");
-			
+		try {			
 			new CardService().processExpiretedCards();
 			ApiResponse ret = new ApiResponse(null, HttpStatus.OK.value(), HttpStatus.OK.getReasonPhrase(), null, null,
 					null, null);
 			return new ResponseEntity<ApiResponse>(ret, HttpStatus.OK);
 		} catch (Exception e) {
 			e.printStackTrace();
-			logger.log(Level.INFO, "JobError");
 			ApiResponse ret = new ApiResponse("Sorry, something bad happened", HttpStatus.INTERNAL_SERVER_ERROR.value(),
 					HttpStatus.INTERNAL_SERVER_ERROR.getReasonPhrase(), null, null, null, null);
 

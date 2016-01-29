@@ -2,12 +2,9 @@ package com.backend.base.model.service;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import org.joda.time.DateTime;
 
-import com.backend.base.controller.CardController;
 import com.backend.base.model.dao.CardDAO;
 import com.backend.base.model.dao.generic.GenericDAO;
 import com.backend.base.model.entity.CardEntity;
@@ -80,8 +77,6 @@ public class CardService extends GenericService<CardEntity> {
 	
 	public void processExpiretedCards(){
 		
-		Logger logger = Logger.getLogger(CardService.class.getName());
-		logger.log(Level.INFO, "processExpiretedCards");
 		final List<CardEntity> expiretedCards = listExpiretedCards();
 		
 		for (CardEntity cardEntity : expiretedCards) {
