@@ -34,7 +34,9 @@ materialAdmin.controller('cardsCtrl', function($filter, $sce, ngTableParams, tab
 		c.totalItems = response.totalCount;
 		c.cursor = response.cursor;
 
-		c.allItens = response.data;
+		if(response.data != null){
+			c.allItens = response.data;
+		}
 		c.preparePages(c.allItens, c.itemsPerPage, c.currentPage);
 		c.cards = c.getPage(c.currentPage);
 	},
@@ -76,10 +78,12 @@ materialAdmin.controller('cardsCtrl', function($filter, $sce, ngTableParams, tab
 			function(response) {
 				c.cursor = response.cursor;
 				c.totalItems = response.totalCount;
-
+				
 				Array.prototype.push.apply(c.allItens, response.data);
-				c.preparePages(c.allItens, c.itemsPerPage, c.currentPage);
-				c.cards = c.getPage(c.currentPage);
+				if(c.allItens.lenght > 1){
+					c.preparePages(c.allItens, c.itemsPerPage, c.currentPage);
+					c.cards = c.getPage(c.currentPage);
+				}
 			},
 			// fail
 			function(response) {

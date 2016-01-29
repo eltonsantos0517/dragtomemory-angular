@@ -48,7 +48,7 @@
 				    	<div class="media-body">
 							<div class="card">
 					            <div ng-class="cCtrl.getDiffInHours(card.nextRevision) < 24  ? 'card-header bgm-teal' : 'card-header bgm-bluegray'">
-					                <h2>Title: <small>{{card.title}}</small></h2>
+					                <h2>{{card.title}}</h2>
 					            </div>
 					
 					            <div class="card-body card-padding">
@@ -93,19 +93,17 @@
 		</div>
 
 		<div class="card-body card-padding">
-			<form role="form" ng-submit="cCtrl.save()">
-
+			<form role="form" ng-submit="cCtrl.save()" novalidate name="cardForm">
 				<input type="hidden" id="exampleInputHidden" ng-model="cCtrl.card.objectId" ng-hidden>
 				<div class="form-group fg-line">
 					<label for="exampleInputEmail1">Title</label> 
-					<input type="text" class="form-control input-sm"
-						id="inputText" placeholder="Enter title" ng-model="cCtrl.card.title" data-ng-if="cCtrl.edit === 1 || cCtrl.add === 1"> 
+					<input type="text" class="form-control input-sm" id="inputTitle" placeholder="Enter title" ng-model="cCtrl.card.title" ng-maxlength="25" required> 
 				</div>
 				<div class="form-group fg-line">
-					<label for="exampleInputEmail1">Text</label> <input type="text" class="form-control input-sm" id="inputText"
-						placeholder="Enter text" ng-model="cCtrl.card.text">
+					<label for="exampleInputEmail1">Text</label> 
+					<input type="text" class="form-control input-sm" id="inputText" placeholder="Enter text" ng-model="cCtrl.card.text" required>
 				</div>
-				<button type="submit" class="btn btn-primary btn-sm m-t-10">Save</button>
+				<button type="submit" class="btn btn-primary btn-sm m-t-10" ng-disabled="cardForm.$invalid">Save</button>
 				<button type="button" class="btn btn-primary btn-sm m-t-10" data-ng-click="cCtrl.back()">Cancel</button>
 			</form>
 		</div>
