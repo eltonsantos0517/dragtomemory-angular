@@ -328,6 +328,11 @@ materialAdmin.controller('cardsCtrl', function($filter, $sce, ngTableParams, tab
 		return  moment.duration(moment(new Date(date)).diff(moment(c.today))).asHours();
 	}
 	
+	c.getDiffInDays = function(date){
+		var days = parseInt(moment.duration(moment(new Date(date)).diff(moment(c.today))).asDays())
+		return  "In "+ days + (days > 1 ? " days" : " day") ;
+	}
+	
 	c.executeJob = function(){
 		cardsService.executeJob().then(
 				// success
