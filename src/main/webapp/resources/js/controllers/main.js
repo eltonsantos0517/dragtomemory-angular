@@ -399,7 +399,21 @@ materialAdmin
 		// =================================================
 		// CALENDAR
 		// =================================================
-
+		.controller('pushCtrl', function($scope, $http, store, $state, $location, $window, pushService, growlService){
+			p = this;
+			
+			p.pushTO = {};
+			
+			p.sendMessage = function(){
+				pushService.sendMessage(p.pushTO).then(
+						function(response){
+							growlService.growl(response.data,'success');
+						},
+						function(error){
+							growlService.growl(error.data.errorMessage,'danger');
+						})
+			}			
+		})
 		.controller(
 				'calendarCtrl',
 				function($modal) {

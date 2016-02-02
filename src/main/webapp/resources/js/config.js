@@ -308,6 +308,13 @@ materialAdmin
 									permission : 'USER'
 								}
 							})
+							.state('console.notification', {
+								url : '/notification',
+								templateUrl : 'views/notification.html',
+								data : {
+									requiresLogin : true,
+								}
+							})
 							.state('console.cards-list', {
 								url : '/cards-list/:filter',
 								templateUrl : 'views/cards-list.html',

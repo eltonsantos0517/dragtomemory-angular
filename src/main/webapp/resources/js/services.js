@@ -79,6 +79,13 @@ materialAdmin
 		}
 	};
 })
+.service('pushService', ['Restangular', function(Restangular) {
+	
+	this.sendMessage = function(pushTO){
+		return Restangular.all('sendMessage').post(pushTO);
+	}
+
+}])
 
 // =========================================================================
 // Header Messages and Notifications list Data

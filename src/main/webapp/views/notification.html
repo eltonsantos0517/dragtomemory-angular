@@ -1,0 +1,34 @@
+<div class="container" data-ng-controller="pushCtrl as pCtrl">
+
+	<div class="card">
+		<div class="card-header">
+			<h2>
+				Basic Example <small>Individual form controls automatically receive some global styling. All textual 'input',
+					'textarea', and 'select' elements with .form-control are set to width: 100%; by default. Wrap labels and controls in
+					.form-group for optimum spacing. </small>
+			</h2>
+		</div>
+
+		<div class="card-body card-padding">
+			<form role="form" ng-submit="pCtrl.sendMessage()">
+				
+				<div class="form-group fg-line">
+					<label for="exampleInputEmail1">Title</label> <input type="text" class="form-control input-sm" id="inputTitle"
+						placeholder="Title" ng-model="pCtrl.pushTO.notification.title">
+				</div>
+
+				<div class="form-group fg-line">
+					<label for="exampleInputPassword1">Text</label> <input type="text" class="form-control input-sm"
+						id="inputText" placeholder="Text" ng-model="pCtrl.pushTO.message">
+				</div>
+
+
+				<button type="submit" class="btn btn-primary btn-sm m-t-10">Save</button>
+				<button type="button" class="btn btn-primary btn-sm m-t-10">Cancel</button>
+			</form>
+		</div>
+	</div>
+
+</div>
+
+
