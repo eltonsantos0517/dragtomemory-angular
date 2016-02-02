@@ -5,8 +5,6 @@ import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-import org.apache.commons.io.IOUtils;
-
 import com.backend.base.controller.to.PushTO;
 import com.google.gson.JsonObject;
 
@@ -60,9 +58,9 @@ public class GcmService {
 
 			// Read GCM response.
 			InputStream inputStream = conn.getInputStream();
-			String resp = IOUtils.toString(inputStream);
+//			String resp = IOUtils.toString(inputStream);
 
-			return resp;
+			return "";
 
 		} catch (Exception e) {
 			System.out.println("Unable to send GCM message.");
