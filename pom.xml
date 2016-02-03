@@ -10,7 +10,7 @@
 	<artifactId>gae-spring-angular</artifactId>
 
 	<properties>
-		<app.id>gae-spring-angular</app.id>
+		<app.id>dragtomemory</app.id>
 		<app.version>1</app.version>
 		<appengine.version>1.9.30</appengine.version>
 		<gcloud.plugin.version>2.0.9.74.v20150814</gcloud.plugin.version>

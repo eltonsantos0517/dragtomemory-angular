@@ -83,8 +83,10 @@ materialAdmin.controller('cardsCtrl', function($filter, $sce, ngTableParams, tab
 				c.cursor = response.cursor;
 				c.totalItems = response.totalCount;
 				
-				Array.prototype.push.apply(c.allItens, response.data);
-				if(c.allItens.lenght > 1){
+				if(response.data && response.data.length > 0){
+					Array.prototype.push.apply(c.allItens, response.data);
+				} 
+				if(c.allItens && c.allItens.lenght > 1){
 					c.preparePages(c.allItens, c.itemsPerPage, c.currentPage);
 					c.cards = c.getPage(c.currentPage);
 				}
@@ -144,7 +146,10 @@ materialAdmin.controller('cardsCtrl', function($filter, $sce, ngTableParams, tab
 
 						var newItens = [ c.card ];
 
-						Array.prototype.push.apply(c.allItens, newItens);
+						if(newItens && newItens > 0){
+							Array.prototype.push.apply(c.allItens, newItens);
+						}
+						
 						c.preparePages(c.allItens, c.itemsPerPage, c.currentPage);
 						c.cards = c.getPage(c.currentPage);
 						c.card = {};
@@ -201,7 +206,7 @@ materialAdmin.controller('cardsCtrl', function($filter, $sce, ngTableParams, tab
 	};
 
 	c.refresh = function() {
-		c.limitBackend = c.allItens.length;
+		c.limitBackend = c.limitBackendDefault;
 		cardsService.list(c.limitBackend, "", c.order, c.filterBackend).then(
 		// success
 		function(response) {
