@@ -14,6 +14,11 @@
   },
   "dependencies": {
     "angular-animate": "^1.4.3",
+    "grunt-angular-gettext": "^2.1.11",
+    "grunt-angular-templates": "^1.0.2",
+    "grunt-contrib-less": "^1.2.0",
+    "grunt-contrib-watch": "^0.6.1",
+    "grunt-csssplit": "^0.4.0",
     "ng-if-bootstrap-grid": "^0.1.0"
   }
 }

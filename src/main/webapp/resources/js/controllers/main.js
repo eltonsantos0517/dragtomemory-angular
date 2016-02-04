@@ -287,7 +287,7 @@ materialAdmin
 							function(response){
 								$scope.authenticated = true;
 								store.set('jwt', response.headers('Authorization'));
-								$window.location.href = '/#/console/home';
+								$window.location.href = '/#/console/cards-list/today-cards';
 							},
 							function(response){
 								growlService.growl('User or password invalid', 'danger');
@@ -300,7 +300,7 @@ materialAdmin
 							function(response){
 								$scope.authenticated = true;
 								store.set('jwt', response.headers('Authorization'));
-								$window.location.href = '/#/console/home';
+								$window.location.href = '/#/console/cards-list/today-cards';
 							},
 							function(response){
 								growlService.growl(response.data.substring(52,92), 'danger');
@@ -325,7 +325,7 @@ materialAdmin
 							function(response){
 								$scope.authenticated = true;
 								store.set('jwt', response.headers('Authorization'));
-								$window.location.href = '/#/console/home';
+								$window.location.href = '/#/console/cards-list/today-cards';
 							}
 						);
 					};
