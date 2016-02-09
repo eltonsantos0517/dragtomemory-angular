@@ -332,7 +332,7 @@ materialAdmin
 															.get('jwt'));
 											$scope.user = user;
 
-											$window.location.href = '/#/console/cards-list/today-cards';
+											$window.location.href = '/console/cards-list/today-cards';
 										},
 										function(response) {
 											growlService.growl(
@@ -354,7 +354,7 @@ materialAdmin
 													.decodeToken(store
 															.get('jwt'));
 											$scope.user = user;
-											$window.location.href = '/#/console/cards-list/today-cards';
+											$window.location.href = '/console/cards-list/today-cards';
 										},
 										function(response) {
 											growlService.growl(response.data
@@ -386,7 +386,7 @@ materialAdmin
 											$scope.authenticated = true;
 											store.set('jwt', response
 													.headers('Authorization'));
-											$window.location.href = '/#/console/cards-list/today-cards';
+											$window.location.href = '/console/cards-list/today-cards';
 										});
 					};
 
@@ -415,7 +415,7 @@ materialAdmin
 
 					$scope.logout = function() {
 						store.remove('jwt');
-						$window.location.href = '/login';
+						$window.location.href = '/';
 					};
 
 					$scope.recoveryPassword = function() {

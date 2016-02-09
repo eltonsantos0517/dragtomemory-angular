@@ -19,10 +19,9 @@ materialAdmin
 					FacebookProvider.init('174666509555605');
 
 					// Default Route
-					$urlRouterProvider.otherwise("login");
+					$urlRouterProvider.otherwise("/");
 
 					$stateProvider
-
 							.state('404', {
 								url : '/404',
 								templateUrl : '404.html',
@@ -38,7 +37,15 @@ materialAdmin
 								}
 							})
 							.state('login', {
-								url : '^/login',
+								url : '/login',
+								templateUrl : 'login.html',
+								data : {
+									requiresLogin : false
+								}
+							})
+							.state('/', {
+								url : '/',
+								templateUrl : 'views/site.html',
 								data : {
 									requiresLogin : false
 								}
@@ -754,31 +761,34 @@ materialAdmin
 				permissions.setPermissions(jwtHelper.decodeToken(token).role);
 			}
 
-			$rootScope.$on('$stateChangeStart', function(e, to) {
+			$rootScope.$on('$stateChangeStart', function(e, toState  , toParams
+                    , fromState, fromParams) {
 
-				if (to.data) {
+				if (toState.data) {
 
-					var permission = to.data.permission;
+					var permission = toState.data.permission;
 					if (permission && _.isString(permission) && !permissions.hasPermission(permission)) {
 						$window.location.href = '/unauthorized';
 						return;
 					}
 
-					if (to.data.requiresLogin) {
+					if (toState.data.requiresLogin) {
 						if (!store.get('jwt') || jwtHelper.isTokenExpired(store.get('jwt'))) {
 							e.preventDefault();
 
 							store.remove('jwt');
-							if (to.name === "login") {
+							if (toState.name === "login") {
 								return; // no need to redirect
 							}
-
-							window.location.href = '/login';
-						} else if (to.name === "login") {
-							$window.location.href = '/#/console/cards-list/today-cards';
 							
+							$state.go('login');
+							//window.location.href = '/login';
+						} else if (toState.name === "login") {
+							$window.location.href = '/#/console/cards-list/today-cards';
+						}else if (toState.name === "/") {
+							$window.location.href = '/#/console/cards-list/today-cards';
 						}
-					} else if (to.name === "login") {
+					} else if (toState.name === "login") {
 						// Não requer login mas esta indo para a tela de
 						// login
 
@@ -788,6 +798,8 @@ materialAdmin
 						} else {
 							store.remove('jwt');
 						}
+					}else if (toState.name === "/") {
+						// Não requer login mas esta indo para o site
 					}
 				}
 			});

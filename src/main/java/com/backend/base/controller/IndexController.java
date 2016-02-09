@@ -26,7 +26,7 @@ public class IndexController {// Serves main index.html
 		return "unauthorized";
 	}
 
-	@RequestMapping(method = RequestMethod.GET, value = "/console/home")
+	@RequestMapping(method = RequestMethod.GET, value = "/**")
 	public String getHome() {
 		return "index";
 	}
@@ -36,10 +36,6 @@ public class IndexController {// Serves main index.html
 		return "recovery-password";
 	}
 
-	@RequestMapping(method = RequestMethod.GET, value = "/**")
-	public String getAny() {
-		return "404";
-	}
 
 	private String getPrincipal() {
 		String userName = null;
