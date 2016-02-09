@@ -4,11 +4,13 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.joda.time.DateTime;
+import org.springframework.security.core.context.SecurityContextHolder;
 
 import com.backend.base.model.dao.CardDAO;
 import com.backend.base.model.dao.generic.GenericDAO;
 import com.backend.base.model.entity.CardEntity;
 import com.backend.base.model.service.generic.GenericService;
+import com.backend.base.security.entity.UserAuthentication;
 import com.backend.base.util.Util;
 import com.google.api.server.spi.response.CollectionResponse;
 import com.google.appengine.api.datastore.EntityNotFoundException;
@@ -28,6 +30,12 @@ public class CardService extends GenericService<CardEntity> {
 		cardDAO = new CardDAO();
 	}
 
+	private long getCurrentUserId() {
+		final UserAuthentication authentication = (UserAuthentication) SecurityContextHolder.getContext()
+				.getAuthentication();
+		return authentication.getDetails().getObjectId();
+	}
+
 	@Override
 	public GenericDAO<CardEntity> getDAO() {
 		return cardDAO;
@@ -36,6 +44,7 @@ public class CardService extends GenericService<CardEntity> {
 	public CardEntity saveCard(final CardEntity entity) {
 		entity.setStage(1);
 		entity.setNextRevision(new DateTime().plusDays(2).toDate());
+		entity.setOwnerId(getCurrentUserId());
 		save(entity);
 		return entity;
 	}
@@ -45,6 +54,7 @@ public class CardService extends GenericService<CardEntity> {
 			entity.setStage(1);
 			entity.setNextRevision(new DateTime().plusDays(2).toDate());
 		}
+		entity.setOwnerId(getCurrentUserId());
 		save(entity);
 		return entity;
 	}
@@ -56,47 +66,52 @@ public class CardService extends GenericService<CardEntity> {
 		super.save(entity);
 		return entity;
 	}
-	
-	public long count(String filter){
+
+	public long count(String filter) {
 		if (FILTER_CARD.equalsIgnoreCase(filter)) {
 			return countWithFilter(getFilter());
-		}else{
-			return count();
+		} else {
+			return countWithFilter(getOwnerFIlter());
 		}
 	}
 
 	public CollectionResponse<CardEntity> listCards(int limit, String cursor, String order, String filter)
 			throws EntityNotFoundException {
-		
+
 		if (FILTER_CARD.equalsIgnoreCase(filter)) {
 			return listPage(limit, cursor, order, getFilter());
 		} else {
-			return listPage(limit, cursor, order);
+			return listPage(limit, cursor, order, getOwnerFIlter());
 		}
 	}
-	
-	public void processExpiretedCards(){
-		
+
+	public void processExpiretedCards() {
+
 		final List<CardEntity> expiretedCards = listExpiretedCards();
-		
+
 		for (CardEntity cardEntity : expiretedCards) {
 			cardEntity.setNextRevision(new DateTime().plusDays(2).toDate());
 			cardEntity.setStage(1);
 			save(cardEntity);
 		}
-		
+
 	}
-	
-	private List<CardEntity> listExpiretedCards(){		
+
+	private List<CardEntity> listExpiretedCards() {
 		return listByFilter(CompositeFilterOperator.and(
-				new FilterPredicate("nextRevision", FilterOperator.LESS_THAN_OR_EQUAL, new DateTime().toDate()), 
-				new FilterPredicate("stage", FilterOperator.IN, Arrays.asList(1,2,3,4))));
+				new FilterPredicate("nextRevision", FilterOperator.LESS_THAN_OR_EQUAL, new DateTime().toDate()),
+				new FilterPredicate("stage", FilterOperator.IN, Arrays.asList(1, 2, 3, 4))));
+	}
+
+	private Filter getFilter() {
+		return CompositeFilterOperator.and(
+				new FilterPredicate("nextRevision", FilterOperator.LESS_THAN_OR_EQUAL, new DateTime().plusDays(1).toDate()),
+				new FilterPredicate("stage", FilterOperator.IN, Arrays.asList(1, 2, 3, 4)),
+				new FilterPredicate("ownerId", FilterOperator.EQUAL, getCurrentUserId())
+			);
 	}
 	
-	private Filter getFilter(){
-		return  CompositeFilterOperator.and(
-				new FilterPredicate("nextRevision", FilterOperator.LESS_THAN_OR_EQUAL, new DateTime().plusDays(1).toDate()), 
-				new FilterPredicate("stage", FilterOperator.IN, Arrays.asList(1,2,3,4))
-			);
+	private Filter getOwnerFIlter(){
+		return new FilterPredicate("ownerId", FilterOperator.EQUAL, getCurrentUserId());
 	}
 }

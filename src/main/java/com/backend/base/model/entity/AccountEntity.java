@@ -19,34 +19,34 @@ public class AccountEntity extends GenericEntity implements Serializable {
 
 	@Index
 	private String firstName;
-	
+
 	@Index
 	private String lastName;
 
 	@Index
 	private String email;
-	
+
 	@Index
 	private String password;
-	
+
 	@Index
 	private String facebookToken;
-	
+
 	@Index
 	private long expires;
-	
+
 	@Index
 	private boolean accountExpired;
-	
+
 	@Index
 	private boolean accountLocked;
-	
+
 	@Index
 	private boolean credentialsExpired;
-	
+
 	@Index
 	private boolean accountEnabled;
-	
+
 	@Ignore
 	private Set<UserAuthority> authorities;
 
