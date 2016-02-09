@@ -4,3 +4,4 @@
 /.project
 /.settings/
 /bin/
+src/main/java/META-INF/persistence.xml

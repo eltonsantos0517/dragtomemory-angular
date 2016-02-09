@@ -7,7 +7,7 @@
 	<version>1.0-SNAPSHOT</version>
 
 	<groupId>com.backend</groupId>
-	<artifactId>gae-spring-angular</artifactId>
+	<artifactId>dragtomemory-angular</artifactId>
 
 	<properties>
 		<app.id>dragtomemory</app.id>
