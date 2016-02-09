@@ -40,6 +40,18 @@ materialAdmin.controller('cardsCtrl', function($filter, $sce, ngTableParams, tab
 
 		if(response.data != null){
 			c.allItens = response.data;
+			
+			if(c.filterBackend === "all-cards"){
+				c.todayCardsMessage = "All Memos";
+			}else{
+				c.todayCardsMessage = "Memos to review today";
+			}
+		}else{
+			if(c.filterBackend === "all-cards"){
+				c.todayCardsMessage = "You have not created any memo";
+			}else{
+				c.todayCardsMessage = "No memos to review today!";
+			}
 		}
 		c.preparePages(c.allItens, c.itemsPerPage, c.currentPage);
 		c.cards = c.getPage(c.currentPage);

@@ -1,21 +1,30 @@
 @CHARSET "UTF-8";
 
-
-.login-navigation > li > span{
-	opacity:1;
+.login-navigation>li>span {
+	opacity: 1;
 }
 
-.login-navigation > li:not(:hover){
+.login-navigation>li:not (:hover ){
 	font-size: 8px;
-    border-radius: 10px;
-    padding: 0 5px;
+	border-radius: 10px;
+	padding: 0 5px;
 }
 
 .repeater.ng-animate {
-    transition: 0s none;
+	transition: 0s none;
 }
 
-.pagination-cards-list{
-	position:relative;
-	margin-top:60%;
+.pagination-cards-list {
+	position: relative;
+	margin-top: 60%;
 }
+
+.profile-menu>a {
+	display: block;
+	height: 22px;
+	margin-bottom: 5px;
+	width: 100%;
+	background: none;
+	background-size: 100%;
+}
+

@@ -768,15 +768,15 @@ materialAdmin
 						if (!store.get('jwt') || jwtHelper.isTokenExpired(store.get('jwt'))) {
 							e.preventDefault();
 
+							store.remove('jwt');
 							if (to.name === "login") {
 								return; // no need to redirect
 							}
 
-							// $state.go('login');
-							// $window.location.href = '/login';
 							window.location.href = '/login';
 						} else if (to.name === "login") {
 							$window.location.href = '/#/console/cards-list/today-cards';
+							
 						}
 					} else if (to.name === "login") {
 						// Não requer login mas esta indo para a tela de
@@ -784,10 +784,9 @@ materialAdmin
 
 						if (store.get('jwt') && !jwtHelper.isTokenExpired(store.get('jwt'))) {
 							e.preventDefault();
-
 							$window.location.href = '/#/console/cards-list/today-cards';
 						} else {
-							return;
+							store.remove('jwt');
 						}
 					}
 				}

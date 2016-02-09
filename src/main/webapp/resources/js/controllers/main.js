@@ -3,178 +3,199 @@ materialAdmin
 		// Base controller for common functions
 		// =========================================================================
 
-		.controller('materialadminCtrl', function($timeout, $state, $scope, growlService) {
-			// Welcome Message
-			growlService.growl('Welcome back Mallinda!', 'inverse')
+		.controller(
+				'materialadminCtrl',
+				function($timeout, $state, $scope, growlService) {
+					// Welcome Message
+					// growlService.growl('Welcome back Mallinda!', 'inverse')
 
-			// Detact Mobile Browser
-			if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
-				angular.element('html').addClass('ismobile');
-			}
+					// Detact Mobile Browser
+					if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i
+							.test(navigator.userAgent)) {
+						angular.element('html').addClass('ismobile');
+					}
 
-			// By default Sidbars are hidden in boxed layout and in wide layout
-			// only the right sidebar is hidden.
-			this.sidebarToggle = {
-				left : false,
-				right : false
-			}
+					// By default Sidbars are hidden in boxed layout and in wide
+					// layout
+					// only the right sidebar is hidden.
+					this.sidebarToggle = {
+						left : false,
+						right : false
+					}
 
-			// By default template has a boxed layout
-			this.layoutType = localStorage.getItem('ma-layout-status');
+					// By default template has a boxed layout
+					this.layoutType = localStorage.getItem('ma-layout-status');
 
-			// For Mainmenu Active Class
-			this.$state = $state;
+					// For Mainmenu Active Class
+					this.$state = $state;
 
-			// Close sidebar on click
-			this.sidebarStat = function(event) {
-				if (!angular.element(event.target).parent().hasClass('active')) {
-					this.sidebarToggle.left = false;
-				}
-			}
+					// Close sidebar on click
+					this.sidebarStat = function(event) {
+						if (!angular.element(event.target).parent().hasClass(
+								'active')) {
+							this.sidebarToggle.left = false;
+						}
+					}
 
-			// Listview Search (Check listview pages)
-			this.listviewSearchStat = false;
+					// Listview Search (Check listview pages)
+					this.listviewSearchStat = false;
 
-			this.lvSearch = function() {
-				this.listviewSearchStat = true;
-			}
+					this.lvSearch = function() {
+						this.listviewSearchStat = true;
+					}
 
-			// Listview menu toggle in small screens
-			this.lvMenuStat = false;
+					// Listview menu toggle in small screens
+					this.lvMenuStat = false;
 
-			// Blog
-			this.wallCommenting = [];
+					// Blog
+					this.wallCommenting = [];
 
-			this.wallImage = false;
-			this.wallVideo = false;
-			this.wallLink = false;
+					this.wallImage = false;
+					this.wallVideo = false;
+					this.wallLink = false;
 
-			// Skin Switch
-			this.currentSkin = 'blue';
+					// Skin Switch
+					this.currentSkin = 'blue';
 
-			this.skinList = [ 'lightblue', 'bluegray', 'cyan', 'teal', 'green', 'orange', 'blue', 'purple' ]
+					this.skinList = [ 'lightblue', 'bluegray', 'cyan', 'teal',
+							'green', 'orange', 'blue', 'purple' ]
 
-			this.skinSwitch = function(color) {
-				this.currentSkin = color;
-			}
+					this.skinSwitch = function(color) {
+						this.currentSkin = color;
+					}
 
-		})
+				})
 
 		// =========================================================================
 		// Header
 		// =========================================================================
-		.controller('headerCtrl', function($timeout, messageService) {
+		.controller(
+				'headerCtrl',
+				function($timeout, messageService) {
 
-			// Top Search
-			this.openSearch = function() {
-				angular.element('#header').addClass('search-toggled');
-				angular.element('#top-search-wrap').find('input').focus();
-			}
+					// Top Search
+					this.openSearch = function() {
+						angular.element('#header').addClass('search-toggled');
+						angular.element('#top-search-wrap').find('input')
+								.focus();
+					}
 
-			this.closeSearch = function() {
-				angular.element('#header').removeClass('search-toggled');
-			}
+					this.closeSearch = function() {
+						angular.element('#header')
+								.removeClass('search-toggled');
+					}
 
-			// Get messages and notification for header
-			this.img = messageService.img;
-			this.user = messageService.user;
-			this.user = messageService.text;
+					// Get messages and notification for header
+					this.img = messageService.img;
+					this.user = messageService.user;
+					this.user = messageService.text;
 
-			this.messageResult = messageService.getMessage(this.img, this.user, this.text);
+					this.messageResult = messageService.getMessage(this.img,
+							this.user, this.text);
 
-			// Clear Notification
-			this.clearNotification = function($event) {
-				$event.preventDefault();
+					// Clear Notification
+					this.clearNotification = function($event) {
+						$event.preventDefault();
 
-				var x = angular.element($event.target).closest('.listview');
-				var y = x.find('.lv-item');
-				var z = y.size();
+						var x = angular.element($event.target).closest(
+								'.listview');
+						var y = x.find('.lv-item');
+						var z = y.size();
 
-				angular.element($event.target).parent().fadeOut();
+						angular.element($event.target).parent().fadeOut();
 
-				x.find('.list-group').prepend('<i class="grid-loading hide-it"></i>');
-				x.find('.grid-loading').fadeIn(1500);
-				var w = 0;
+						x.find('.list-group').prepend(
+								'<i class="grid-loading hide-it"></i>');
+						x.find('.grid-loading').fadeIn(1500);
+						var w = 0;
 
-				y.each(function() {
-					var z = $(this);
-					$timeout(function() {
-						z.addClass('animated fadeOutRightBig').delay(1000).queue(function() {
-							z.remove();
-						});
-					}, w += 150);
+						y.each(function() {
+							var z = $(this);
+							$timeout(function() {
+								z.addClass('animated fadeOutRightBig').delay(
+										1000).queue(function() {
+									z.remove();
+								});
+							}, w += 150);
+						})
+
+						$timeout(
+								function() {
+									angular.element('#notifications').addClass(
+											'empty');
+								}, (z * 150) + 200);
+					}
+
+					// Clear Local Storage
+					this.clearLocalStorage = function() {
+
+						// Get confirmation, if confirmed clear the localStorage
+						swal(
+								{
+									title : "Are you sure?",
+									text : "All your saved localStorage values will be removed",
+									type : "warning",
+									showCancelButton : true,
+									confirmButtonColor : "#F44336",
+									confirmButtonText : "Yes, delete it!",
+									closeOnConfirm : false
+								}, function() {
+									localStorage.clear();
+									swal("Done!", "localStorage is cleared",
+											"success");
+								});
+
+					}
+
+					// Fullscreen View
+					this.fullScreen = function() {
+						// Launch
+						function launchIntoFullscreen(element) {
+							if (element.requestFullscreen) {
+								element.requestFullscreen();
+							} else if (element.mozRequestFullScreen) {
+								element.mozRequestFullScreen();
+							} else if (element.webkitRequestFullscreen) {
+								element.webkitRequestFullscreen();
+							} else if (element.msRequestFullscreen) {
+								element.msRequestFullscreen();
+							}
+						}
+
+						// Exit
+						function exitFullscreen() {
+							if (document.exitFullscreen) {
+								document.exitFullscreen();
+							} else if (document.mozCancelFullScreen) {
+								document.mozCancelFullScreen();
+							} else if (document.webkitExitFullscreen) {
+								document.webkitExitFullscreen();
+							}
+						}
+
+						if (exitFullscreen()) {
+							launchIntoFullscreen(document.documentElement);
+						} else {
+							launchIntoFullscreen(document.documentElement);
+						}
+					}
 				})
-
-				$timeout(function() {
-					angular.element('#notifications').addClass('empty');
-				}, (z * 150) + 200);
-			}
-
-			// Clear Local Storage
-			this.clearLocalStorage = function() {
-
-				// Get confirmation, if confirmed clear the localStorage
-				swal({
-					title : "Are you sure?",
-					text : "All your saved localStorage values will be removed",
-					type : "warning",
-					showCancelButton : true,
-					confirmButtonColor : "#F44336",
-					confirmButtonText : "Yes, delete it!",
-					closeOnConfirm : false
-				}, function() {
-					localStorage.clear();
-					swal("Done!", "localStorage is cleared", "success");
-				});
-
-			}
-
-			// Fullscreen View
-			this.fullScreen = function() {
-				// Launch
-				function launchIntoFullscreen(element) {
-					if (element.requestFullscreen) {
-						element.requestFullscreen();
-					} else if (element.mozRequestFullScreen) {
-						element.mozRequestFullScreen();
-					} else if (element.webkitRequestFullscreen) {
-						element.webkitRequestFullscreen();
-					} else if (element.msRequestFullscreen) {
-						element.msRequestFullscreen();
-					}
-				}
-
-				// Exit
-				function exitFullscreen() {
-					if (document.exitFullscreen) {
-						document.exitFullscreen();
-					} else if (document.mozCancelFullScreen) {
-						document.mozCancelFullScreen();
-					} else if (document.webkitExitFullscreen) {
-						document.webkitExitFullscreen();
-					}
-				}
-
-				if (exitFullscreen()) {
-					launchIntoFullscreen(document.documentElement);
-				} else {
-					launchIntoFullscreen(document.documentElement);
-				}
-			}
-		})
 
 		// =========================================================================
 		// Best Selling Widget
 		// =========================================================================
 
-		.controller('bestsellingCtrl', function(bestsellingService) {
-			// Get Best Selling widget Data
-			this.img = bestsellingService.img;
-			this.name = bestsellingService.name;
-			this.range = bestsellingService.range;
+		.controller(
+				'bestsellingCtrl',
+				function(bestsellingService) {
+					// Get Best Selling widget Data
+					this.img = bestsellingService.img;
+					this.name = bestsellingService.name;
+					this.range = bestsellingService.range;
 
-			this.bsResult = bestsellingService.getBestselling(this.img, this.name, this.range);
-		})
+					this.bsResult = bestsellingService.getBestselling(this.img,
+							this.name, this.range);
+				})
 
 		// =========================================================================
 		// Todo List Widget
@@ -195,29 +216,35 @@ materialAdmin
 		// Recent Items Widget
 		// =========================================================================
 
-		.controller('recentitemCtrl', function(recentitemService) {
+		.controller(
+				'recentitemCtrl',
+				function(recentitemService) {
 
-			// Get Recent Items Widget Data
-			this.id = recentitemService.id;
-			this.name = recentitemService.name;
-			this.parseInt = recentitemService.price;
+					// Get Recent Items Widget Data
+					this.id = recentitemService.id;
+					this.name = recentitemService.name;
+					this.parseInt = recentitemService.price;
 
-			this.riResult = recentitemService.getRecentitem(this.id, this.name, this.price);
-		})
+					this.riResult = recentitemService.getRecentitem(this.id,
+							this.name, this.price);
+				})
 
 		// =========================================================================
 		// Recent Posts Widget
 		// =========================================================================
 
-		.controller('recentpostCtrl', function(recentpostService) {
+		.controller(
+				'recentpostCtrl',
+				function(recentpostService) {
 
-			// Get Recent Posts Widget Items
-			this.img = recentpostService.img;
-			this.user = recentpostService.user;
-			this.text = recentpostService.text;
+					// Get Recent Posts Widget Items
+					this.img = recentpostService.img;
+					this.user = recentpostService.user;
+					this.text = recentpostService.text;
 
-			this.rpResult = recentpostService.getRecentpost(this.img, this.user, this.text);
-		})
+					this.rpResult = recentpostService.getRecentpost(this.img,
+							this.user, this.text);
+				})
 
 		// =================================================
 		// Profile
@@ -263,7 +290,8 @@ materialAdmin
 							this.editContact = 0;
 						}
 
-						growlService.growl(message + ' has updated Successfully!', 'inverse');
+						growlService.growl(message
+								+ ' has updated Successfully!', 'inverse');
 					}
 
 				})
@@ -273,75 +301,110 @@ materialAdmin
 		// =================================================
 		.controller(
 				'loginCtrl',
-				function($scope, $http, store, $state, $location, $window, accountService, growlService, $stateParams, $timeout, Facebook) {
+				function($scope, $http, store, $state, $location, $window,
+						accountService, growlService, $stateParams, $timeout,
+						Facebook, jwtHelper) {
 
-					// Status					
+					// Status
 					this.login = 1;
 					this.register = 0;
 					this.forgot = 0;
 
-					$scope.user = {};
+					var token = store.get('jwt');
+					if (token && jwtHelper) {
+						var user = jwtHelper.decodeToken(store.get('jwt'));
+						$scope.user = user;
+					}else{
+						$scope.user = {};
+					}
 
 					$scope.login = function() {
-						accountService.login($scope.user).then(
-							function(response){
-								$scope.authenticated = true;
-								store.set('jwt', response.headers('Authorization'));
-								$window.location.href = '/#/console/cards-list/today-cards';
-							},
-							function(response){
-								growlService.growl('User or password invalid', 'danger');
-							}
-						);
+						accountService
+								.login($scope.user)
+								.then(
+										function(response) {
+											$scope.authenticated = true;
+											store.set('jwt', response
+													.headers('Authorization'));
+
+											var user = jwtHelper
+													.decodeToken(store
+															.get('jwt'));
+											$scope.user = user;
+
+											$window.location.href = '/#/console/cards-list/today-cards';
+										},
+										function(response) {
+											growlService.growl(
+													'User or password invalid',
+													'danger');
+										});
 					};
-					
+
 					$scope.register = function() {
-						accountService.register($scope.user).then(
-							function(response){
-								$scope.authenticated = true;
-								store.set('jwt', response.headers('Authorization'));
-								$window.location.href = '/#/console/cards-list/today-cards';
-							},
-							function(response){
-								growlService.growl(response.data.substring(52,92), 'danger');
-							}
-						);
+						accountService
+								.register($scope.user)
+								.then(
+										function(response) {
+											$scope.authenticated = true;
+											store.set('jwt', response
+													.headers('Authorization'));
+
+											var user = jwtHelper
+													.decodeToken(store
+															.get('jwt'));
+											$scope.user = user;
+											$window.location.href = '/#/console/cards-list/today-cards';
+										},
+										function(response) {
+											growlService.growl(response.data
+													.substring(52, 92),
+													'danger');
+										});
 					};
-					
-					$scope.facebookLogin = function(){
+
+					$scope.facebookLogin = function() {
 						Facebook.login(function(response) {
-							if(response.status === "connected"){
-								FB.api('/me', {locale: 'en-US', fields: 'name, email, gender'}, function(response) {
+							if (response.status === "connected") {
+								FB.api('/me', {
+									locale : 'en-US',
+									fields : 'name, email, gender'
+								}, function(response) {
 									$scope.user.email = response.email;
 									$scope.user.facebookToken = response.id;
 									$scope.facebookAuthenticate();
-								});						
+								});
 							}
 						});
 					};
-					
+
 					$scope.facebookAuthenticate = function() {
-						accountService.facebookAuthenticate($scope.user).then(
-							function(response){
-								$scope.authenticated = true;
-								store.set('jwt', response.headers('Authorization'));
-								$window.location.href = '/#/console/cards-list/today-cards';
-							}
-						);
+						accountService
+								.facebookAuthenticate($scope.user)
+								.then(
+										function(response) {
+											$scope.authenticated = true;
+											store.set('jwt', response
+													.headers('Authorization'));
+											$window.location.href = '/#/console/cards-list/today-cards';
+										});
 					};
-					
+
 					$scope.getFacebookLoginStatus = function() {
 						Facebook.getLoginStatus(function(response) {
-					        if(response.status === 'connected') {
-					          $scope.loggedIn = true;
-					        } else {
-					          $scope.loggedIn = false;
-					        }
+							if (response.status === 'connected') {
+								$scope.loggedIn = true;
+							} else {
+								$scope.loggedIn = false;
+							}
 						});
 					};
-					
+
 					$scope.me = function() {
-						FB.api('/me', {locale: 'en-US', fields: 'name, email, gender'}, function(response) {
+						FB.api('/me', {
+							locale : 'en-US',
+							fields : 'name, email, gender'
+						}, function(response) {
 							$scope.facebookUser = {};
 							$scope.facebookUser.name = response.name;
 							$scope.facebookUser.email = response.email;
@@ -350,70 +413,83 @@ materialAdmin
 						});
 					};
 
-					
-
 					$scope.logout = function() {
 						store.remove('jwt');
 						$window.location.href = '/login';
 					};
 
 					$scope.recoveryPassword = function() {
-						accountService.recoveryPassword($stateParams.token, $scope.user.newPassword,
+						accountService.recoveryPassword($stateParams.token,
+								$scope.user.newPassword,
 								$scope.user.newPasswordAgain).then(
-										//succes
-										function(response){
-											growlService.growl(response.errorMessage, 'success');
-											$timeout(function(){
-												$window.location.href = '/login';
-											}, 1000);
-										},
-										//fail
-										function(error){
-											growlService.growl(error.data.errorMessage, 'danger');
-										}
-									);;
+								// succes
+								function(response) {
+									growlService.growl(response.errorMessage,
+											'success');
+									$timeout(function() {
+										$window.location.href = '/login';
+									}, 1000);
+								},
+								// fail
+								function(error) {
+									growlService.growl(error.data.errorMessage,
+											'danger');
+								});
+						;
 					};
 
 					$scope.forgotPassword = function() {
 						accountService.forgotPassword($scope.user.email).then(
-								function(response){
-									growlService.growl(response.data,'success');
-									$timeout(function(){
+								function(response) {
+									growlService
+											.growl(response.data, 'success');
+									$timeout(function() {
 										$window.location.href = '/login';
-									}, 1000);	
+									}, 1000);
 								},
-								function(error){
-									growlService.growl(error.data.errorMessage,'danger');
-								}
-							);
+								function(error) {
+									growlService.growl(error.data.errorMessage,
+											'danger');
+								});
 					};
 
-					$scope.$on('$routeChangeSuccess', function(e, nextRoute) {
-						if (nextRoute.$$route && angular.isDefined(nextRoute.$$route.pageTitle)) {
-							$scope.pageTitle = nextRoute.$$route.pageTitle + ' | ngEurope Sample';
-						}
-					});
+					$scope
+							.$on(
+									'$routeChangeSuccess',
+									function(e, nextRoute) {
+										if (nextRoute.$$route
+												&& angular
+														.isDefined(nextRoute.$$route.pageTitle)) {
+											$scope.pageTitle = nextRoute.$$route.pageTitle
+													+ ' | ngEurope Sample';
+										}
+									});
 
 				})
 
 		// =================================================
 		// CALENDAR
 		// =================================================
-		.controller('pushCtrl', function($scope, $http, store, $state, $location, $window, pushService, growlService){
-			p = this;
-			
-			p.pushTO = {};
-			
-			p.sendMessage = function(){
-				pushService.sendMessage(p.pushTO).then(
-						function(response){
-							growlService.growl(response.data,'success');
-						},
-						function(error){
-							growlService.growl(error.data.errorMessage,'danger');
-						})
-			}			
-		})
+		.controller(
+				'pushCtrl',
+				function($scope, $http, store, $state, $location, $window,
+						pushService, growlService) {
+					p = this;
+
+					p.pushTO = {};
+
+					p.sendMessage = function() {
+						pushService.sendMessage(p.pushTO).then(
+								function(response) {
+									growlService
+											.growl(response.data, 'success');
+								},
+								function(error) {
+									growlService.growl(error.data.errorMessage,
+											'danger');
+								})
+					}
+				})
 		.controller(
 				'calendarCtrl',
 				function($modal) {
@@ -422,15 +498,25 @@ materialAdmin
 					// header.
 					this.month = 'month';
 
-					this.actionMenu = '<ul class="actions actions-alt" id="fc-actions">' + '<li class="dropdown" dropdown>'
+					this.actionMenu = '<ul class="actions actions-alt" id="fc-actions">'
+							+ '<li class="dropdown" dropdown>'
 							+ '<a href="" dropdown-toggle><i class="zmdi zmdi-more-vert"></i></a>'
-							+ '<ul class="dropdown-menu dropdown-menu-right">' + '<li class="active">'
-							+ '<a data-calendar-view="month" href="">Month View</a>' + '</li>' + '<li>'
-							+ '<a data-calendar-view="basicWeek" href="">Week View</a>' + '</li>' + '<li>'
-							+ '<a data-calendar-view="agendaWeek" href="">Agenda Week View</a>' + '</li>' + '<li>'
-							+ '<a data-calendar-view="basicDay" href="">Day View</a>' + '</li>' + '<li>'
-							+ '<a data-calendar-view="agendaDay" href="">Agenda Day View</a>' + '</li>' + '</ul>' + '</div>'
-							+ '</li>';
+							+ '<ul class="dropdown-menu dropdown-menu-right">'
+							+ '<li class="active">'
+							+ '<a data-calendar-view="month" href="">Month View</a>'
+							+ '</li>'
+							+ '<li>'
+							+ '<a data-calendar-view="basicWeek" href="">Week View</a>'
+							+ '</li>'
+							+ '<li>'
+							+ '<a data-calendar-view="agendaWeek" href="">Agenda Week View</a>'
+							+ '</li>'
+							+ '<li>'
+							+ '<a data-calendar-view="basicDay" href="">Day View</a>'
+							+ '</li>'
+							+ '<li>'
+							+ '<a data-calendar-view="agendaDay" href="">Agenda Day View</a>'
+							+ '</li>' + '</ul>' + '</div>' + '</li>';
 
 					// Open new event modal on selecting a day
 					this.onSelect = function(argStart, argEnd) {
@@ -461,8 +547,10 @@ materialAdmin
 					};
 
 					// Tags
-					$scope.tags = [ 'bgm-teal', 'bgm-red', 'bgm-pink', 'bgm-blue', 'bgm-lime', 'bgm-green', 'bgm-cyan',
-							'bgm-orange', 'bgm-purple', 'bgm-gray', 'bgm-black', ]
+					$scope.tags = [ 'bgm-teal', 'bgm-red', 'bgm-pink',
+							'bgm-blue', 'bgm-lime', 'bgm-green', 'bgm-cyan',
+							'bgm-orange', 'bgm-purple', 'bgm-gray',
+							'bgm-black', ]
 
 					// Select Tag
 					$scope.currentTag = '';
