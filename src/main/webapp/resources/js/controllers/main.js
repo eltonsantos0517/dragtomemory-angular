@@ -287,6 +287,7 @@ materialAdmin
 							function(response){
 								$scope.authenticated = true;
 								store.set('jwt', response.headers('Authorization'));
+								console.log($scope.user);
 								$window.location.href = '/#/console/cards-list/today-cards';
 							},
 							function(response){

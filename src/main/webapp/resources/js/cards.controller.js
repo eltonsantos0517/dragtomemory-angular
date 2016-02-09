@@ -28,6 +28,8 @@ materialAdmin.controller('cardsCtrl', function($filter, $sce, ngTableParams, tab
 	c.numPages = 5;
 	c.maxSize = 5;
 	
+	console.log($scope.user);
+	
 	c.filterBackend = $stateParams.filter;
 	
 	c.showMore = [];	

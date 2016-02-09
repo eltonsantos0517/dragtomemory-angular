@@ -2,8 +2,6 @@ package com.backend.base.model.entity;
 
 import java.util.Date;
 
-import org.joda.time.DateTime;
-
 import com.backend.base.controller.to.CardTO;
 import com.backend.base.model.entity.generic.GenericEntity;
 import com.googlecode.objectify.annotation.Entity;
@@ -23,6 +21,8 @@ public class CardEntity extends GenericEntity {
 	private Date nextRevision;
 	@Ignore
 	private boolean changeStage;
+	@Index
+	private long ownerId;
 
 	public CardEntity() {
 		super();
@@ -88,4 +88,11 @@ public class CardEntity extends GenericEntity {
 		this.changeStage = changeStage;
 	}
 
+	public long getOwnerId() {
+		return ownerId;
+	}
+
+	public void setOwnerId(long ownerId) {
+		this.ownerId = ownerId;
+	}
 }

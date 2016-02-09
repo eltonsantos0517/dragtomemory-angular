@@ -4,5 +4,6 @@
 	<datastore-index kind="CardEntity" ancestor="false">
         <property name="stage" direction="asc" />
         <property name="nextRevision" direction="asc" />
+        <property name="ownerId" direction="asc" />
     </datastore-index>
 </datastore-indexes>

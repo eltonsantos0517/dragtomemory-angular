@@ -12,6 +12,7 @@ public class CardTO extends GenericTO {
 	private String text;
 	private Date nextRevision;
 	private boolean changeStage;
+	private AccountTO owner;
 
 	public CardTO() {
 		super();
@@ -77,4 +78,14 @@ public class CardTO extends GenericTO {
 	public void setChangeStage(boolean changeStage) {
 		this.changeStage = changeStage;
 	}
+
+	public AccountTO getOwner() {
+		return owner;
+	}
+
+	public void setOwner(AccountTO owner) {
+		this.owner = owner;
+	}
+	
+	
 }
