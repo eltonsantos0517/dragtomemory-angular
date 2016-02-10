@@ -125,7 +125,7 @@ public class CardService extends GenericService<CardEntity> {
 
 	private List<CardEntity> listExpiretedCards() {
 		return listByFilter(CompositeFilterOperator.and(
-				new FilterPredicate("nextRevision", FilterOperator.LESS_THAN_OR_EQUAL, new DateTime().toDate()),
+				new FilterPredicate("nextRevision", FilterOperator.LESS_THAN_OR_EQUAL, new DateTime().minusDays(1).toDate()),
 				new FilterPredicate("stage", FilterOperator.IN, Arrays.asList(1, 2, 3, 4))));
 	}
 
