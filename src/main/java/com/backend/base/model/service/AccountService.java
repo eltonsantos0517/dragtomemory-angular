@@ -109,7 +109,7 @@ public class AccountService extends GenericService<AccountEntity> {
 		recoveryTokenService.save(recoveryToken);
 
 		final String http = "<html><head></head><body><p><a href=\""
-				+ "https://gae-spring-angular.appspot.com/recovery-password/" + recoveryToken.getToken()
+				+ "https://dragtomemory.appspot.com/recovery-password/" + recoveryToken.getToken()
 				+ "\">Clique aqui</a></p></body></html>";
 		System.out.println(http);
 		try {

@@ -124,6 +124,9 @@ public class CardController {
 	public ResponseEntity<ApiResponse> done(@RequestBody final Long objectId) {
 		try {
 			final CardService service = new CardService();
+			
+			service.warnUsersAboutCardsToday();
+			
 			final CardTO persitedTO = new CardTO(service.done(getCardById(objectId)));
 			ApiResponse ret = new ApiResponse(null, HttpStatus.OK.value(), HttpStatus.OK.getReasonPhrase(), null, null,
 					null, persitedTO);
@@ -142,7 +145,10 @@ public class CardController {
 	@RequestMapping(value = "/api/1/job", method = RequestMethod.GET)
 	public ResponseEntity<ApiResponse> processExpiretedCards() {
 		try {			
-			new CardService().processExpiretedCards();
+			
+			CardService service = new CardService();
+			service.processExpiretedCards();
+			service.warnUsersAboutCardsToday();
 			ApiResponse ret = new ApiResponse(null, HttpStatus.OK.value(), HttpStatus.OK.getReasonPhrase(), null, null,
 					null, null);
 			return new ResponseEntity<ApiResponse>(ret, HttpStatus.OK);
