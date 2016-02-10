@@ -114,7 +114,7 @@ public class CardService extends GenericService<CardEntity> {
 				String msg = "<html><head></head><body><h3>"+hello+",</h3><p>You have "+qtdCardsByUser+" memos to revision today, go to <a href=\""
 						+ "https://dragtomemory.appspot.com\">Drag to memory</a>!</p></body></html>";
 				try {
-					EmailUtil.sendEmail(user.getEmail(), user.getFirstName(), "Change Password Request", msg);
+					EmailUtil.sendEmail(user.getEmail(), user.getFirstName(), "Hey... you have memos today", msg);
 				} catch (UnsupportedEncodingException | MessagingException e) {
 					e.printStackTrace();
 				}
