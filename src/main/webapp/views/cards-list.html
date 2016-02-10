@@ -43,7 +43,7 @@
 						<div class="media-body">
 							<div class="card">
 								<div
-									ng-class="card.stage >= CardsConstants.LAST_STAGE ? 'card-header bgm-blue' : (cCtrl.getDiffInHours(card.nextRevision) < 24  ? 'card-header bgm-teal' : 'card-header bgm-bluegray')">
+									ng-class="card.stage >= CardsConstants.LAST_STAGE ? 'card-header bgm-blue' : (cCtrl.getDiffInNumberDays(card.nextRevision) < 1  ? 'card-header bgm-teal' : 'card-header bgm-bluegray')">
 									<h2>{{card.title}}</h2>
 								</div>
 
@@ -64,8 +64,8 @@
 										<a class="lv-footer" href="" data-ng-click="cCtrl.viewAll($index)">{{cCtrl.showMore[$index].expand || 'View All'}}</a>
 									</div>
 									<button
-										ng-class="card.stage >= CardsConstants.LAST_STAGE ? 'btn btn-info bgm-blue' : (cCtrl.getDiffInHours(card.nextRevision) < 24  ? 'btn btn-info bgm-teal' : 'btn btn-info bgm-bluegray')"
-										ng-click="cCtrl.done(card.objectId)" ng-disabled="card.stage>=5 || !(cCtrl.getDiffInHours(card.nextRevision) < 24) ">Done</button>
+										ng-class="card.stage >= CardsConstants.LAST_STAGE ? 'btn btn-info bgm-blue' : (cCtrl.getDiffInNumberDays(card.nextRevision) < 1  ? 'btn btn-info bgm-teal' : 'btn btn-info bgm-bluegray')"
+										ng-click="cCtrl.done(card.objectId)" ng-disabled="card.stage>=5 || !(cCtrl.getDiffInNumberDays(card.nextRevision) < 1) ">Done</button>
 									<button class="btn btn-link" ng-click="cCtrl.initEdit(card.objectId)">Edit</button>
 								</div>
 							</div>

@@ -48,7 +48,7 @@ public class CardService extends GenericService<CardEntity> {
 
 	public CardEntity saveCard(final CardEntity entity) {
 		entity.setStage(1);
-		entity.setNextRevision(new DateTime().toDate());
+		entity.setNextRevision(new DateTime().plusDays(1).toDate());
 		entity.setOwnerId(getCurrentUserId());
 		save(entity);
 		return entity;
@@ -57,7 +57,7 @@ public class CardService extends GenericService<CardEntity> {
 	public CardEntity editCard(final CardEntity entity) {
 		if (entity.isChangeStage()) {
 			entity.setStage(1);
-			entity.setNextRevision(new DateTime().plusDays(2).toDate());
+			entity.setNextRevision(new DateTime().plusDays(1).toDate());
 		}
 		entity.setOwnerId(getCurrentUserId());
 		save(entity);
