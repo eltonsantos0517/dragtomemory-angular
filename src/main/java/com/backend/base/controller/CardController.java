@@ -124,9 +124,7 @@ public class CardController {
 	public ResponseEntity<ApiResponse> done(@RequestBody final Long objectId) {
 		try {
 			final CardService service = new CardService();
-			
-			service.warnUsersAboutCardsToday();
-			
+		
 			final CardTO persitedTO = new CardTO(service.done(getCardById(objectId)));
 			ApiResponse ret = new ApiResponse(null, HttpStatus.OK.value(), HttpStatus.OK.getReasonPhrase(), null, null,
 					null, persitedTO);
@@ -145,9 +143,26 @@ public class CardController {
 	@RequestMapping(value = "/api/1/job", method = RequestMethod.GET)
 	public ResponseEntity<ApiResponse> processExpiretedCards() {
 		try {			
-			
 			CardService service = new CardService();
 			service.processExpiretedCards();
+			ApiResponse ret = new ApiResponse(null, HttpStatus.OK.value(), HttpStatus.OK.getReasonPhrase(), null, null,
+					null, null);
+			return new ResponseEntity<ApiResponse>(ret, HttpStatus.OK);
+		} catch (Exception e) {
+			e.printStackTrace();
+			ApiResponse ret = new ApiResponse("Sorry, something bad happened", HttpStatus.INTERNAL_SERVER_ERROR.value(),
+					HttpStatus.INTERNAL_SERVER_ERROR.getReasonPhrase(), null, null, null, null);
+
+			return new ResponseEntity<ApiResponse>(ret, HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
+	
+	
+	@RequestMapping(value = "/api/1/jobWarnUsers", method = RequestMethod.GET)
+	public ResponseEntity<ApiResponse> warnUsers() {
+		try {			
+			
+			CardService service = new CardService();
 			service.warnUsersAboutCardsToday();
 			ApiResponse ret = new ApiResponse(null, HttpStatus.OK.value(), HttpStatus.OK.getReasonPhrase(), null, null,
 					null, null);

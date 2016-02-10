@@ -2,7 +2,12 @@
 <cronentries>
   <cron>
     <url>/api/1/job</url>
-    <description>process expireted dards</description>
-    <schedule>every 1 minutes</schedule>
+    <description>process expireted cards</description>
+    <schedule>every 1 hours</schedule>
+  </cron>
+  <cron>
+    <url>/api/1/jobWarnUsers</url>
+    <description>warn users about cards to revision today</description>
+    <schedule>every 24 hours</schedule>
   </cron>
 </cronentries>
