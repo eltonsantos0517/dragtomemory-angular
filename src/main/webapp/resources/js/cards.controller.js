@@ -348,9 +348,6 @@ materialAdmin.controller('cardsCtrl', function($filter, $sce, ngTableParams, tab
 	}
 	
 	c.getDiffInDays = function(dateLong){
-		//var days = parseInt(moment.duration(moment(new Date(date)).diff(moment(c.today))).asDays())
-		//days = days+1;
-		
 		var today = new Date();
 		var date = new Date(dateLong);
 		var _MS_PER_DAY = 1000 * 60 * 60 * 24;
