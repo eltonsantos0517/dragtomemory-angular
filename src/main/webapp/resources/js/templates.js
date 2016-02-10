@@ -67,7 +67,7 @@ angular.module('materialAdmin').run(['$templateCache', function($templateCache) 
 
 
   $templateCache.put('template/sidebar-left.html',
-    "<div class=\"sidebar-inner c-overflow\"><div class=\"profile-menu\" data-ng-controller=\"loginCtrl as lctrl\"><a href=\"\" toggle-submenu><div class=\"profile-info\">{{user.username}}<i class=\"zmdi zmdi-caret-down\"></i></div></a><ul class=\"main-menu\"><li><a href=\"\" data-ng-click=\"logout()\"><i class=\"zmdi zmdi-time-restore\"></i> Logout</a></li></ul></div><ul class=\"main-menu\"><li><a data-ui-sref-active=\"active\" data-ui-sref=\"console.cards-list({filter: 'today-cards'})\" data-ng-click=\"mactrl.sidebarStat($event)\">TODAY CARDS</a></li><li><a data-ui-sref-active=\"active\" data-ui-sref=\"console.cards-list({filter: 'all-cards'})\" data-ng-click=\"mactrl.sidebarStat($event)\">ALL CARDS</a></li></ul></div>"
+    "<div class=\"sidebar-inner c-overflow\"><div class=\"profile-menu\" data-ng-controller=\"loginCtrl as lctrl\"><a href=\"\" toggle-submenu><div class=\"profile-info\">{{user.username}}<i class=\"zmdi zmdi-caret-down\"></i></div></a><ul class=\"main-menu\"><li><a href=\"\" data-ng-click=\"logout()\"><i class=\"zmdi zmdi-time-restore\"></i> Logout</a></li></ul></div><ul class=\"main-menu\"><li><a data-ui-sref-active=\"active\" data-ui-sref=\"console.cards-list({filter: 'today-cards'})\" data-ng-click=\"mactrl.sidebarStat($event)\">TODAY MEMOS</a></li><li><a data-ui-sref-active=\"active\" data-ui-sref=\"console.cards-list({filter: 'all-cards'})\" data-ng-click=\"mactrl.sidebarStat($event)\">ALL MEMOS</a></li></ul></div>"
   );
 
 

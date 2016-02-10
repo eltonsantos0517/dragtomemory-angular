@@ -131,7 +131,7 @@ public class CardService extends GenericService<CardEntity> {
 
 	private Filter getFilter(long userId) {
 		return CompositeFilterOperator.and(
-				new FilterPredicate("nextRevision", FilterOperator.LESS_THAN_OR_EQUAL, new DateTime().plusDays(1).toDate()),
+				new FilterPredicate("nextRevision", FilterOperator.LESS_THAN_OR_EQUAL, new DateTime().toDate()),
 				new FilterPredicate("stage", FilterOperator.IN, Arrays.asList(1, 2, 3, 4)),
 				new FilterPredicate("ownerId", FilterOperator.EQUAL, userId)
 			);
