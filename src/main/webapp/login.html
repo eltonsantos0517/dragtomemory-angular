@@ -65,13 +65,9 @@
 		
 
 		<ul class="login-navigation">
+			<li data-block="#l-login" class="bgm-blue" data-ng-click="facebookLogin()" translate>Facebook Login</li>
 			<li data-block="#l-register" class="bgm-red" data-ng-click="lctrl.login = 0; lctrl.register = 1" translate>Register</li>
 			<li data-block="#l-forget-password" class="bgm-orange" data-ng-click="lctrl.login = 0; lctrl.forgot = 1" translate>Forgot password?</li>
-			<form ng-submit="facebookLogin()">
-				 <button type="submit"  class="btn-float" style="float:left;">
-					<img src="resources/img/social/facebook-128.png" class="img-responsive" alt="">
-				</button>
-			</form>
 		</ul>
 	</div>
 
@@ -116,6 +112,7 @@
 
 		<ul class="login-navigation">
 			<li data-block="#l-login" class="bgm-green" data-ng-click="lctrl.register = 0; lctrl.login = 1" translate>Login</li>
+			<li data-block="#l-login" class="bgm-blue" data-ng-click="facebookLogin()" translate>Facebook Login</li>
 			<li data-block="#l-forget-password" class="bgm-orange" data-ng-click="lctrl.register = 0; lctrl.forgot = 1" translate>Forgot password?</li>
 		</ul>
 	</div>
@@ -139,6 +136,7 @@
 
 			<ul class="login-navigation">
 				<li data-block="#l-login" class="bgm-green" data-ng-click="lctrl.forgot = 0; lctrl.login = 1" translate>Login</li>
+				<li data-block="#l-login" class="bgm-blue" data-ng-click="facebookLogin()" translate>Facebook Login</li>
 				<li data-block="#l-register" class="bgm-red" data-ng-click="lctrl.forgot = 0; lctrl.register = 1" translate>Register</li>
 			</ul>
 		</div>
