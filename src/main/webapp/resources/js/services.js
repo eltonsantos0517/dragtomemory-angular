@@ -17,6 +17,10 @@ materialAdmin
 	this.getById = function(userId) {
 		return Restangular.one('user', userId).get().$object;
 	}
+	
+	this.getCurrent = function() {
+		return LoginRestangular.one('users/current').get();
+	}
 
 	this.forgotPassword = function(email) {
 		return Restangular.all("forgotPassword").post(email);

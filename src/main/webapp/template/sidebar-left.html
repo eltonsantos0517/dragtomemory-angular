@@ -8,14 +8,17 @@
 		</a>
 
 		<ul class="main-menu">
+		    <li>
+                <a data-ui-sref="console.user-profile" data-ng-click="mactrl.sidebarStat($event)"><i class="zmdi zmdi-account"></i> My Profile</a>
+            </li>
 			<li><a href="" data-ng-click="logout()"><i class="zmdi zmdi-time-restore"></i> Logout</a></li>
 		</ul>
 	</div>
 
 	<ul class="main-menu">
-		<li><a data-ui-sref-active="active" data-ui-sref="console.cards-list({filter: 'today-cards'})" data-ng-click="mactrl.sidebarStat($event)">TODAY
+		<li><a data-ui-sref-active="active" data-ui-sref="console.cards-list({filter: 'today-cards'})" data-ng-click="mactrl.sidebarStat($event)"> TODAY
 				MEMOS</a></li>
-		<li><a data-ui-sref-active="active" data-ui-sref="console.cards-list({filter: 'all-cards'})" data-ng-click="mactrl.sidebarStat($event)">ALL
+		<li><a data-ui-sref-active="active" data-ui-sref="console.cards-list({filter: 'all-cards'})" data-ng-click="mactrl.sidebarStat($event)"> ALL
 				MEMOS</a></li>
 	</ul>
 </div>

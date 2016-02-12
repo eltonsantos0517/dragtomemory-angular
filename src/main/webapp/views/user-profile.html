@@ -1,0 +1,54 @@
+<div class="container">
+    <div class="block-header">
+        <h2>Malinda Hollaway <small>Web/UI Developer, Dubai, United Arab Emirates</small></h2>
+
+        <ul class="actions m-t-20 hidden-xs">
+            <li class="dropdown" uib-dropdown>
+                <a href="" uib-dropdown-toggle>
+                    <i class="zmdi zmdi-more-vert"></i>
+                </a>
+
+                <ul class="dropdown-menu dropdown-menu-right">
+                    <li>
+                        <a href="">Privacy Settings</a>
+                    </li>
+                    <li>
+                        <a href="">Account Settings</a>
+                    </li>
+                    <li>
+                        <a href="">Other Settings</a>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+
+    <div class="card" id="profile-main" data-ng-controller="userProfileCtrl as pctrl">
+        <div class="pm-overview c-overflow">
+            <div class="pmo-pic">
+                <div class="p-relative">
+                    <a href="">
+                        <img class="img-responsive" src="resources/img/profile-pics/profile-pic-2.jpg" alt="">
+                    </a>
+                    <a href="" class="pmop-edit">
+                        <i class="zmdi zmdi-camera"></i> <span class="hidden-xs">Update Profile Picture</span>
+                    </a>
+                </div>
+            </div>
+
+            <div class="pmo-block pmo-contact hidden-xs">
+                <h2>Contact</h2>
+                <ul>
+                    <li><i class="zmdi zmdi-phone"></i> {{ pctrl.user.mobileNumber }}</li>
+                    <li><i class="zmdi zmdi-email"></i> {{ pctrl.user.email }}</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="pm-body clearfix">
+            <ul class="tab-nav tn-justified" data-ng-include="'views/user-profile-menu.html'"></ul>
+
+            <data ui-view></data>
+        </div>
+    </div>
+</div>

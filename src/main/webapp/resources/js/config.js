@@ -329,6 +329,20 @@ materialAdmin
 									requiresLogin : true,
 								}
 							})
+							.state('console.user-profile', {
+								url : '/user-profile',
+								templateUrl : 'views/user-profile.html',
+								data : {
+									requiresLogin : true
+								}
+							})
+							.state('console.user-profile.user-profile-about', {
+								url : '/profile-about',
+								templateUrl : 'views/user-profile-about.html',
+								data : {
+									requiresLogin : true
+								}
+							})
 							.state('user-interface', {
 								url : '/console',
 								templateUrl : 'views/common.html',
