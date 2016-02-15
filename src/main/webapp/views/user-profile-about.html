@@ -1,40 +1,5 @@
 <div class="pmb-block">
     <div class="pmbb-header">
-        <h2><i class="zmdi zmdi-equalizer m-r-5"></i> Summary</h2>
-
-        <ul class="actions" data-ng-if="pctrl.editSummary === 0">
-            <li class="dropdown" uib-dropdown>
-                <a href="" uib-dropdown-toggle>
-                    <i class="zmdi zmdi-more-vert"></i>
-                </a>
-
-                <ul class="dropdown-menu dropdown-menu-right">
-                    <li>
-                        <a data-ng-click="pctrl.editSummary = 1" href="">Edit</a>
-                    </li>
-                </ul>
-            </li>
-        </ul>
-    </div>
-    <div class="pmbb-body p-l-30">
-        <div class="pmbb-view" data-ng-if="pctrl.editSummary === 0">
-            {{ pctrl.profileSummary }}
-        </div>
-
-        <form data-ng-submit="pctrl.submit('profileSummary', 'Profile Summary')" class="pmbb-edit" data-ng-if="pctrl.editSummary === 1">
-            <div class="fg-line">
-                <textarea data-ng-model="pctrl.profileSummary" class="form-control" rows="5" placeholder="Summary...">Sed eu est vulputate, fringilla ligula ac, maximus arcu. Donec sed felis vel magna mattis ornare ut non turpis. Sed id arcu elit. Sed nec sagittis tortor. Mauris ante urna, ornare sit amet mollis eu, aliquet ac ligula. Nullam dolor metus, suscipit ac imperdiet nec, consectetur sed ex. Sed cursus porttitor leo.</textarea>
-            </div>
-            <div class="m-t-10">
-                <button class="btn btn-primary btn-sm" type="submit">Save</button>
-                <button class="btn btn-link btn-sm" data-ng-click="pctrl.editSummary = 0" >Cancel</button>
-            </div>
-        </form>
-    </div>
-</div>
-
-<div class="pmb-block">
-    <div class="pmbb-header">
         <h2><i class="zmdi zmdi-person m-r-5"></i> Basic Information</h2>
 
         <ul class="actions" data-ng-if="pctrl.editInfo === 0">
@@ -53,6 +18,10 @@
     </div>
     <div class="pmbb-body p-l-30">
         <div class="pmbb-view" data-ng-if="pctrl.editInfo === 0">
+			 <dl class="dl-horizontal">
+                <dt>Id</dt>
+                <dd>{{ pctrl.user.objectId }}</dd>
+            </dl>
             <dl class="dl-horizontal">
                 <dt>First Name</dt>
                 <dd>{{ pctrl.user.firstName }}</dd>
@@ -62,21 +31,31 @@
                 <dd>{{ pctrl.user.lastName }}</dd>
             </dl>
             <dl class="dl-horizontal">
-                <dt>Email</dt>
-                <dd>{{ pctrl.user.email }}</dd>
+                <dt>Gender</dt>
+                <dd>{{ pctrl.user.gender }}</dd>
             </dl>
             <dl class="dl-horizontal">
-                <dt>Id</dt>
-                <dd>{{ pctrl.user.objectId }}</dd>
+                <dt>Birthday</dt>
+                <dd>{{ pctrl.user.birthday }}</dd>
             </dl>
+           
         </div>
 
         <form data-ng-submit="pctrl.submit('profileInfo', 'Profile Information')" class="pmbb-edit" data-ng-if="pctrl.editInfo === 1">
             <dl class="dl-horizontal">
-                <dt class="p-t-10">Full Name</dt>
+                <dt class="p-t-10">First Name</dt>
                 <dd>
                     <div class="fg-line">
-                        <input data-ng-model="pctrl.user.firstName" type="text" class="form-control" value="{{ pctrl.user.firstName }}" placeholder="eg. Mallinda Hollaway">
+                        <input data-ng-model="pctrl.user.firstName" type="text" class="form-control" value="{{ pctrl.user.firstName }}" placeholder="eg. Mallinda">
+                    </div>
+
+                </dd>
+            </dl>
+            <dl class="dl-horizontal">
+                <dt class="p-t-10">Last Name</dt>
+                <dd>
+                    <div class="fg-line">
+                        <input data-ng-model="pctrl.user.lastName" type="text" class="form-control" value="{{ pctrl.user.firstName }}" placeholder="eg. Hollaway">
                     </div>
 
                 </dd>
@@ -101,19 +80,7 @@
                     </div>
                 </dd>
             </dl>
-            <dl class="dl-horizontal">
-                <dt class="p-t-10">Martial Status</dt>
-                <dd>
-                    <div class="fg-line">
-                        <select class="form-control">
-                            <option>Single</option>
-                            <option>Married</option>
-                            <option>Other</option>
-                        </select>
-                    </div>
-                </dd>
-            </dl>
-
+            
             <div class="m-t-30">
                 <button class="btn btn-primary btn-sm" type="submit">Save</button>
                 <button class="btn btn-link btn-sm" data-ng-click="pctrl.editInfo = 0" >Cancel</button>
@@ -145,19 +112,11 @@
         <div class="pmbb-view" data-ng-if="pctrl.editContact === 0">
             <dl class="dl-horizontal">
                 <dt>Mobile Phone</dt>
-                <dd>{{ pctrl.mobileNumber }}</dd>
+                <dd>{{ pctrl.user.mobileNumber }}</dd>
             </dl>
             <dl class="dl-horizontal">
                 <dt>Email Address</dt>
-                <dd>{{ pctrl.emailAddress }}</dd>
-            </dl>
-            <dl class="dl-horizontal">
-                <dt>Twitter</dt>
-                <dd>{{ pctrl.twitter }}</dd>
-            </dl>
-            <dl class="dl-horizontal">
-                <dt>Skype</dt>
-                <dd>{{ pctrl.skype }}</dd>
+                <dd>{{ pctrl.user.email }}</dd>
             </dl>
         </div>
 
@@ -166,7 +125,7 @@
                 <dt class="p-t-10">Mobile Phone</dt>
                 <dd>
                     <div class="fg-line">
-                        <input data-ng-model="pctrl.mobileNumber" type="text" class="form-control" placeholder="eg. 00971 12345678 9">
+                        <input data-ng-model="pctrl.user.mobileNumber" type="text" class="form-control" placeholder="eg. 999999999">
                     </div>
                 </dd>
             </dl>
@@ -174,27 +133,10 @@
                 <dt class="p-t-10">Email Address</dt>
                 <dd>
                     <div class="fg-line">
-                        <input data-ng-model="pctrl.emailAddress" type="email" class="form-control" placeholder="eg. malinda.h@gmail.com">
+                        <input data-ng-model="pctrl.user.emailAddress" type="email" class="form-control" placeholder="eg. xxx@yyy.com">
                     </div>
                 </dd>
             </dl>
-            <dl class="dl-horizontal">
-                <dt class="p-t-10">Twitter</dt>
-                <dd>
-                    <div class="fg-line">
-                        <input data-ng-model="pctrl.twitter" type="text" class="form-control" placeholder="eg. @malinda">
-                    </div>
-                </dd>
-            </dl>
-            <dl class="dl-horizontal">
-                <dt class="p-t-10">Skype</dt>
-                <dd>
-                    <div class="fg-line">
-                        <input data-ng-model="pctrl.skype" type="text" class="form-control" placeholder="eg. malinda.hollaway">
-                    </div>
-                </dd>
-            </dl>
-
             <div class="m-t-30">
                 <button class="btn btn-primary btn-sm" type="submit">Save</button>
                 <button class="btn btn-link btn-sm" data-ng-click="pctrl.editContact = 0" >Cancel</button>

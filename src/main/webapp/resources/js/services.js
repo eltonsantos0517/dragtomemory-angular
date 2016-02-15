@@ -36,7 +36,7 @@ materialAdmin
 
 	this.save = function(user) {
 		if (user.objectId != null) {
-			return Restangular.copy(user).put();
+			return Restangular.one('user').customPUT(user);
 		} else {
 			return Restangular.all("user").post(user);
 		}
