@@ -41,7 +41,7 @@ public class AccountService extends GenericService<AccountEntity> {
 			AccountEntity entity = getByColumn("email", to.getEmail());
 
 			if (entity != null) {
-				// é via Facebbok?
+				// é via Facebook?
 				if (to.getFacebookToken() != null) {
 					// Facebook
 					entity.setFacebookToken(to.getFacebookToken());
@@ -69,15 +69,16 @@ public class AccountService extends GenericService<AccountEntity> {
 			AccountEntity entity = getByColumn("email", to.getEmail());
 			entity.setFirstName(to.getFirstName());
 			entity.setLastName(to.getLastName());
-
-			if (SecurityUtil.validateNewPassword(to.getPassword(), to.getPasswordAgain())) {
-				entity.setPassword(SecurityUtil.encryptPassword(to.getPassword()));
-				to.setPassword(null);
-				to.setPasswordAgain(null);
-				return super.save(entity).getId();
-			} else {
-				throw new MismatchedPasswordsException("Invalid password");
-			}
+			return super.save(entity).getId();
+//
+//			if (SecurityUtil.validateNewPassword(to.getPassword(), to.getPasswordAgain())) {
+//				entity.setPassword(SecurityUtil.encryptPassword(to.getPassword()));
+//				to.setPassword(null);
+//				to.setPasswordAgain(null);
+//				return super.save(entity).getId();
+//			} else {
+//				throw new MismatchedPasswordsException("Invalid password");
+//			}
 		}
 	}
 
