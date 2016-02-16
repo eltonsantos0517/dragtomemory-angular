@@ -5,6 +5,7 @@ import java.util.Set;
 
 import com.backend.base.model.entity.generic.GenericEntity;
 import com.backend.base.security.entity.UserAuthority;
+import com.google.appengine.api.datastore.Blob;
 import com.googlecode.objectify.annotation.Entity;
 import com.googlecode.objectify.annotation.Ignore;
 import com.googlecode.objectify.annotation.Index;
@@ -25,6 +26,8 @@ public class AccountEntity extends GenericEntity implements Serializable {
 
 	@Index
 	private String email;
+	
+	private Blob profileImage;
 
 	@Index
 	private String password;
@@ -138,4 +141,11 @@ public class AccountEntity extends GenericEntity implements Serializable {
 		this.authorities = authorities;
 	}
 
+	public Blob getProfileImage() {
+		return profileImage;
+	}
+
+	public void setProfileImage(Blob profileImage) {
+		this.profileImage = profileImage;
+	}
 }

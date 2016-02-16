@@ -22,6 +22,7 @@ import com.backend.base.security.service.UserDetailsService;
 import com.backend.base.security.util.SecurityUtil;
 import com.backend.base.util.EmailUtil;
 import com.backend.base.util.Util;
+import com.google.appengine.api.datastore.Blob;
 import com.googlecode.objectify.Key;
 
 public class AccountService extends GenericService<AccountEntity> {
@@ -69,16 +70,26 @@ public class AccountService extends GenericService<AccountEntity> {
 			AccountEntity entity = getByColumn("email", to.getEmail());
 			entity.setFirstName(to.getFirstName());
 			entity.setLastName(to.getLastName());
+
+			if (to.getProfileImage() != null && !to.getProfileImage().isEmpty()) {
+				try {
+					entity.setProfileImage(new Blob(to.getProfileImage().getBytes("UTF-8")));
+				} catch (UnsupportedEncodingException e) {
+					e.printStackTrace();
+				}
+			}
+
 			return super.save(entity).getId();
-//
-//			if (SecurityUtil.validateNewPassword(to.getPassword(), to.getPasswordAgain())) {
-//				entity.setPassword(SecurityUtil.encryptPassword(to.getPassword()));
-//				to.setPassword(null);
-//				to.setPasswordAgain(null);
-//				return super.save(entity).getId();
-//			} else {
-//				throw new MismatchedPasswordsException("Invalid password");
-//			}
+			//
+			// if (SecurityUtil.validateNewPassword(to.getPassword(),
+			// to.getPasswordAgain())) {
+			// entity.setPassword(SecurityUtil.encryptPassword(to.getPassword()));
+			// to.setPassword(null);
+			// to.setPasswordAgain(null);
+			// return super.save(entity).getId();
+			// } else {
+			// throw new MismatchedPasswordsException("Invalid password");
+			// }
 		}
 	}
 

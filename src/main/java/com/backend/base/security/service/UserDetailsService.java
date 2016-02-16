@@ -1,5 +1,6 @@
 package com.backend.base.security.service;
 
+import java.nio.charset.StandardCharsets;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -52,6 +53,9 @@ public class UserDetailsService implements org.springframework.security.core.use
 		account.setUsername(entity.getEmail());
 		account.setObjectId(entity.getObjectId());
 		account.setPassword(entity.getPassword());
+		if (entity.getProfileImage() != null) {
+			account.setProfileImage(new String(entity.getProfileImage().getBytes(), StandardCharsets.UTF_8));
+		}
 		account.setRoles(roles);
 
 		detailsChecker.check(account);

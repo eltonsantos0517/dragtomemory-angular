@@ -1,6 +1,7 @@
 package com.backend.base.controller.to;
 
 import java.io.Serializable;
+import java.nio.charset.StandardCharsets;
 import java.util.EnumSet;
 import java.util.HashSet;
 import java.util.Set;
@@ -8,6 +9,7 @@ import java.util.Set;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import com.backend.base.controller.to.generic.GenericTO;
+import com.backend.base.model.entity.AccountEntity;
 import com.backend.base.security.entity.UserAuthority;
 import com.backend.base.security.entity.UserRole;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -36,6 +38,22 @@ public class AccountTO extends GenericTO implements UserDetails, Serializable {
 
 	public AccountTO() {
 		super();
+	}
+
+	public AccountTO(AccountEntity entity) {
+		this.firstName = entity.getFirstName();
+		this.lastName = entity.getLastName();
+		this.email = entity.getEmail();
+		if (entity.getProfileImage() != null) {
+			this.profileImage = new String(entity.getProfileImage().getBytes(), StandardCharsets.UTF_8);
+		}
+		this.facebookToken = entity.getFacebookToken();
+		this.expires = entity.getExpires();
+		this.accountExpired = entity.isAccountExpired();
+		this.accountLocked = entity.isAccountLocked();
+		this.credentialsExpired = entity.isCredentialsExpired();
+		this.accountEnabled = entity.isAccountEnabled();
+		this.authorities = entity.getAuthorities();
 	}
 
 	public AccountTO(String email) {
@@ -181,7 +199,5 @@ public class AccountTO extends GenericTO implements UserDetails, Serializable {
 	public void setProfileImage(String profileImage) {
 		this.profileImage = profileImage;
 	}
-	
-	
 
 }
