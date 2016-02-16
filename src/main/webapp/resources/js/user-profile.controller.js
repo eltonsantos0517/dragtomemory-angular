@@ -52,7 +52,7 @@ materialAdmin.controller('userProfileCtrl',
 			
 })
 
-.directive('imgImport',['accountService', function(accountService) {
+.directive('imgImport',['accountService', 'growlService', function(accountService, growlService) {
   return function(scope, elm, attrs) {
     elm.bind('change', function( evt ) {
       scope.$apply(function() {
