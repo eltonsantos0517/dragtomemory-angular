@@ -12992,7 +12992,7 @@ body.login-content:before {
   position: absolute;
   top: 0;
   left: 0;
-  background: #00bcd4;
+  background: #18BC9C;
   content: "";
   z-index: 0;
 }

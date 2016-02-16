@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Drag to Memory</title>
+<title>Kememo</title>
 <base href="/login">
 
 
@@ -22,7 +22,7 @@
 <link href="resources/css/custom.css" rel="stylesheet">
 </head>
 
-<body class="login-content" data-ng-controller="loginCtrl as lctrl">
+<body class="login-content" data-ng-controller="loginCtrl as lctrl" style="background-color: #2C3E50">
 
 	<!-- Login -->
 	<div class="lc-block" id="l-login" data-ng-class="{ 'toggled': lctrl.login === 1 }" data-ng-if="lctrl.login === 1">
@@ -62,10 +62,10 @@
 		</form>
 	
 		
-		
-
 		<ul class="login-navigation">
-			<li data-block="#l-login" class="bgm-blue" data-ng-click="facebookLogin()" translate>Facebook Login</li>
+			<li data-block="#l-login" data-ng-click="facebookLogin()" translate><img src="resources/img/social/con_face.png" alt="" width="176px"></li>
+		</ul>	
+		<ul class="login-navigation" style="bottom: -75px;">
 			<li data-block="#l-register" class="bgm-red" data-ng-click="lctrl.login = 0; lctrl.register = 1" translate>Register</li>
 			<li data-block="#l-forget-password" class="bgm-orange" data-ng-click="lctrl.login = 0; lctrl.forgot = 1" translate>Forgot password?</li>
 		</ul>
@@ -111,8 +111,10 @@
 		</form>
 
 		<ul class="login-navigation">
+			<li data-block="#l-login" data-ng-click="facebookLogin()" translate><img src="resources/img/social/con_face.png" alt="" width="176px"></li>
+		</ul>	
+		<ul class="login-navigation" style="bottom: -75px;">
 			<li data-block="#l-login" class="bgm-green" data-ng-click="lctrl.register = 0; lctrl.login = 1" translate>Login</li>
-			<li data-block="#l-login" class="bgm-blue" data-ng-click="facebookLogin()" translate>Facebook Login</li>
 			<li data-block="#l-forget-password" class="bgm-orange" data-ng-click="lctrl.register = 0; lctrl.forgot = 1" translate>Forgot password?</li>
 		</ul>
 	</div>
@@ -134,9 +136,11 @@
 				<i class="zmdi zmdi-arrow-forward"></i>
 			</button>
 
-			<ul class="login-navigation">
+		<ul class="login-navigation">
+			<li data-block="#l-login" data-ng-click="facebookLogin()" translate><img src="resources/img/social/con_face.png" alt="" width="176px"></li>
+		</ul>	
+		<ul class="login-navigation" style="bottom: -75px;">
 				<li data-block="#l-login" class="bgm-green" data-ng-click="lctrl.forgot = 0; lctrl.login = 1" translate>Login</li>
-				<li data-block="#l-login" class="bgm-blue" data-ng-click="facebookLogin()" translate>Facebook Login</li>
 				<li data-block="#l-register" class="bgm-red" data-ng-click="lctrl.forgot = 0; lctrl.register = 1" translate>Register</li>
 			</ul>
 		</div>
