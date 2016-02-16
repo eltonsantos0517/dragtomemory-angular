@@ -1,9 +1,8 @@
 materialAdmin.controller('userProfileCtrl',
-		function(growlService, accountService) {
+		function(growlService, accountService, $scope) {
 	
 			p = this;
 			p.user = {};
-				
 			accountService.getCurrent().
 				then(
 					function(response){
@@ -13,8 +12,7 @@ materialAdmin.controller('userProfileCtrl',
 						growlService.growl(error.data.errorMessage, 'danger');
 					}
 				)
-			;
-			
+			;			
 			// Edit
 			p.editSummary = 0;
 			p.editInfo = 0;
@@ -46,4 +44,39 @@ materialAdmin.controller('userProfileCtrl',
 				
 				
 			}
+			
+			p.importImage = function(){
+			    var input=document.getElementById('inputFile');
+			    input.click();	
+			};
+			
 })
+
+.directive('imgImport',['accountService', function(accountService) {
+  return function(scope, elm, attrs) {
+    elm.bind('change', function( evt ) {
+      scope.$apply(function() {
+    	  
+        scope.images = evt.target.files;
+        var reader = new FileReader();
+        
+        reader.addEventListener("load", function () {
+        	 scope.$apply(function() {
+        		 scope.pctrl.user.profileImage = reader.result;
+        	 });
+        	 
+        	 accountService.save(scope.pctrl.user).then(
+        			 function(response){
+        				 growlService.growl("Profile image has updated Successfully!", 'success');
+        			 },
+        			 function(error){
+        				 growlService.growl(error.data.errorMessage, 'danger');
+        			 });
+
+          }, false);
+        
+        reader.readAsDataURL(scope.images[0]);
+      });
+    });
+  };
+}]);

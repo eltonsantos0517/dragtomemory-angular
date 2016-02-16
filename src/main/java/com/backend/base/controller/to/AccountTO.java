@@ -23,6 +23,7 @@ public class AccountTO extends GenericTO implements UserDetails, Serializable {
 	private String firstName;
 	private String lastName;
 	private String email;
+	private String profileImage;
 	private String password;
 	private String passwordAgain;
 	private String facebookToken;
@@ -172,5 +173,15 @@ public class AccountTO extends GenericTO implements UserDetails, Serializable {
 	public void setExpires(long expires) {
 		this.expires = expires;
 	}
+
+	public String getProfileImage() {
+		return profileImage;
+	}
+
+	public void setProfileImage(String profileImage) {
+		this.profileImage = profileImage;
+	}
+	
+	
 
 }
