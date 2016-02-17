@@ -36,7 +36,7 @@
             </dl>
             <dl class="dl-horizontal">
                 <dt>Birthday</dt>
-                <dd>{{ pctrl.user.birthday }}</dd>
+                <dd>{{ pctrl.user.birthday | date: "dd/MM/yyyy"}}</dd>
             </dl>
            
         </div>
@@ -64,10 +64,10 @@
                 <dt class="p-t-10">Gender</dt>
                 <dd>
                     <div class="fg-line">
-                        <select class="form-control">
-                            <option>Female</option>
-                            <option>Male</option>
-                            <option>Other</option>
+                        <select class="form-control" data-ng-model="pctrl.user.gender">
+                            <option value="Female">Female</option>
+                            <option value="Male">Male</option>
+                            <option value="Other">Other</option>
                         </select>
                     </div>
                 </dd>
@@ -76,7 +76,7 @@
                 <dt class="p-t-10">Birthday</dt>
                 <dd>
                     <div class="dtp-container dropdown fg-line">
-                        <input type='text' class="form-control" data-dt-picker="DD/MM/YYYY" uib-dropdown-toggle placeholder="eg. 23/06/1988">
+                        <input type='date' data-ng-model="pctrl.user.birthday" class="form-control" data-dt-picker="DD/MM/YYYY" uib-dropdown-toggle>
                     </div>
                 </dd>
             </dl>

@@ -2,6 +2,7 @@ package com.backend.base.controller.to;
 
 import java.io.Serializable;
 import java.nio.charset.StandardCharsets;
+import java.util.Date;
 import java.util.EnumSet;
 import java.util.HashSet;
 import java.util.Set;
@@ -26,6 +27,9 @@ public class AccountTO extends GenericTO implements UserDetails, Serializable {
 	private String lastName;
 	private String email;
 	private String profileImage;
+	private String gender;
+	private Date birthday;
+	private String locale;
 	private String password;
 	private String passwordAgain;
 	private String facebookToken;
@@ -48,6 +52,9 @@ public class AccountTO extends GenericTO implements UserDetails, Serializable {
 		if (entity.getProfileImage() != null) {
 			this.profileImage = new String(entity.getProfileImage().getBytes(), StandardCharsets.UTF_8);
 		}
+		this.gender = entity.getGender();
+		this.birthday = entity.getBirthday();
+		this.locale = entity.getLocale();
 		this.password = entity.getPassword();
 		this.facebookToken = entity.getFacebookToken();
 		this.expires = entity.getExpires();
@@ -201,5 +208,31 @@ public class AccountTO extends GenericTO implements UserDetails, Serializable {
 	public void setProfileImage(String profileImage) {
 		this.profileImage = profileImage;
 	}
+
+	public String getGender() {
+		return gender;
+	}
+
+	public void setGender(String gender) {
+		this.gender = gender;
+	}
+
+	public Date getBirthday() {
+		return birthday;
+	}
+
+	public void setBirthday(Date birthday) {
+		this.birthday = birthday;
+	}
+	
+	public String getLocale() {
+		return locale;
+	}
+
+	public void setLocale(String locale) {
+		this.locale = locale;
+	}
+	
+	
 
 }

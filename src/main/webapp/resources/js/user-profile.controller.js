@@ -19,6 +19,7 @@ materialAdmin.controller('userProfileCtrl',
 			p.editContact = 0;
 
 			p.submit = function(item, message) {
+				//p.user.birthday = 
 				accountService.save(p.user).then(
 						function(response){
 							

@@ -1,6 +1,7 @@
 package com.backend.base.model.entity;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.Set;
 
 import com.backend.base.model.entity.generic.GenericEntity;
@@ -28,6 +29,15 @@ public class AccountEntity extends GenericEntity implements Serializable {
 	private String email;
 	
 	private Blob profileImage;
+	
+	@Index
+	private String gender;
+	
+	@Index
+	private Date birthday;
+	
+	@Index
+	private String locale;
 
 	@Index
 	private String password;
@@ -148,4 +158,30 @@ public class AccountEntity extends GenericEntity implements Serializable {
 	public void setProfileImage(Blob profileImage) {
 		this.profileImage = profileImage;
 	}
+
+	public String getGender() {
+		return gender;
+	}
+
+	public void setGender(String gender) {
+		this.gender = gender;
+	}
+
+	public Date getBirthday() {
+		return birthday;
+	}
+
+	public void setBirthday(Date birthday) {
+		this.birthday = birthday;
+	}
+
+	public String getLocale() {
+		return locale;
+	}
+
+	public void setLocale(String locale) {
+		this.locale = locale;
+	}
+	
+	
 }
