@@ -1,13 +1,17 @@
 <div class="sidebar-inner c-overflow">
 
-	<div class="profile-menu" data-ng-controller="loginCtrl as lctrl">
+	<div class="profile-menu" data-ng-controller="userProfileCtrl as pctrl">
 		<a href="" toggle-submenu>
+		   	<div class="profile-pic">
+                <img ng-src="{{pctrl.user.profileImage}}" alt="">
+            </div>
 			<div class="profile-info">
-				{{user.username}}<i class="zmdi zmdi-caret-down"></i>
+				{{pctrl.user.email}}
+				<i class="zmdi zmdi-caret-down"></i>
 			</div>
 		</a>
 
-		<ul class="main-menu">
+		<ul class="main-menu" data-ng-controller="loginCtrl as lctrl">
 		    <li>
                 <a data-ui-sref="console.user-profile" data-ng-click="mactrl.sidebarStat($event)"><i class="zmdi zmdi-account"></i> My Profile</a>
             </li>
