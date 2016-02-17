@@ -41,12 +41,14 @@ public class AccountTO extends GenericTO implements UserDetails, Serializable {
 	}
 
 	public AccountTO(AccountEntity entity) {
+		super.setObjectId(entity.getObjectId());
 		this.firstName = entity.getFirstName();
 		this.lastName = entity.getLastName();
 		this.email = entity.getEmail();
 		if (entity.getProfileImage() != null) {
 			this.profileImage = new String(entity.getProfileImage().getBytes(), StandardCharsets.UTF_8);
 		}
+		this.password = entity.getPassword();
 		this.facebookToken = entity.getFacebookToken();
 		this.expires = entity.getExpires();
 		this.accountExpired = entity.isAccountExpired();

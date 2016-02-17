@@ -35,7 +35,7 @@ materialAdmin.controller('userProfileCtrl',
 							}
 
 							growlService.growl(message
-									+ ' has updated Successfully!', 'inverse');
+									+ ' has updated Successfully!', 'success');
 							
 						},
 						function(error){
