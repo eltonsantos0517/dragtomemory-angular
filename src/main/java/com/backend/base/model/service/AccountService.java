@@ -73,6 +73,9 @@ public class AccountService extends GenericService<AccountEntity> {
 			AccountEntity entity = getByColumn("email", to.getEmail());
 			entity.setFirstName(to.getFirstName());
 			entity.setLastName(to.getLastName());
+			entity.setGender(to.getGender());
+			entity.setLocale(to.getLocale());
+			entity.setBirthday(to.getBirthday());
 
 			if (to.getProfileImage() != null && !to.getProfileImage().isEmpty()) {
 				try {
