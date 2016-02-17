@@ -24,7 +24,7 @@
             <div class="pmo-block pmo-contact hidden-xs">
                 <h2>Contact</h2>
                 <ul>
-                    <li><i class="zmdi zmdi-phone"></i> {{ pctrl.user.mobileNumber }}</li>
+                    <li data-ng-if="pctrl.user.mobileNumber"><i class="zmdi zmdi-phone"></i> {{ pctrl.user.mobileNumber }}</li>
                     <li><i class="zmdi zmdi-email"></i> {{ pctrl.user.email }}</li>
                 </ul>
             </div>
