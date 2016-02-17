@@ -36,13 +36,15 @@ materialAdmin.controller('userProfileCtrl',
 
 							growlService.growl(message
 									+ ' has updated Successfully!', 'success');
+							p.user.password = null;
+							p.user.passwordAgain = null;
 							
 						},
 						function(error){
 							growlService.growl(error.data.errorMessage, 'danger');
+							p.user.password = null;
+							p.user.passwordAgain = null;
 						});
-				
-				
 			}
 			
 			p.importImage = function(){

@@ -79,17 +79,21 @@ public class AccountService extends GenericService<AccountEntity> {
 				}
 			}
 
+			if (to.getPassword() != null && !to.getPassword().isEmpty()) {
+				if(!SecurityUtil.checkPassword(to.getPassword(), entity.getPassword())){
+					if (SecurityUtil.validateNewPassword(to.getPassword(), to.getPasswordAgain())) {
+						entity.setPassword(SecurityUtil.encryptPassword(to.getPassword()));
+						to.setPassword(null);
+						to.setPasswordAgain(null);
+						return super.save(entity).getId();
+					} else {
+						throw new MismatchedPasswordsException("Passwords do not match");
+					}
+				}else{
+					throw new MismatchedPasswordsException("The new password can not be the same as the old");
+				}
+			}
 			return super.save(entity).getId();
-			//
-			// if (SecurityUtil.validateNewPassword(to.getPassword(),
-			// to.getPasswordAgain())) {
-			// entity.setPassword(SecurityUtil.encryptPassword(to.getPassword()));
-			// to.setPassword(null);
-			// to.setPasswordAgain(null);
-			// return super.save(entity).getId();
-			// } else {
-			// throw new MismatchedPasswordsException("Invalid password");
-			// }
 		}
 	}
 

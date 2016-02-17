@@ -343,6 +343,13 @@ materialAdmin
 									requiresLogin : true
 								}
 							})
+							.state('console.user-profile.user-profile-security', {
+								url : '/profile-security',
+								templateUrl : 'views/user-profile-security.html',
+								data : {
+									requiresLogin : true
+								}
+							})
 							.state('user-interface', {
 								url : '/console',
 								templateUrl : 'views/common.html',

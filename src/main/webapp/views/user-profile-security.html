@@ -1,0 +1,36 @@
+<div class="pmb-block">
+    <div class="pmbb-header">
+        <h2><i class="zmdi zmdi-key m-r-5"></i> Password</h2>
+
+        <ul class="actions" data-ng-if="pctrl.editSecurity === 0">
+            <li class="dropdown" uib-dropdown>
+                <a href="" uib-dropdown-toggle>
+                    <i class="zmdi zmdi-more-vert"></i>
+                </a>
+            </li>
+        </ul>
+    </div>
+    <div class="pmbb-body p-l-30">
+        <form data-ng-submit="pctrl.submit('profileSecurity', 'Profile Security Information')" class="pmbb-edit">
+            <dl class="dl-horizontal">
+                <dt class="p-t-10">New password</dt>
+                <dd>
+                    <div class="fg-line">
+                        <input data-ng-model="pctrl.user.password" type="password" class="form-control">
+                    </div>
+                </dd>
+            </dl>
+            <dl class="dl-horizontal">
+                <dt class="p-t-10">Confirm password</dt>
+                <dd>
+                    <div class="fg-line">
+                        <input data-ng-model="pctrl.user.passwordAgain" type="password" class="form-control">
+                    </div>
+                </dd>
+            </dl>
+            <div class="m-t-30">
+                <button class="btn btn-primary btn-sm" type="submit">Save</button>
+            </div>
+        </form>
+    </div>
+</div>
