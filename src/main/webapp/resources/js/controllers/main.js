@@ -317,6 +317,14 @@ materialAdmin
 					}else{
 						$scope.user = {};
 					}
+					
+					$scope.getLocale = function() {
+						if (navigator.languages != undefined) {
+							return navigator.languages[0]; 
+						} else { 
+							return navigator.language;
+						}
+					}
 
 					$scope.login = function() {
 						accountService
@@ -342,6 +350,7 @@ materialAdmin
 					};
 
 					$scope.register = function() {
+						$scope.user.locale = $scope.getLocale();
 						accountService
 								.register($scope.user)
 								.then(
