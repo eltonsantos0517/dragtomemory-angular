@@ -20,11 +20,13 @@ import com.backend.base.controller.to.AccountTO;
 import com.backend.base.exception.InvalidEmailException;
 import com.backend.base.exception.MismatchedPasswordsException;
 import com.backend.base.exception.RegisterException;
+import com.backend.base.model.entity.AccountEntity;
 import com.backend.base.model.service.AccountService;
 import com.backend.base.security.entity.UserAuthentication;
 import com.backend.base.security.jwt.TokenAuthenticationService;
 import com.backend.base.security.service.UserDetailsService;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.googlecode.objectify.Key;
 
 class StatelessRegisterFilter extends AbstractAuthenticationProcessingFilter {
 
@@ -47,6 +49,11 @@ class StatelessRegisterFilter extends AbstractAuthenticationProcessingFilter {
 
 		try {
 			AccountService service = new AccountService();
+			final Key<AccountEntity> key = Key.create(AccountEntity.class, to.getEmail());
+			AccountEntity entity = service.get(key);
+			if(entity!= null){
+				throw new AccountException("An account already exists with the email");
+			}
 			service.saveAccount(to);
 
 			final UsernamePasswordAuthenticationToken loginToken = new UsernamePasswordAuthenticationToken(

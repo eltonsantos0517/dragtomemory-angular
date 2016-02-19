@@ -22,7 +22,7 @@ public class CardEntity extends GenericEntity {
 	@Ignore
 	private boolean changeStage;
 	@Index
-	private long ownerId;
+	private String ownerId;
 
 	public CardEntity() {
 		super();
@@ -88,11 +88,11 @@ public class CardEntity extends GenericEntity {
 		this.changeStage = changeStage;
 	}
 
-	public long getOwnerId() {
+	public String getOwnerId() {
 		return ownerId;
 	}
 
-	public void setOwnerId(long ownerId) {
+	public void setOwnerId(String ownerId) {
 		this.ownerId = ownerId;
 	}
 }

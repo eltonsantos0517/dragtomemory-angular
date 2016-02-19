@@ -4,15 +4,16 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.Set;
 
-import com.backend.base.model.entity.generic.GenericEntity;
+import com.backend.base.model.entity.generic.IEntity;
 import com.backend.base.security.entity.UserAuthority;
 import com.google.appengine.api.datastore.Blob;
 import com.googlecode.objectify.annotation.Entity;
+import com.googlecode.objectify.annotation.Id;
 import com.googlecode.objectify.annotation.Ignore;
 import com.googlecode.objectify.annotation.Index;
 
 @Entity
-public class AccountEntity extends GenericEntity implements Serializable {
+public class AccountEntity implements Serializable, IEntity<String> {
 
 	/**
 	 * 
@@ -25,17 +26,18 @@ public class AccountEntity extends GenericEntity implements Serializable {
 	@Index
 	private String lastName;
 
+	@Id
 	@Index
 	private String email;
-	
+
 	private Blob profileImage;
-	
+
 	@Index
 	private String gender;
-	
+
 	@Index
 	private Date birthday;
-	
+
 	@Index
 	private String locale;
 
@@ -62,6 +64,12 @@ public class AccountEntity extends GenericEntity implements Serializable {
 
 	@Ignore
 	private Set<UserAuthority> authorities;
+
+	@Index
+	private Date createdAt;
+
+	@Index
+	private Date updatedAt;
 
 	public String getFirstName() {
 		return firstName;
@@ -182,6 +190,36 @@ public class AccountEntity extends GenericEntity implements Serializable {
 	public void setLocale(String locale) {
 		this.locale = locale;
 	}
-	
-	
+
+	@Override
+	public String getObjectId() {
+		return email;
+	}
+
+	@Override
+	public void setObjectId(String objectId) {
+		this.email = objectId;
+
+	}
+
+	@Override
+	public Date getCreatedAt() {
+		return createdAt;
+	}
+
+	@Override
+	public void setCreatedAt(Date createdAt) {
+		this.createdAt = createdAt;
+	}
+
+	@Override
+	public Date getUpdatedAt() {
+		return updatedAt;
+	}
+
+	@Override
+	public void setUpdatedAt(Date updatedAt) {
+		this.updatedAt = updatedAt;
+	}
+
 }

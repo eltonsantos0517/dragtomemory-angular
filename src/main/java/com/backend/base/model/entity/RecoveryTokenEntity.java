@@ -19,7 +19,7 @@ public class RecoveryTokenEntity extends GenericEntity implements Serializable {
 	private String token;
 
 	@Index
-	private long userId;
+	private String userId;
 
 	@Index
 	private int validate;
@@ -41,11 +41,11 @@ public class RecoveryTokenEntity extends GenericEntity implements Serializable {
 		this.token = token;
 	}
 
-	public long getUserId() {
+	public String getUserId() {
 		return userId;
 	}
 
-	public void setUserId(long userId) {
+	public void setUserId(String userId) {
 		this.userId = userId;
 	}
 

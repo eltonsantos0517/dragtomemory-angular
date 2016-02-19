@@ -107,24 +107,12 @@
     <div class="pmbb-body p-l-30">
         <div class="pmbb-view" data-ng-if="pctrl.editContact === 0">
             <dl class="dl-horizontal">
-                <dt>Mobile Phone</dt>
-                <dd>{{ pctrl.user.mobileNumber }}</dd>
-            </dl>
-            <dl class="dl-horizontal">
                 <dt>Email Address</dt>
                 <dd>{{ pctrl.user.email }}</dd>
             </dl>
         </div>
 
         <form data-ng-submit="pctrl.submit('profileContact', 'Profile Contact Information')" class="pmbb-edit" data-ng-if="pctrl.editContact === 1">
-            <dl class="dl-horizontal">
-                <dt class="p-t-10">Mobile Phone</dt>
-                <dd>
-                    <div class="fg-line">
-                        <input data-ng-model="pctrl.user.mobileNumber" type="text" class="form-control" placeholder="eg. 999999999">
-                    </div>
-                </dd>
-            </dl>
             <dl class="dl-horizontal">
                 <dt class="p-t-10">Email Address</dt>
                 <dd>

@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.backend.base.model.entity.generic.GenericEntity;
+import com.backend.base.model.entity.generic.IEntity;
 import com.google.api.server.spi.response.CollectionResponse;
 import com.google.appengine.api.datastore.Cursor;
 import com.google.appengine.api.datastore.EntityNotFoundException;
@@ -19,7 +20,7 @@ import com.googlecode.objectify.cmd.Query;
  *
  * @param <T>
  */
-public class GenericDAO<T extends GenericEntity> {
+public class GenericDAO<T extends IEntity> {
 	private Class<T> clazz;
 
 	protected GenericDAO(Class<T> clazz) {
@@ -36,6 +37,10 @@ public class GenericDAO<T extends GenericEntity> {
 
 	public void delete(Key<T> key) {
 		ofy().delete().key(key).now();
+	}
+	
+	public T get(Key<T> key){
+		return ofy().load().key(key).now();
 	}
 
 	public T get(Long id) throws EntityNotFoundException {

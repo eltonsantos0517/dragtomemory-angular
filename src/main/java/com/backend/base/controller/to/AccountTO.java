@@ -9,14 +9,14 @@ import java.util.Set;
 
 import org.springframework.security.core.userdetails.UserDetails;
 
-import com.backend.base.controller.to.generic.GenericTO;
+import com.backend.base.controller.to.generic.ITO;
 import com.backend.base.model.entity.AccountEntity;
 import com.backend.base.security.entity.UserAuthority;
 import com.backend.base.security.entity.UserRole;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class AccountTO extends GenericTO implements UserDetails, Serializable {
+public class AccountTO implements UserDetails, Serializable, ITO<String> {
 
 	/**
 	 * 
@@ -39,16 +39,18 @@ public class AccountTO extends GenericTO implements UserDetails, Serializable {
 	private boolean credentialsExpired;
 	private boolean accountEnabled;
 	private Set<UserAuthority> authorities;
+	private Date createdAt;
+	private Date updatedAt;
 
 	public AccountTO() {
 		super();
 	}
 
 	public AccountTO(AccountEntity entity) {
-		super.setObjectId(entity.getObjectId());
+		this.email = entity.getEmail();
 		this.firstName = entity.getFirstName();
 		this.lastName = entity.getLastName();
-		this.email = entity.getEmail();
+		//this.email = entity.getEmail();
 		if (entity.getProfileImage() != null) {
 			this.profileImage = new String(entity.getProfileImage().getBytes(), StandardCharsets.UTF_8);
 		}
@@ -231,6 +233,37 @@ public class AccountTO extends GenericTO implements UserDetails, Serializable {
 
 	public void setLocale(String locale) {
 		this.locale = locale;
+	}
+	
+	@Override
+	public String getObjectId() {
+		return email;
+	}
+
+	@Override
+	public void setObjectId(String objectId) {
+		this.email = objectId;
+
+	}
+
+	@Override
+	public Date getCreatedAt() {
+		return createdAt;
+	}
+
+	@Override
+	public void setCreatedAt(Date createdAt) {
+		this.createdAt = createdAt;
+	}
+
+	@Override
+	public Date getUpdatedAt() {
+		return updatedAt;
+	}
+
+	@Override
+	public void setUpdatedAt(Date updatedAt) {
+		this.updatedAt = updatedAt;
 	}
 	
 	

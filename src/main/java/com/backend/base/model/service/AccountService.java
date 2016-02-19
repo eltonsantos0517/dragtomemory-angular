@@ -34,23 +34,13 @@ public class AccountService extends GenericService<AccountEntity> {
 		accountDAO = new AccountDAO();
 	}
 
-	public Long saveAccount(final AccountTO to)
+	public String saveAccount(final AccountTO to)
 			throws NoSuchAlgorithmException, InvalidEmailException, MismatchedPasswordsException, AccountException {
+		
+		final Key<AccountEntity> key = Key.create(AccountEntity.class, to.getEmail());
+		AccountEntity entity = get(key);
 
-		if (to.getObjectId() == null) {
-
-			AccountEntity entity = getByColumn("email", to.getEmail());
-
-			if (entity != null) {
-				// é via Facebook?
-				if (to.getFacebookToken() != null) {
-					// Facebook
-					entity.setFacebookToken(to.getFacebookToken());
-					return super.save(entity).getId();
-				} else {
-					throw new AccountException("An account already exists with the email");
-				}
-			} else {
+		if (entity == null) {
 				entity = new AccountEntity();
 				entity.setFirstName(to.getFirstName());
 				entity.setLastName(to.getLastName());
@@ -58,6 +48,7 @@ public class AccountService extends GenericService<AccountEntity> {
 				entity.setGender(to.getGender());
 				entity.setLocale(to.getLocale());
 				entity.setBirthday(to.getBirthday());
+				entity.setFacebookToken(to.getFacebookToken());
 				if (SecurityUtil.validateNewPassword(to.getPassword(), to.getPasswordAgain())
 						|| to.getFacebookToken() != null) {
 					entity.setPassword(SecurityUtil.encryptPassword(to.getPassword()));
@@ -66,17 +57,17 @@ public class AccountService extends GenericService<AccountEntity> {
 					throw new MismatchedPasswordsException("Invalid password");
 				}
 
-				return super.save(entity).getId();
-			}
+				super.save(entity);
+				return entity.getEmail();
 		} else {
 			// Update
-			AccountEntity entity = getByColumn("email", to.getEmail());
 			entity.setFirstName(to.getFirstName());
 			entity.setLastName(to.getLastName());
 			entity.setGender(to.getGender());
 			entity.setLocale(to.getLocale());
 			entity.setBirthday(to.getBirthday());
-
+			entity.setFacebookToken(to.getFacebookToken());
+			
 			if (to.getProfileImage() != null && !to.getProfileImage().isEmpty()) {
 				try {
 					entity.setProfileImage(new Blob(to.getProfileImage().getBytes("UTF-8")));
@@ -91,7 +82,8 @@ public class AccountService extends GenericService<AccountEntity> {
 						entity.setPassword(SecurityUtil.encryptPassword(to.getPassword()));
 						to.setPassword(null);
 						to.setPasswordAgain(null);
-						return super.save(entity).getId();
+						super.save(entity);
+						return entity.getEmail();
 					} else {
 						throw new MismatchedPasswordsException("Passwords do not match");
 					}
@@ -99,7 +91,8 @@ public class AccountService extends GenericService<AccountEntity> {
 					throw new MismatchedPasswordsException("The new password can not be the same as the old");
 				}
 			}
-			return super.save(entity).getId();
+			super.save(entity);
+			return entity.getEmail();
 		}
 	}
 

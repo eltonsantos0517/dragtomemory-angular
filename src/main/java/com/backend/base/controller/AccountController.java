@@ -119,7 +119,7 @@ public class AccountController {
 
 		try {
 			AccountService service = new AccountService();
-			Long id = service.saveAccount(to);
+			String id = service.saveAccount(to);
 			to.setObjectId(id);
 			ApiResponse ret = new ApiResponse(null, HttpStatus.OK.value(), HttpStatus.OK.getReasonPhrase(), null, null,
 					null, to);
@@ -153,7 +153,7 @@ public class AccountController {
 			}
 
 			AccountService service = new AccountService();
-			Long id = service.saveAccount(to);
+			String id = service.saveAccount(to);
 			to.setObjectId(id);
 			ApiResponse ret = new ApiResponse(null, HttpStatus.OK.value(), HttpStatus.OK.getReasonPhrase(), null, null,
 					null, to);

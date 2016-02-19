@@ -4,14 +4,14 @@ import java.util.Date;
 import java.util.List;
 
 import com.backend.base.model.dao.generic.GenericDAO;
-import com.backend.base.model.entity.generic.GenericEntity;
+import com.backend.base.model.entity.generic.IEntity;
 import com.google.api.server.spi.response.CollectionResponse;
 import com.google.appengine.api.NamespaceManager;
 import com.google.appengine.api.datastore.EntityNotFoundException;
 import com.google.appengine.api.datastore.Query.Filter;
 import com.googlecode.objectify.Key;
 
-public abstract class GenericService<T extends GenericEntity> {
+public abstract class GenericService<T extends IEntity> {
 
 	private Class<T> clazz;
 
@@ -37,6 +37,10 @@ public abstract class GenericService<T extends GenericEntity> {
 	public void deleteById(long objectId) {
 		Key<T> key = Key.create(clazz, objectId);
 		getDAO().delete(key);
+	}
+	
+	public T get(Key<T> key){
+		return getDAO().get(key);
 	}
 
 	public T get(Long id) {

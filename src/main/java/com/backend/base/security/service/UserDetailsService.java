@@ -11,6 +11,7 @@ import com.backend.base.controller.to.AccountTO;
 import com.backend.base.model.entity.AccountEntity;
 import com.backend.base.model.service.AccountService;
 import com.backend.base.security.entity.UserRole;
+import com.googlecode.objectify.Key;
 
 @Service
 public class UserDetailsService implements org.springframework.security.core.userdetails.UserDetailsService {
@@ -18,31 +19,16 @@ public class UserDetailsService implements org.springframework.security.core.use
 	private final AccountStatusUserDetailsChecker detailsChecker = new AccountStatusUserDetailsChecker();
 
 	@Override
-	public final AccountTO loadUserByUsername(String email) throws UsernameNotFoundException {
+	public final AccountTO loadUserByUsername(final String email) throws UsernameNotFoundException {
 		AccountService service = new AccountService();
 		AccountEntity entity;
 
-		int attempts = 0;
-		do {
-
-			entity = service.getByColumn("email", email);
-			if (entity == null) {
-				if (attempts < 4) {
-					attempts++;
-				} else {
-					throw new UsernameNotFoundException("Account not found");
-				}
-			} else {
-				break;
-			}
-
-			try {
-				Thread.sleep(500);
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
-
-		} while (true);
+		final Key<AccountEntity> key = Key.create(AccountEntity.class, email);
+		
+		entity = service.get(key);
+		if (entity == null) {
+			throw new UsernameNotFoundException("Account not found");
+		}
 
 		Set<UserRole> roles = new HashSet<UserRole>();
 		roles.add(UserRole.ADMIN);

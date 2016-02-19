@@ -35,7 +35,7 @@ public class CardService extends GenericService<CardEntity> {
 		cardDAO = new CardDAO();
 	}
 
-	private long getCurrentUserId() {
+	private String getCurrentUserId() {
 		final UserAuthentication authentication = (UserAuthentication) SecurityContextHolder.getContext()
 				.getAuthentication();
 		return authentication.getDetails().getObjectId();
@@ -129,7 +129,7 @@ public class CardService extends GenericService<CardEntity> {
 				new FilterPredicate("stage", FilterOperator.IN, Arrays.asList(1, 2, 3, 4))));
 	}
 
-	private Filter getFilter(long userId) {
+	private Filter getFilter(String userId) {
 		return CompositeFilterOperator.and(
 				new FilterPredicate("nextRevision", FilterOperator.LESS_THAN_OR_EQUAL, new DateTime().toDate()),
 				new FilterPredicate("stage", FilterOperator.IN, Arrays.asList(1, 2, 3, 4)),

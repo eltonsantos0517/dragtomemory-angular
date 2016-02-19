@@ -3,7 +3,7 @@ package com.backend.base.controller.to.generic;
 import java.io.Serializable;
 import java.util.Date;
 
-public abstract class GenericTO implements Serializable {
+public abstract class GenericTO implements Serializable, ITO<Long> {
 
 	/**
 	 * 
@@ -24,26 +24,32 @@ public abstract class GenericTO implements Serializable {
 		this.objectId = objectId;
 	}
 
+	@Override
 	public Long getObjectId() {
 		return objectId;
 	}
 
+	@Override
 	public void setObjectId(Long objectId) {
 		this.objectId = objectId;
 	}
 
+	@Override
 	public Date getCreatedAt() {
 		return createdAt;
 	}
 
+	@Override
 	public void setCreatedAt(Date createdAt) {
 		this.createdAt = createdAt;
 	}
 
+	@Override
 	public Date getUpdatedAt() {
 		return updatedAt;
 	}
 
+	@Override
 	public void setUpdatedAt(Date updatedAt) {
 		this.updatedAt = updatedAt;
 	}
