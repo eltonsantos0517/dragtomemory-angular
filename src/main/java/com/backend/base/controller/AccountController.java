@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -230,11 +231,16 @@ public class AccountController {
 		}
 		
 		try {
-			AccountService service = new AccountService();
-			service.saveAccount(to);
+			
 			UserDetailsService udService = new UserDetailsService();
-
-			AccountTO account = udService.loadUserByUsername(to.getEmail());
+			AccountTO account = null;
+			try{
+				account = udService.loadUserByUsername(to.getEmail());
+			}catch(UsernameNotFoundException e){
+				AccountService service = new AccountService();
+				service.saveAccount(to);
+				account = udService.loadUserByUsername(to.getEmail());
+			}
 
 			TokenHandler tokenHandler = new TokenHandler("superSecreto123", udService);
 			response.addHeader(AUTH_HEADER_NAME, tokenHandler.createTokenForUser(account));
