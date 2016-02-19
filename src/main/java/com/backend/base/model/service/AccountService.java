@@ -153,7 +153,7 @@ public class AccountService extends GenericService<AccountEntity> {
 		}
 
 		Key<AccountEntity> accountKey = Key.create(AccountEntity.class, recoveryTokenPersisted.getUserId());
-		AccountEntity user = super.get(accountKey.getId());
+		AccountEntity user = super.get(accountKey);
 
 		if (user == null) {
 			throw new Exception("Invalid user in token");
