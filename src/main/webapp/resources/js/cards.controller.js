@@ -347,8 +347,18 @@ materialAdmin.controller('cardsCtrl', function($filter, $sce, ngTableParams, tab
 		return  moment.duration(moment(new Date(date)).diff(moment(c.today))).asHours();
 	}
 	
-	c.getDiffInDays = function(date){
-		var days = parseInt(moment.duration(moment(new Date(date)).diff(moment(c.today))).asDays())
+	c.getDiffInDays = function(dateLong){
+		//var days = parseInt(moment.duration(moment(new Date(date)).diff(moment(c.today))).asDays())
+		//days = days+1;
+		
+		var today = new Date();
+		var date = new Date(dateLong);
+		var _MS_PER_DAY = 1000 * 60 * 60 * 24;
+		
+		var utc1 = Date.UTC(date.getFullYear(), date.getMonth(), date.getDate());
+	    var utc2 = Date.UTC(today.getFullYear(), today.getMonth(), today.getDate());
+	    var days = Math.floor((utc1 - utc2) / _MS_PER_DAY);
+		  
 		return  "In "+ days + (days > 1 ? " days" : " day") ;
 	}
 	
