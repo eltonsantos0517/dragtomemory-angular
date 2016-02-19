@@ -95,7 +95,7 @@ public class CardService extends GenericService<CardEntity> {
 		final List<CardEntity> expiretedCards = listExpiretedCards();
 
 		for (CardEntity cardEntity : expiretedCards) {
-			cardEntity.setNextRevision(new DateTime().plusDays(2).toDate());
+			cardEntity.setNextRevision(new DateTime().plusDays(1).toDate());
 			cardEntity.setStage(1);
 			save(cardEntity);
 		}
