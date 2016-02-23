@@ -3,7 +3,8 @@
 	<div class="profile-menu" data-ng-controller="userProfileCtrl as pctrl">
 		<a href="" toggle-submenu>
 		   	<div class="profile-pic">
-                <img ng-src="{{pctrl.user.profileImage}}" alt="">
+                <img ng-show="pctrl.user.profileImage" ng-src="{{pctrl.user.profileImage}}" alt="">
+                <img ng-show="!pctrl.user.profileImage" src="resources/img/profile-pics/default-profile.png" alt="">
             </div>
 			<div class="profile-info">
 				{{pctrl.user.email}}

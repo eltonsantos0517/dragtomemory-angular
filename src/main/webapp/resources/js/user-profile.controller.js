@@ -1,6 +1,8 @@
 materialAdmin.controller('userProfileCtrl',
 		function(growlService, accountService, $scope) {
 	
+	
+			$scope.defaultImage = 'resources/img/profile-pics/default-profile.png';
 			p = this;
 			p.user = {};
 			accountService.getCurrent().

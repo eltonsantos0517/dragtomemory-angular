@@ -8,7 +8,8 @@
             <div class="pmo-pic">
                 <div class="p-relative">
                     <a href="">
-                        <img class="img-responsive" ng-src="{{pctrl.user.profileImage}}" alt="" id="userImage">
+                        <img class="img-responsive" ng-show="pctrl.user.profileImage" ng-src="{{pctrl.user.profileImage}}" alt="" id="userImage">
+						<img class="img-responsive" ng-show="!pctrl.user.profileImage" src="resources/img/profile-pics/default-profile.png" alt="" id="userImage">
                     </a>
                     
                     <a href="" class="pmop-edit" data-ng-click="pctrl.importImage()">
