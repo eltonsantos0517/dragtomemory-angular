@@ -29,6 +29,7 @@ public class AccountTO implements UserDetails, Serializable, ITO<String> {
 	private String profileImage;
 	private String gender;
 	private Date birthday;
+	private boolean emailEnable;
 	private String locale;
 	private String password;
 	private String passwordAgain;
@@ -56,6 +57,7 @@ public class AccountTO implements UserDetails, Serializable, ITO<String> {
 		}
 		this.gender = entity.getGender();
 		this.birthday = entity.getBirthday();
+		this.emailEnable = entity.isEmailEnable();
 		this.locale = entity.getLocale();
 		this.password = entity.getPassword();
 		this.facebookToken = entity.getFacebookToken();
@@ -265,7 +267,15 @@ public class AccountTO implements UserDetails, Serializable, ITO<String> {
 	public void setUpdatedAt(Date updatedAt) {
 		this.updatedAt = updatedAt;
 	}
-	
-	
+
+	public boolean isEmailEnable() {
+		return emailEnable;
+	}
+
+	public void setEmailEnable(boolean emailEnable) {
+		this.emailEnable = emailEnable;
+	}
+
+
 
 }

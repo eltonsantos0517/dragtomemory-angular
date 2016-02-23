@@ -48,6 +48,7 @@ public class AccountService extends GenericService<AccountEntity> {
 				entity.setGender(to.getGender());
 				entity.setLocale(to.getLocale());
 				entity.setBirthday(to.getBirthday());
+				entity.setEmailEnable(to.isEmailEnable());
 				entity.setFacebookToken(to.getFacebookToken());
 				if (SecurityUtil.validateNewPassword(to.getPassword(), to.getPasswordAgain())
 						|| to.getFacebookToken() != null) {
@@ -66,6 +67,7 @@ public class AccountService extends GenericService<AccountEntity> {
 			entity.setGender(to.getGender());
 			entity.setLocale(to.getLocale());
 			entity.setBirthday(to.getBirthday());
+			entity.setEmailEnable(to.isEmailEnable());
 			entity.setFacebookToken(to.getFacebookToken());
 			
 			if (to.getProfileImage() != null && !to.getProfileImage().isEmpty()) {

@@ -108,18 +108,19 @@ public class CardService extends GenericService<CardEntity> {
 		long qtdCardsByUser = 0;
 		
 		for (AccountEntity user : users) {
-			qtdCardsByUser = countWithFilter(getFilter(user.getObjectId()));
-			if(qtdCardsByUser > 0){
-				String hello = "Hello" + (user.getFirstName() != null ? " "+user.getFirstName() : "");
-				String msg = "<html><head></head><body><h3>"+hello+",</h3><p>You have "+qtdCardsByUser+" memos to revision today, go to <a href=\""
-						+ "https://dragtomemory.appspot.com\">Kememo</a>!</p></body></html>";
-				try {
-					EmailUtil.sendEmail(user.getEmail(), user.getFirstName(), "Hey... you have memos today", msg);
-				} catch (UnsupportedEncodingException | MessagingException e) {
-					e.printStackTrace();
+			if(user.isEmailEnable()){
+				qtdCardsByUser = countWithFilter(getFilter(user.getObjectId()));
+				if(qtdCardsByUser > 0){
+					String hello = "Hello" + (user.getFirstName() != null ? " "+user.getFirstName() : "");
+					String msg = "<html><head></head><body><h3>"+hello+",</h3><p>You have "+qtdCardsByUser+" memos to revision today, go to <a href=\""
+							+ "https://dragtomemory.appspot.com\">Kememo</a>!</p></body></html>";
+					try {
+						EmailUtil.sendEmail(user.getEmail(), user.getFirstName(), "Hey... you have memos today", msg);
+					} catch (UnsupportedEncodingException | MessagingException e) {
+						e.printStackTrace();
+					}
 				}
 			}
-			
 		}
 	}
 

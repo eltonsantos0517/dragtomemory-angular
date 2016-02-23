@@ -20,15 +20,15 @@ public class AccountEntity implements Serializable, IEntity<String> {
 	 */
 	private static final long serialVersionUID = 1L;
 
+	@Id
+	@Index
+	private String email;
+
 	@Index
 	private String firstName;
 
 	@Index
 	private String lastName;
-
-	@Id
-	@Index
-	private String email;
 
 	private Blob profileImage;
 
@@ -40,6 +40,9 @@ public class AccountEntity implements Serializable, IEntity<String> {
 
 	@Index
 	private String locale;
+
+	@Index
+	private boolean emailEnable;
 
 	@Index
 	private String password;
@@ -220,6 +223,14 @@ public class AccountEntity implements Serializable, IEntity<String> {
 	@Override
 	public void setUpdatedAt(Date updatedAt) {
 		this.updatedAt = updatedAt;
+	}
+
+	public boolean isEmailEnable() {
+		return emailEnable;
+	}
+
+	public void setEmailEnable(boolean emailEnable) {
+		this.emailEnable = emailEnable;
 	}
 
 }

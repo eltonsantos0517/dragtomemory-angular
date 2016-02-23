@@ -17,8 +17,10 @@
             	<dt class="p-t-10">Enable email alert</dt>
             	 <dd>
 		            <div class="fg-line">
-			            <label class="btn btn-primary" ng-model="pctrl.user.isEmailEnable" uib-btn-radio="'true'">Yes</label>
-			            <label class="btn btn-primary" ng-model="pctrl.user.isEmailEnable" uib-btn-radio="'false'">No</label>
+			            <div class="toggle-switch p-t-10">
+	                        <input id="ts1" type="checkbox" hidden="hidden" ng-model="pctrl.user.emailEnable">
+	                        <label for="ts1" class="ts-helper"></label>
+                    	</div>
 		          	</div>
 	          	</dd>
 	        </dl>
