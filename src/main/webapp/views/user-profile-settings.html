@@ -1,0 +1,31 @@
+<div class="pmb-block">
+    <div class="pmbb-header">
+        <h2><i class="zmdi zmdi-settings m-r-5"></i> Settings</h2>
+
+        <ul class="actions" data-ng-if="pctrl.editSecurity === 0">
+            <li class="dropdown" uib-dropdown>
+                <a href="" uib-dropdown-toggle>
+                    <i class="zmdi zmdi-more-vert"></i>
+                </a>
+            </li>
+        </ul>
+    </div>
+    
+    <div class="pmbb-body p-l-30">
+        <form data-ng-submit="pctrl.submit('profileSettings', 'Profile Settings Information')" class="pmbb-edit">
+            <dl class="dl-horizontal">
+            	<dt class="p-t-10">Enable email alert</dt>
+            	 <dd>
+		            <div class="fg-line">
+			            <label class="btn btn-primary" ng-model="pctrl.user.isEmailEnable" uib-btn-radio="'true'">Yes</label>
+			            <label class="btn btn-primary" ng-model="pctrl.user.isEmailEnable" uib-btn-radio="'false'">No</label>
+		          	</div>
+	          	</dd>
+	        </dl>
+	           		      
+            <div class="m-t-30">
+                <button class="btn btn-primary btn-sm" type="submit">Save</button>
+            </div>
+        </form>
+    </div>
+</div>

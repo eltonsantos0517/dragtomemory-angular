@@ -224,6 +224,7 @@ public class AccountController {
 	@RequestMapping(value = "/api/facebookAuthenticate", method = RequestMethod.POST)
 	public ResponseEntity<ApiResponse> facebookAuthenticate(@RequestBody final AccountTO to,
 			HttpServletResponse response) {
+		
 		if(to.getEmail() == null || to.getEmail().isEmpty()){
 			ApiResponse ret = new ApiResponse("It was not possible to login to facebook, please create your account", HttpStatus.BAD_REQUEST.value(), HttpStatus.BAD_REQUEST.getReasonPhrase(), null, null,
 					null, null);
